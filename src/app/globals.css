@@ -1,0 +1,95 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-body: 'DM Sans', sans-serif;
+  --font-display: 'Playfair Display', serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  font-family: var(--font-body);
+  background: #F4F3F0;
+  color: #1A1916;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #CCCAB8; border-radius: 3px; }
+
+/* Banner pulse animation */
+@keyframes bannerPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.85; }
+}
+
+/* Post card hover */
+.post-card {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.post-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+}
+
+/* Tag hover */
+.tag-chip {
+  transition: background 0.12s ease, color 0.12s ease;
+  cursor: pointer;
+}
+.tag-chip:hover {
+  background: #7F77DD;
+  color: white;
+}
+
+/* Vote button */
+.vote-btn {
+  transition: all 0.1s ease;
+}
+.vote-btn:hover {
+  background: #EEEDFE;
+  color: #534AB7;
+}
+.vote-btn.voted {
+  background: #EEEDFE;
+  color: #534AB7;
+  font-weight: 500;
+}
+
+/* Write box focus */
+.write-box {
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.write-box:focus-within {
+  border-color: #7F77DD;
+  box-shadow: 0 0 0 3px rgba(127, 119, 221, 0.1);
+}
+
+/* Sidebar active */
+.sidebar-link {
+  transition: background 0.1s ease, color 0.1s ease;
+}
+.sidebar-link:hover {
+  background: #EEEDFE;
+  color: #3C3489;
+}
+.sidebar-link.active {
+  background: #EEEDFE;
+  color: #3C3489;
+  font-weight: 500;
+}
+
+/* Banner ad shimmer */
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+.banner-shimmer {
+  background: linear-gradient(90deg, #534AB7 0%, #7F77DD 40%, #534AB7 80%);
+  background-size: 200% auto;
+  animation: shimmer 3s linear infinite;
+}
