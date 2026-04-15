@@ -83,6 +83,7 @@ export default function Navbar({ onFilterChange }: Props) {
                 {item.label}
               </button>
             ))}
+          <a href="/sirketler" className="text-[13px] text-ink-600 hover:text-ink-900 px-3 py-1.5 rounded-md hover:bg-ink-50 transition-colors">Sirketler</a>
           </nav>
 
           <div className="flex items-center gap-2">
