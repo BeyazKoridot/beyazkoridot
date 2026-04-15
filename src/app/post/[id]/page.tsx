@@ -25,8 +25,47 @@ function CommentThread({ comment, allComments, depth, postId, userId, onReplyAdd
   const [isAnon, setIsAnon] = useState(true)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState('')
+  const [liked, setLiked] = useState(false)
+  const [likeCount, setLikeCount] = useState(0)
+  const [liking, setLiking] = useState(false)
 
   const replies = allComments.filter(c => c.parent_id === comment.id)
+
+  useEffect(() => {
+    const fetchLikes = async () => {
+      const { count } = await supabase
+        .from('likes')
+        .select('*', { count: 'exact', head: true })
+        .eq('comment_id', comment.id)
+      setLikeCount(count ?? 0)
+
+      if (userId) {
+        const { data } = await supabase
+          .from('likes')
+          .select('id')
+          .eq('comment_id', comment.id)
+          .eq('user_id', userId)
+          .single()
+        setLiked(!!data)
+      }
+    }
+    fetchLikes()
+  }, [comment.id, userId])
+
+  const handleLike = async () => {
+    if (!userId || liking) return
+    setLiking(true)
+    if (liked) {
+      await supabase.from('likes').delete().eq('comment_id', comment.id).eq('user_id', userId)
+      setLiked(false)
+      setLikeCount(v => v - 1)
+    } else {
+      await supabase.from('likes').insert({ comment_id: comment.id, user_id: userId })
+      setLiked(true)
+      setLikeCount(v => v + 1)
+    }
+    setLiking(false)
+  }
 
   const handleReply = async () => {
     if (!replyText.trim()) return
@@ -80,13 +119,27 @@ function CommentThread({ comment, allComments, depth, postId, userId, onReplyAdd
             <span className="text-[11px] text-ink-400">{new Date(comment.created_at).toLocaleDateString('tr-TR')}</span>
           </div>
         </div>
-        <p className="text-[13px] text-ink-700 leading-relaxed mb-2">{comment.content}</p>
-        <button
-          onClick={() => setShowReply(v => !v)}
-          className="text-[11px] text-ink-400 hover:text-brand-600 transition-colors"
-        >
-          ↩ Yanıtla
-        </button>
+
+        <p className="text-[13px] text-ink-700 leading-relaxed mb-3">{comment.content}</p>
+
+        <div className="flex items-center gap-3">
+          <button
+            onClick={handleLike}
+            className={`flex items-center gap-1 text-[11px] transition-colors ${liked ? 'text-red-500' : 'text-ink-400 hover:text-red-400'}`}
+          >
+            <svg width="13" height="13" viewBox="0 0 24 24" fill={liked ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+            </svg>
+            {likeCount > 0 && <span>{likeCount}</span>}
+          </button>
+
+          <button
+            onClick={() => setShowReply(v => !v)}
+            className="text-[11px] text-ink-400 hover:text-brand-600 transition-colors"
+          >
+            ↩ Yanıtla
+          </button>
+        </div>
 
         {showReply && (
           <div className="mt-3 pt-3 border-t border-ink-50">
