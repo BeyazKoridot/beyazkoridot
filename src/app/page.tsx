@@ -75,7 +75,7 @@ function PostCard({ post, onLike, onHashtagClick }: { post: any; onLike: (id: st
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
             <span className="text-[13px] font-medium text-ink-900">
-              {post.is_anon ? 'Anonim' : (post.author_name ?? 'Üye')}
+              {post.author_name ?? (post.is_anon ? 'Anonim' : 'Üye')}
             </span>
             {post.is_anon && <span className="text-[10px] px-1.5 py-0.5 rounded bg-ink-100 text-ink-500">gizli</span>}
             {post.sector && post.sector !== 'Genel' && (

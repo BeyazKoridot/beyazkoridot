@@ -72,6 +72,7 @@ export default function WriteBox({ onPost }: { onPost?: () => void }) {
       }
 
       const { data: { user } } = await supabase.auth.getUser()
+      const { data: profile } = await supabase.from('profiles').select('username').eq('id', user?.id ?? '').single()
       const allHashtags = [...new Set([...hashtags, ...(modResult.hashtags ?? [])])]
 
       const { error: err } = await supabase.from('posts').insert({
@@ -88,6 +89,7 @@ export default function WriteBox({ onPost }: { onPost?: () => void }) {
         sentiment: modResult.sentiment ?? 'neutral',
         company_id: companyId || null,
         company_name: companyName || null,
+        author_name: profile?.username || null,
       })
 
       if (!err) {
