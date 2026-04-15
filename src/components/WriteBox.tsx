@@ -18,6 +18,15 @@ export default function WriteBox({ onPost }: { onPost?: () => void }) {
   const [moderating, setModerating] = useState(false)
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState('')
+  const [companyId, setCompanyId] = useState('')
+  const [companyName, setCompanyName] = useState('')
+  const [companies, setCompanies] = useState([] as any[])
+
+  useState(() => {
+    import('@/lib/supabase').then(({ supabase }) => {
+      supabase.from('companies').select('id, name').eq('is_approved', true).order('name').then(({ data }) => setCompanies(data || []))
+    })
+  })
 
   const handleHashtagKey = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' || e.key === ' ' || e.key === ',') {
@@ -75,6 +84,8 @@ export default function WriteBox({ onPost }: { onPost?: () => void }) {
         comment_count: 0,
         hashtags: allHashtags,
         sentiment: modResult.sentiment ?? 'neutral',
+        company_id: companyId || null,
+        company_name: companyName || null,
       })
 
       if (!err) {
@@ -136,6 +147,10 @@ export default function WriteBox({ onPost }: { onPost?: () => void }) {
               className="text-[12px] text-ink-600 border border-ink-200 rounded-lg px-2.5 py-1.5 bg-white outline-none">
               <option value="">Unvan seviyesi</option>
               {UNVANLAR.map(u => <option key={u}>{u}</option>)}
+            </select>
+            <select value={companyId} onChange={e => { const opt = companies.find((c: any) => c.id === e.target.value); setCompanyId(e.target.value); setCompanyName(opt?.name ?? '') }} className="text-[12px] text-ink-600 border border-ink-200 rounded-lg px-2.5 py-1.5 bg-white outline-none col-span-2">
+              <option value="">Sirket sec (opsiyonel)</option>
+              {companies.map((c: any) => <option key={c.id} value={c.id}>{c.name}</option>)}
             </select>
           </div>
 
