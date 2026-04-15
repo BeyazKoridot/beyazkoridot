@@ -75,9 +75,11 @@ export default function Navbar({ onFilterChange }: Props) {
 
           <nav className="hidden md:flex items-center gap-1">
             {navItems.map(item => (
-              <button key={item.label}
+              <button
+                key={item.label}
                 onClick={() => onFilterChange?.(item.filter)}
-                className="text-[13px] text-ink-600 hover:text-ink-900 px-3 py-1.5 rounded-md hover:bg-ink-50 transition-colors">
+                className="text-[13px] text-ink-600 hover:text-ink-900 px-3 py-1.5 rounded-md hover:bg-ink-50 transition-colors"
+              >
                 {item.label}
               </button>
             ))}
@@ -88,7 +90,10 @@ export default function Navbar({ onFilterChange }: Props) {
               <div className="flex items-center gap-2">
                 <div className="relative" ref={notifRef}>
                   <button
-                    onClick={() => { setShowNotifications(v => !v); markAllRead() }}
+                    onClick={() => {
+                      setShowNotifications(v => !v)
+                      markAllRead()
+                    }}
                     className="relative p-2 rounded-md hover:bg-ink-50 transition-colors"
                   >
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-ink-600">
@@ -147,12 +152,14 @@ export default function Navbar({ onFilterChange }: Props) {
               <>
                 <button
                   onClick={() => { setAuthMode('login'); setShowAuth(true) }}
-                  className="hidden md:block text-[12px] text-ink-600 px-3 py-1.5 rounded-md border border-ink-200 hover:bg-ink-50 transition-colors">
+                  className="hidden md:block text-[12px] text-ink-600 px-3 py-1.5 rounded-md border border-ink-200 hover:bg-ink-50 transition-colors"
+                >
                   Giriş yap
                 </button>
                 <button
                   onClick={() => { setAuthMode('register'); setShowAuth(true) }}
-                  className="text-[12px] text-white px-4 py-1.5 rounded-md bg-ink-900 hover:bg-ink-700 font-medium transition-colors">
+                  className="text-[12px] text-white px-4 py-1.5 rounded-md bg-ink-900 hover:bg-ink-700 font-medium transition-colors"
+                >
                   Üye ol
                 </button>
               </>
