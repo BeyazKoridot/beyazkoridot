@@ -180,7 +180,7 @@ export default function HomePage() {
     <>
       <TopBanner label="Sponsorlu" headline="Kariyer koçluğu — ücretsiz ilk seans" sub="Beyaz yaka profesyonelleri için 1:1 mentorluk" cta="Başvur" variant="brand" />
       <Navbar onFilterChange={(f) => { setActiveFilter(f); setActiveSector(null); setActiveHashtag(null) }} />
-      <section style={{background: "#1a1a1a"}} className="text-center py-16 px-4">
+      <section style={{background: "#1a1a1a"}} className="text-center py-16 px-8 w-full">
         <span style={{border: "0.5px solid rgba(255,255,255,0.25)", color: "rgba(255,255,255,0.6)", fontSize: "11px", fontWeight: 500, letterSpacing: "0.08em", padding: "4px 14px", borderRadius: "20px", display: "inline-block", marginBottom: "1.5rem"}}>BETA</span>
         <h1 style={{fontSize: "2.4rem", fontWeight: 700, color: "#ffffff", lineHeight: 1.25, margin: "0 0 1rem"}}>
           Türkiye'nin <span style={{fontStyle: "italic"}}>anonim</span> <span style={{fontSize: "1rem", fontStyle: "italic", fontWeight: 400, color: "rgba(255,255,255,0.35)"}}>(opsiyonel)</span><br/>beyaz yaka deneyim platformu
