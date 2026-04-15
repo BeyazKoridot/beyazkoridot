@@ -61,7 +61,7 @@ JSON formatında yanıt ver:
     const result = JSON.parse(response.choices[0].message.content ?? '{}')
     return NextResponse.json(result)
 
-  } catch (error: any) {
+  } reason: error?.message ?? 'Moderasyon servisi kullanılamıyor',catch (error: any) {
     console.error('Moderasyon hatası:', error?.message)
     return NextResponse.json({ 
       approved: false, 
