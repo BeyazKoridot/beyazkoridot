@@ -4,6 +4,7 @@ import { useParams, useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
+import Link from 'next/link'
 
 export default function PostPage() {
   const { id } = useParams()
@@ -20,7 +21,11 @@ export default function PostPage() {
     const fetchPost = async () => {
       const { data } = await supabase.from('posts').select('*').eq('id', id).single()
       setPost(data)
-      const { data: c } = await supabase.from('comments').select('*').eq('post_id', id).order('created_at', { ascending: true })
+      const { data: c } = await supabase
+        .from('comments')
+        .select('*, profiles(username, sector, level)')
+        .eq('post_id', id)
+        .order('created_at', { ascending: true })
       setComments(c ?? [])
       setLoading(false)
     }
@@ -39,7 +44,11 @@ export default function PostPage() {
     })
     if (!error) {
       setComment('')
-      const { data: c } = await supabase.from('comments').select('*').eq('post_id', id).order('created_at', { ascending: true })
+      const { data: c } = await supabase
+        .from('comments')
+        .select('*, profiles(username, sector, level)')
+        .eq('post_id', id)
+        .order('created_at', { ascending: true })
       setComments(c ?? [])
     }
     setSubmitting(false)
@@ -122,21 +131,46 @@ export default function PostPage() {
         <div className="mb-4">
           <h2 className="text-[13px] font-medium text-ink-700 mb-3">{comments.length} yorum</h2>
           <div className="space-y-3">
-            {comments.map(c => (
-              <div key={c.id} className="bg-white rounded-xl border border-ink-100 p-4">
-                <div className="flex items-center gap-2 mb-2">
-                  <div className="w-6 h-6 rounded-full bg-ink-100 flex items-center justify-center shrink-0">
-                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                      <circle cx="6" cy="4.5" r="2.2" stroke="#888" strokeWidth="1.1"/>
-                      <path d="M1.5 11c0-2.2 2-4 4.5-4s4.5 1.8 4.5 4" stroke="#888" strokeWidth="1.1" strokeLinecap="round"/>
-                    </svg>
+            {comments.map(c => {
+              const profile = c.profiles
+              const displayName = c.is_anon ? 'Anonim' : (profile?.username ?? 'Üye')
+              const sector = profile?.sector
+              const level = profile?.level
+              const canLink = !c.is_anon && profile?.username
+
+              return (
+                <div key={c.id} className="bg-white rounded-xl border border-ink-100 p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-6 h-6 rounded-full bg-ink-100 flex items-center justify-center shrink-0">
+                      <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                        <circle cx="6" cy="4.5" r="2.2" stroke="#888" strokeWidth="1.1"/>
+                        <path d="M1.5 11c0-2.2 2-4 4.5-4s4.5 1.8 4.5 4" stroke="#888" strokeWidth="1.1" strokeLinecap="round"/>
+                      </svg>
+                    </div>
+                    <div className="flex items-center gap-1.5 flex-wrap">
+                      {canLink ? (
+                        <Link href={`/profil/${profile.username}`} className="text-[12px] font-medium text-brand-600 hover:underline">
+                          {displayName}
+                        </Link>
+                      ) : (
+                        <span className="text-[12px] font-medium text-ink-700">{displayName}</span>
+                      )}
+                      {c.is_anon && (
+                        <span className="text-[10px] px-1.5 py-0.5 rounded bg-ink-100 text-ink-500">gizli</span>
+                      )}
+                      {sector && (
+                        <span className="text-[10px] px-2 py-0.5 rounded-full bg-ink-900 text-white font-medium">{sector}</span>
+                      )}
+                      {level && (
+                        <span className="text-[11px] text-ink-400">{level}</span>
+                      )}
+                      <span className="text-[11px] text-ink-400">{new Date(c.created_at).toLocaleDateString('tr-TR')}</span>
+                    </div>
                   </div>
-                  <span className="text-[12px] font-medium text-ink-700">{c.is_anon ? 'Anonim' : 'Üye'}</span>
-                  <span className="text-[11px] text-ink-400">{new Date(c.created_at).toLocaleDateString('tr-TR')}</span>
+                  <p className="text-[13px] text-ink-700 leading-relaxed">{c.content}</p>
                 </div>
-                <p className="text-[13px] text-ink-700 leading-relaxed">{c.content}</p>
-              </div>
-            ))}
+              )
+            })}
             {comments.length === 0 && (
               <p className="text-[13px] text-ink-400 text-center py-6">Henüz yorum yok. İlk yorumu sen yaz!</p>
             )}
