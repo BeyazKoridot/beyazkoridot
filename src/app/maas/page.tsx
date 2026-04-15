@@ -26,6 +26,7 @@ export default function MaasPage() {
   const [submitting, setSubmitting] = useState(false)
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState('')
+  const [chartReady, setChartReady] = useState(false)
   const barRef = useRef(null as any)
   const hbarRef = useRef(null as any)
   const barChart = useRef(null as any)
@@ -37,6 +38,14 @@ export default function MaasPage() {
       setSalaries(data || [])
       setLoading(false)
     })
+  }, [])
+
+  useEffect(() => {
+    if ((window as any).Chart) { setChartReady(true); return }
+    const script = document.createElement('script')
+    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js'
+    script.onload = () => setChartReady(true)
+    document.head.appendChild(script)
   }, [])
 
   const filtered = salaries.filter(s =>
@@ -57,67 +66,76 @@ export default function MaasPage() {
     return group.length > 0 ? Math.round(group.reduce((a, s) => a + s.maas, 0) / group.length) : 0
   })
 
-  const sektorData = SEKTORLER.map(sk => {
+  const sektorLabels = SEKTORLER.filter((_, i) => {
+    const group = filtered.filter(s => s.sektor === SEKTORLER[i])
+    return group.length > 0
+  })
+  const sektorData = sektorLabels.map(sk => {
     const group = filtered.filter(s => s.sektor === sk)
-    return group.length > 0 ? Math.round(group.reduce((a, s) => a + s.maas, 0) / group.length) : 0
+    return Math.round(group.reduce((a, s) => a + s.maas, 0) / group.length)
   })
 
   useEffect(() => {
-    if (loading || !yeterliVeri) return
-    const script = document.createElement('script')
-    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js'
-    script.onload = () => {
-      const Chart = (window as any).Chart
-      const isDark = matchMedia('(prefers-color-scheme: dark)').matches
-      const textColor = isDark ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.4)'
-      const gridColor = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)'
-      const barColor = isDark ? '#4a4a4a' : '#1a1a1a'
+    if (!chartReady || loading || !yeterliVeri) return
+    const Chart = (window as any).Chart
+    const textColor = 'rgba(0,0,0,0.5)'
+    const gridColor = 'rgba(0,0,0,0.06)'
+    const barColor = '#3a3a3a'
 
-      if (barChart.current) barChart.current.destroy()
-      if (hbarChart.current) hbarChart.current.destroy()
+    setTimeout(() => {
+      if (barChart.current) { barChart.current.destroy(); barChart.current = null }
+      if (hbarChart.current) { hbarChart.current.destroy(); hbarChart.current = null }
 
       if (barRef.current) {
         barChart.current = new Chart(barRef.current, {
           type: 'bar',
           data: {
             labels: unvanSirasi,
-            datasets: [{ label: 'Ortalama maaş (TL)', data: unvanData, backgroundColor: barColor, borderRadius: 4 }]
+            datasets: [{ data: unvanData, backgroundColor: barColor, borderRadius: 4 }]
           },
           options: {
             responsive: true, maintainAspectRatio: false,
             plugins: { legend: { display: false } },
             scales: {
-              x: { ticks: { color: textColor, font: { size: 11 }, autoSkip: false }, grid: { display: false }, border: { display: false } },
-              y: { ticks: { color: textColor, font: { size: 11 }, callback: (v: number) => (v/1000) + 'K' }, grid: { color: gridColor }, border: { display: false } }
+              x: {
+                ticks: { color: textColor, font: { size: 11 }, autoSkip: false, maxRotation: 0 },
+                grid: { display: false }, border: { display: false }
+              },
+              y: {
+                ticks: { color: textColor, font: { size: 11 }, callback: (v: number) => v === 0 ? '' : (v / 1000) + 'K TL' },
+                grid: { color: gridColor }, border: { display: false }
+              }
             }
           }
         })
       }
 
-      if (hbarRef.current) {
-        const sektorLabels = SEKTORLER.filter((_, i) => sektorData[i] > 0)
-        const sektorValues = sektorData.filter(v => v > 0)
+      if (hbarRef.current && sektorLabels.length > 0) {
         hbarChart.current = new Chart(hbarRef.current, {
           type: 'bar',
           data: {
             labels: sektorLabels,
-            datasets: [{ label: 'Ortalama maaş (TL)', data: sektorValues, backgroundColor: barColor, borderRadius: 4 }]
+            datasets: [{ data: sektorData, backgroundColor: barColor, borderRadius: 4 }]
           },
           options: {
             indexAxis: 'y',
             responsive: true, maintainAspectRatio: false,
             plugins: { legend: { display: false } },
             scales: {
-              x: { ticks: { color: textColor, font: { size: 11 }, callback: (v: number) => (v/1000) + 'K' }, grid: { color: gridColor }, border: { display: false } },
-              y: { ticks: { color: textColor, font: { size: 11 } }, grid: { display: false }, border: { display: false } }
+              x: {
+                ticks: { color: textColor, font: { size: 11 }, callback: (v: number) => v === 0 ? '' : (v / 1000) + 'K' },
+                grid: { color: gridColor }, border: { display: false }
+              },
+              y: {
+                ticks: { color: textColor, font: { size: 12 } },
+                grid: { display: false }, border: { display: false }
+              }
             }
           }
         })
       }
-    }
-    document.head.appendChild(script)
-    return () => { if (script.parentNode) script.parentNode.removeChild(script) }
-  }, [loading, filtered.length, filterSektor, filterSehir, filterUnvan])
+    }, 100)
+  }, [chartReady, loading, filtered.length, filterSektor, filterSehir, filterUnvan])
 
   const handleSubmit = async () => {
     if (!sektor || !unvan || !maas) { setError('Sektör, ünvan ve maaş zorunlu'); return }
@@ -155,12 +173,18 @@ export default function MaasPage() {
     <>
       <Navbar />
       <div className="max-w-4xl mx-auto px-4 py-8 pb-24 md:pb-8">
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center justify-between mb-2">
           <div>
             <h1 className="text-[22px] font-semibold text-ink-900">Maaş Rehberi</h1>
             <p className="text-[13px] text-ink-400 mt-0.5">Çalışanların gönüllü olarak paylaştığı maaş verileri</p>
           </div>
           <button onClick={() => setShowForm(v => !v)} className="text-[13px] font-medium text-white px-4 py-2 rounded-lg bg-ink-900 hover:bg-ink-700 transition-colors">+ Maaşımı ekle</button>
+        </div>
+
+        <div className="mb-6 px-3 py-2.5 bg-amber-50 border border-amber-100 rounded-lg">
+          <p className="text-[11px] text-amber-800 leading-relaxed">
+            Bu sayfadaki veriler kullanıcılar tarafından gönüllü olarak paylaşılmıştır. Platform, verilerin doğruluğunu garanti etmez ve herhangi bir sorumluluk kabul etmez. Veriler yalnızca genel bir fikir edinmek amacıyla sunulmaktadır.
+          </p>
         </div>
 
         {success && <div className="mb-4 px-4 py-2.5 bg-green-50 text-green-700 text-[13px] rounded-lg">Maaş veriniz eklendi, teşekkürler!</div>}
@@ -241,18 +265,24 @@ export default function MaasPage() {
           <>
             <div className="bg-white rounded-xl border border-ink-100 p-5 mb-4">
               <p className="text-[12px] font-medium text-ink-500 mb-4">Seniority bazlı ortalama maaş</p>
-              <div style={{ position: 'relative', height: '220px' }}>
+              <div style={{ position: 'relative', height: '240px' }}>
                 <canvas ref={barRef} role="img" aria-label="Seniority bazlı ortalama maaş grafiği"></canvas>
               </div>
             </div>
-            <div className="bg-white rounded-xl border border-ink-100 p-5">
+            <div className="bg-white rounded-xl border border-ink-100 p-5 mb-6">
               <p className="text-[12px] font-medium text-ink-500 mb-4">Sektör karşılaştırması</p>
-              <div style={{ position: 'relative', height: `${Math.max(SEKTORLER.filter((_, i) => sektorData[i] > 0).length * 40 + 40, 160)}px` }}>
+              <div style={{ position: 'relative', height: `${Math.max(sektorLabels.length * 44 + 40, 160)}px` }}>
                 <canvas ref={hbarRef} role="img" aria-label="Sektör bazlı ortalama maaş karşılaştırması"></canvas>
               </div>
             </div>
           </>
         )}
+
+        <div className="px-4 py-3 bg-ink-50 rounded-lg border border-ink-100">
+          <p className="text-[11px] text-ink-400 leading-relaxed">
+            <span className="font-medium text-ink-500">Yasal uyarı:</span> Bu sayfadaki maaş verileri, kullanıcıların gönüllü ve anonim olarak paylaştığı bilgilerden oluşmaktadır. Beyaz Koridot, söz konusu verilerin doğruluğunu, güncelliğini veya eksiksizliğini taahhüt etmez; yalnızca bilgilendirme amacıyla sunar. Veriler herhangi bir işveren veya çalışan hakkında bağlayıcı bir beyan niteliği taşımaz. Kullanım Koşulları ve Gizlilik Politikamız kapsamında değerlendirilir.
+          </p>
+        </div>
       </div>
       <Footer />
     </>
