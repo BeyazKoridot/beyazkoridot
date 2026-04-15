@@ -140,6 +140,8 @@ function PostCard({ post, onLike, onHashtagClick }: { post: any; onLike: (id: st
 
 export default function HomePage() {
   const [activeFilter, setActiveFilter] = useState('Tümü')
+  const [activeTab, setActiveTab] = useState('kesffet')
+  const [kategoriler, setKategoriler] = useState<string[]>(typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('kategoriler') || '[]') : [])
   const [activeSector, setActiveSector] = useState<string | null>(null)
   const [activeHashtag, setActiveHashtag] = useState<string | null>(null)
   const [posts, setPosts] = useState<any[]>([])
@@ -165,6 +167,16 @@ export default function HomePage() {
   }
 
   const filteredPosts = posts.filter(post => {
+    if (activeTab === 'kategorilerim' && kategoriler.length > 0) {
+      return kategoriler.some(k => {
+        if (k === 'Maaş') return post.tag === 'Maaş'
+        if (k === 'Burnout') return post.tag === 'Çalışma kültürü' || post.tag === 'Burnout'
+        if (k === 'Kariyer') return post.tag === 'Kariyer değişikliği' || post.tag === 'Kariyer sorunu'
+        if (k === 'Gündem') return post.vote_count > 50
+        if (k === 'Anket') return post.type === 'poll'
+        return false
+      })
+    }
     if (activeHashtag) return post.hashtags?.includes(activeHashtag)
     if (activeSector) return post.sector === activeSector
     if (activeFilter === 'Tümü') return true
@@ -229,6 +241,38 @@ export default function HomePage() {
           </aside>
 
           <main className="min-w-0">
+            <div className="flex border-b border-ink-100 mb-4">
+              <button
+                onClick={() => setActiveTab('kesffet')}
+                className={`px-4 py-2.5 text-[13px] font-medium border-b-2 transition-colors ${activeTab === 'kesffet' ? 'border-ink-900 text-ink-900' : 'border-transparent text-ink-400 hover:text-ink-600'}`}>
+                Keşfet
+              </button>
+              <button
+                onClick={() => setActiveTab('kategorilerim')}
+                className={`px-4 py-2.5 text-[13px] font-medium border-b-2 transition-colors ${activeTab === 'kategorilerim' ? 'border-ink-900 text-ink-900' : 'border-transparent text-ink-400 hover:text-ink-600'}`}>
+                Kategorilerim
+              </button>
+            </div>
+            {activeTab === 'kategorilerim' && (
+              <div className="bg-white rounded-xl border border-ink-100 p-4 mb-4">
+                <p className="text-[13px] font-medium text-ink-700 mb-3">Hangi konuları görmek istiyorsun?</p>
+                <div className="flex flex-wrap gap-2">
+                  {['Maaş', 'Burnout', 'Kariyer', 'Gündem', 'Anket'].map(k => (
+                    <button key={k}
+                      onClick={() => {
+                        const prev = JSON.parse(localStorage.getItem('kategoriler') || '[]')
+                        const next = prev.includes(k) ? prev.filter((x: string) => x !== k) : [...prev, k]
+                        localStorage.setItem('kategoriler', JSON.stringify(next))
+                        setKategoriler(next)
+                      }}
+                      className={`text-[12px] px-3 py-1.5 rounded-full border transition-colors ${kategoriler.includes(k) ? 'bg-ink-900 text-white border-ink-900' : 'border-ink-200 text-ink-500 bg-white hover:border-ink-400'}`}>
+                      {k}
+                    </button>
+                  ))}
+                </div>
+                {kategoriler.length === 0 && <p className="text-[11px] text-ink-400 mt-3">En az bir kategori seç, o konulardaki paylaşımlar burada görünür.</p>}
+              </div>
+            )}
             <div className="flex items-center gap-2 mb-4 overflow-x-auto pb-1">
               {FILTERS.map((f) => (
                 <button key={f}
