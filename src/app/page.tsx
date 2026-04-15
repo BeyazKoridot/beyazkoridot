@@ -241,15 +241,15 @@ export default function HomePage() {
           </aside>
 
           <main className="min-w-0">
-            <div className="flex border-b border-ink-100 mb-4">
+            <div className="flex gap-1.5 p-1 bg-ink-100 rounded-xl mb-4">
               <button
                 onClick={() => setActiveTab('kesffet')}
-                className={`px-4 py-2.5 text-[13px] font-medium border-b-2 transition-colors ${activeTab === 'kesffet' ? 'border-ink-900 text-ink-900' : 'border-transparent text-ink-400 hover:text-ink-600'}`}>
+                className={`flex-1 py-2 text-[13px] font-medium rounded-lg transition-colors ${activeTab === 'kesffet' ? 'bg-white text-ink-900 border border-ink-200' : 'text-ink-400 hover:text-ink-600'}`}>
                 Keşfet
               </button>
               <button
                 onClick={() => setActiveTab('kategorilerim')}
-                className={`px-4 py-2.5 text-[13px] font-medium border-b-2 transition-colors ${activeTab === 'kategorilerim' ? 'border-ink-900 text-ink-900' : 'border-transparent text-ink-400 hover:text-ink-600'}`}>
+                className={`flex-1 py-2 text-[13px] font-medium rounded-lg transition-colors ${activeTab === 'kategorilerim' ? 'bg-white text-ink-900 border border-ink-200' : 'text-ink-400 hover:text-ink-600'}`}>
                 Kategorilerim
               </button>
             </div>
