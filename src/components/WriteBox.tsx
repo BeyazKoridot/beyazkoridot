@@ -19,6 +19,8 @@ export default function WriteBox({ onPost }: { onPost?: () => void }) {
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState('')
   const [companyId, setCompanyId] = useState('')
+  const [newCompany, setNewCompany] = useState('')
+  const [showNewCompany, setShowNewCompany] = useState(false)
   const [companyName, setCompanyName] = useState('')
   const [companies, setCompanies] = useState([] as any[])
 
@@ -148,10 +150,19 @@ export default function WriteBox({ onPost }: { onPost?: () => void }) {
               <option value="">Unvan seviyesi</option>
               {UNVANLAR.map(u => <option key={u}>{u}</option>)}
             </select>
-            <select value={companyId} onChange={e => { const opt = companies.find((c: any) => c.id === e.target.value); setCompanyId(e.target.value); setCompanyName(opt?.name ?? '') }} className="text-[12px] text-ink-600 border border-ink-200 rounded-lg px-2.5 py-1.5 bg-white outline-none col-span-2">
+            <select value={companyId} onChange={e => { if (e.target.value === '__new__') { setShowNewCompany(true); setCompanyId('') } else { setShowNewCompany(false); const opt = companies.find((c: any) => c.id === e.target.value); setCompanyId(e.target.value); setCompanyName(opt?.name ?? '') } }} className="text-[12px] text-ink-600 border border-ink-200 rounded-lg px-2.5 py-1.5 bg-white outline-none col-span-2">
               <option value="">Sirket sec (opsiyonel)</option>
               {companies.map((c: any) => <option key={c.id} value={c.id}>{c.name}</option>)}
+              <option value="__new__">+ Listede yok, ekle...</option>
             </select>
+            {showNewCompany && (
+              <input
+                value={newCompany}
+                onChange={e => { setNewCompany(e.target.value); setCompanyName(e.target.value) }}
+                placeholder="Sirket adini yaz..."
+                className="text-[12px] text-ink-600 border border-ink-200 rounded-lg px-2.5 py-1.5 outline-none focus:border-ink-400 col-span-2 mt-1"
+              />
+            )}
           </div>
 
           <div className="mt-3">
