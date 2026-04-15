@@ -90,10 +90,7 @@ export default function Navbar({ onFilterChange }: Props) {
               <div className="flex items-center gap-2">
                 <div className="relative" ref={notifRef}>
                   <button
-                    onClick={() => {
-                      setShowNotifications(v => !v)
-                      markAllRead()
-                    }}
+                    onClick={() => { setShowNotifications(v => !v); markAllRead() }}
                     className="relative p-2 rounded-md hover:bg-ink-50 transition-colors"
                   >
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-ink-600">
@@ -115,7 +112,7 @@ export default function Navbar({ onFilterChange }: Props) {
                         {notifications.length === 0 ? (
                           <p className="text-[12px] text-ink-400 text-center py-6">Henüz bildirim yok</p>
                         ) : notifications.map((n: any) => (
-                          
+                          <a
                             key={n.id}
                             href={n.related_post_id ? `/post/${n.related_post_id}` : '#'}
                             className={`flex items-start gap-3 px-4 py-3 hover:bg-ink-50 transition-colors border-b border-ink-50 ${!n.is_read ? 'bg-blue-50' : ''}`}
