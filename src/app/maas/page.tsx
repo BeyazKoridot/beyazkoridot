@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { supabase } from '@/lib/supabase'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
@@ -14,8 +14,8 @@ export default function MaasPage() {
   const [loading, setLoading] = useState(true)
   const [showForm, setShowForm] = useState(false)
   const [filterSektor, setFilterSektor] = useState('')
-  const [filterUnvan, setFilterUnvan] = useState('')
   const [filterSehir, setFilterSehir] = useState('')
+  const [filterUnvan, setFilterUnvan] = useState('')
   const [sektor, setSektor] = useState('')
   const [unvan, setUnvan] = useState('')
   const [sehir, setSehir] = useState('')
@@ -26,6 +26,10 @@ export default function MaasPage() {
   const [submitting, setSubmitting] = useState(false)
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState('')
+  const barRef = useRef(null as any)
+  const hbarRef = useRef(null as any)
+  const barChart = useRef(null as any)
+  const hbarChart = useRef(null as any)
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => setUser(data.user))
@@ -35,38 +39,105 @@ export default function MaasPage() {
     })
   }, [])
 
+  const filtered = salaries.filter(s =>
+    (!filterSektor || s.sektor === filterSektor) &&
+    (!filterSehir || s.sehir === filterSehir) &&
+    (!filterUnvan || s.unvan === filterUnvan)
+  )
+
+  const yeterliVeri = filtered.length >= 3
+  const avgMaas = filtered.length > 0 ? Math.round(filtered.reduce((a, s) => a + s.maas, 0) / filtered.length) : 0
+  const minMaas = filtered.length > 0 ? Math.min(...filtered.map(s => s.maas)) : 0
+  const maxMaas = filtered.length > 0 ? Math.max(...filtered.map(s => s.maas)) : 0
+  const medyanMaas = filtered.length > 0 ? [...filtered].sort((a, b) => a.maas - b.maas)[Math.floor(filtered.length / 2)].maas : 0
+
+  const unvanSirasi = ['Stajyer', 'Junior', 'Mid-level', 'Senior', 'Lead', 'Manager', 'Director', 'C-level']
+  const unvanData = unvanSirasi.map(u => {
+    const group = filtered.filter(s => s.unvan === u)
+    return group.length > 0 ? Math.round(group.reduce((a, s) => a + s.maas, 0) / group.length) : 0
+  })
+
+  const sektorData = SEKTORLER.map(sk => {
+    const group = filtered.filter(s => s.sektor === sk)
+    return group.length > 0 ? Math.round(group.reduce((a, s) => a + s.maas, 0) / group.length) : 0
+  })
+
+  useEffect(() => {
+    if (loading || !yeterliVeri) return
+    const script = document.createElement('script')
+    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js'
+    script.onload = () => {
+      const Chart = (window as any).Chart
+      const isDark = matchMedia('(prefers-color-scheme: dark)').matches
+      const textColor = isDark ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.4)'
+      const gridColor = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)'
+      const barColor = isDark ? '#4a4a4a' : '#1a1a1a'
+
+      if (barChart.current) barChart.current.destroy()
+      if (hbarChart.current) hbarChart.current.destroy()
+
+      if (barRef.current) {
+        barChart.current = new Chart(barRef.current, {
+          type: 'bar',
+          data: {
+            labels: unvanSirasi,
+            datasets: [{ label: 'Ortalama maaş (TL)', data: unvanData, backgroundColor: barColor, borderRadius: 4 }]
+          },
+          options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+              x: { ticks: { color: textColor, font: { size: 11 }, autoSkip: false }, grid: { display: false }, border: { display: false } },
+              y: { ticks: { color: textColor, font: { size: 11 }, callback: (v: number) => (v/1000) + 'K' }, grid: { color: gridColor }, border: { display: false } }
+            }
+          }
+        })
+      }
+
+      if (hbarRef.current) {
+        const sektorLabels = SEKTORLER.filter((_, i) => sektorData[i] > 0)
+        const sektorValues = sektorData.filter(v => v > 0)
+        hbarChart.current = new Chart(hbarRef.current, {
+          type: 'bar',
+          data: {
+            labels: sektorLabels,
+            datasets: [{ label: 'Ortalama maaş (TL)', data: sektorValues, backgroundColor: barColor, borderRadius: 4 }]
+          },
+          options: {
+            indexAxis: 'y',
+            responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+              x: { ticks: { color: textColor, font: { size: 11 }, callback: (v: number) => (v/1000) + 'K' }, grid: { color: gridColor }, border: { display: false } },
+              y: { ticks: { color: textColor, font: { size: 11 } }, grid: { display: false }, border: { display: false } }
+            }
+          }
+        })
+      }
+    }
+    document.head.appendChild(script)
+    return () => { if (script.parentNode) script.parentNode.removeChild(script) }
+  }, [loading, filtered.length, filterSektor, filterSehir, filterUnvan])
+
   const handleSubmit = async () => {
-    if (!sektor || !unvan || !maas) { setError('Sektor, unvan ve maas zorunlu'); return }
-    if (!onay) { setError('Lutfen onay kutusunu isaretleyin'); return }
+    if (!sektor || !unvan || !maas) { setError('Sektör, ünvan ve maaş zorunlu'); return }
+    if (!onay) { setError('Lütfen onay kutusunu işaretleyin'); return }
     setSubmitting(true)
     const { error: err } = await supabase.from('salary_data').insert({
-      user_id: user?.id ?? null,
-      sektor, unvan, sehir,
+      user_id: user?.id ?? null, sektor, unvan, sehir,
       maas: parseInt(maas),
       yil_deneyim: yilDeneyim ? parseInt(yilDeneyim) : null,
       sirket_adi: sirketAdi || null,
       is_anon: true,
     })
     if (!err) {
-      setSuccess(true)
-      setShowForm(false)
+      setSuccess(true); setShowForm(false)
       setSektor(''); setUnvan(''); setSehir(''); setMaas(''); setYilDeneyim(''); setSirketAdi(''); setOnay(false)
       supabase.from('salary_data').select('*').order('created_at', { ascending: false }).then(({ data }) => setSalaries(data || []))
       setTimeout(() => setSuccess(false), 3000)
     }
     setSubmitting(false)
   }
-
-  const filtered = salaries.filter(s =>
-    (!filterSektor || s.sektor === filterSektor) &&
-    (!filterUnvan || s.unvan === filterUnvan) &&
-    (!filterSehir || s.sehir === filterSehir)
-  )
-
-  const avgMaas = filtered.length > 0 ? Math.round(filtered.reduce((a, s) => a + s.maas, 0) / filtered.length) : 0
-  const minMaas = filtered.length > 0 ? Math.min(...filtered.map(s => s.maas)) : 0
-  const maxMaas = filtered.length > 0 ? Math.max(...filtered.map(s => s.maas)) : 0
-  const yeterliVeri = filtered.length >= 3
 
   if (!user) return (
     <>
@@ -89,9 +160,7 @@ export default function MaasPage() {
             <h1 className="text-[22px] font-semibold text-ink-900">Maaş Rehberi</h1>
             <p className="text-[13px] text-ink-400 mt-0.5">Çalışanların gönüllü olarak paylaştığı maaş verileri</p>
           </div>
-          <button onClick={() => setShowForm(v => !v)} className="text-[13px] font-medium text-white px-4 py-2 rounded-lg bg-ink-900 hover:bg-ink-700 transition-colors">
-            + Maaşımı ekle
-          </button>
+          <button onClick={() => setShowForm(v => !v)} className="text-[13px] font-medium text-white px-4 py-2 rounded-lg bg-ink-900 hover:bg-ink-700 transition-colors">+ Maaşımı ekle</button>
         </div>
 
         {success && <div className="mb-4 px-4 py-2.5 bg-green-50 text-green-700 text-[13px] rounded-lg">Maaş veriniz eklendi, teşekkürler!</div>}
@@ -130,87 +199,59 @@ export default function MaasPage() {
           </div>
         )}
 
-        <div className="grid grid-cols-3 gap-3 mb-6">
+        <div className="flex flex-wrap gap-2 mb-6">
           <select value={filterSektor} onChange={e => setFilterSektor(e.target.value)} className="text-[12px] border border-ink-200 rounded-lg px-2.5 py-2 outline-none bg-white">
             <option value="">Tüm sektörler</option>
             {SEKTORLER.map(s => <option key={s}>{s}</option>)}
-          </select>
-          <select value={filterUnvan} onChange={e => setFilterUnvan(e.target.value)} className="text-[12px] border border-ink-200 rounded-lg px-2.5 py-2 outline-none bg-white">
-            <option value="">Tüm ünvanlar</option>
-            {UNVANLAR.map(u => <option key={u}>{u}</option>)}
           </select>
           <select value={filterSehir} onChange={e => setFilterSehir(e.target.value)} className="text-[12px] border border-ink-200 rounded-lg px-2.5 py-2 outline-none bg-white">
             <option value="">Tüm şehirler</option>
             {SEHIRLER.map(s => <option key={s}>{s}</option>)}
           </select>
+          <div className="flex gap-1.5 flex-wrap">
+            {['', ...UNVANLAR].map(u => (
+              <button key={u} onClick={() => setFilterUnvan(u)}
+                className={`text-[11px] px-3 py-1.5 rounded-full border transition-colors ${filterUnvan === u ? 'bg-ink-900 text-white border-ink-900' : 'bg-white text-ink-500 border-ink-200 hover:border-ink-400'}`}>
+                {u || 'Tümü'}
+              </button>
+            ))}
+          </div>
         </div>
 
-        {filtered.length > 0 && (
-          <div className="bg-white rounded-xl border border-ink-100 p-4 mb-4 flex items-center gap-8">
-            <div>
-              <p className="text-[11px] text-ink-400 mb-0.5">Ortalama</p>
-              {yeterliVeri ? (
-                <p className="text-[20px] font-semibold text-ink-900">{avgMaas.toLocaleString('tr-TR')} TL</p>
-              ) : (
-                <p className="text-[13px] text-ink-400">Yeterli veri yok</p>
-              )}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+          {[
+            { label: 'Ortalama maaş', value: yeterliVeri ? avgMaas.toLocaleString('tr-TR') + ' TL' : '—' },
+            { label: 'Aralık', value: yeterliVeri ? minMaas.toLocaleString('tr-TR') + ' – ' + maxMaas.toLocaleString('tr-TR') + ' TL' : '—' },
+            { label: 'Medyan', value: yeterliVeri ? medyanMaas.toLocaleString('tr-TR') + ' TL' : '—' },
+            { label: 'Veri sayısı', value: filtered.length.toString() },
+          ].map(m => (
+            <div key={m.label} className="bg-ink-50 rounded-lg p-3">
+              <p className="text-[11px] text-ink-400 mb-1">{m.label}</p>
+              <p className="text-[16px] font-semibold text-ink-900">{m.value}</p>
             </div>
-            <div>
-              <p className="text-[11px] text-ink-400 mb-0.5">Aralık</p>
-              {yeterliVeri ? (
-                <p className="text-[14px] font-medium text-ink-700">{minMaas.toLocaleString('tr-TR')} – {maxMaas.toLocaleString('tr-TR')} TL</p>
-              ) : (
-                <p className="text-[13px] text-ink-400">En az 3 veri gerekli</p>
-              )}
-            </div>
-            <div>
-              <p className="text-[11px] text-ink-400 mb-0.5">Paylaşım sayısı</p>
-              <p className="text-[20px] font-semibold text-ink-900">{filtered.length}</p>
-            </div>
-          </div>
-        )}
+          ))}
+        </div>
 
-        {loading ? (
-          <p className="text-center text-ink-400 text-[13px] py-12">Yükleniyor...</p>
-        ) : filtered.length === 0 ? (
-          <div className="text-center py-12 bg-white rounded-xl border border-ink-100">
-            <p className="text-[13px] text-ink-400">Henüz veri yok. İlk maaş verisini sen ekle!</p>
+        {!yeterliVeri ? (
+          <div className="text-center py-16 bg-white rounded-xl border border-ink-100">
+            <p className="text-[14px] font-medium text-ink-700 mb-1">Grafik için yeterli veri yok</p>
+            <p className="text-[12px] text-ink-400">En az 3 maaş verisi paylaşıldığında grafikler görünür hale gelir.</p>
           </div>
         ) : (
-          <div className="bg-white rounded-xl border border-ink-100 overflow-hidden">
-            <table className="w-full">
-              <thead className="bg-ink-50 border-b border-ink-100">
-                <tr>
-                  <th className="text-left text-[11px] text-ink-500 font-medium px-4 py-2.5">Sektör / Ünvan</th>
-                  <th className="text-left text-[11px] text-ink-500 font-medium px-4 py-2.5">Şehir</th>
-                  <th className="text-left text-[11px] text-ink-500 font-medium px-4 py-2.5">Deneyim</th>
-                  <th className="text-right text-[11px] text-ink-500 font-medium px-4 py-2.5">Maaş</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filtered.map(s => (
-                  <tr key={s.id} className="border-b border-ink-50 hover:bg-ink-50 transition-colors">
-                    <td className="px-4 py-3">
-                      <p className="text-[13px] font-medium text-ink-900">{s.unvan}</p>
-                      <p className="text-[11px] text-ink-400">{s.sektor}{s.sirket_adi ? ' — ' + s.sirket_adi : ''}</p>
-                    </td>
-                    <td className="px-4 py-3 text-[12px] text-ink-600">{s.sehir || '—'}</td>
-                    <td className="px-4 py-3 text-[12px] text-ink-600">{s.yil_deneyim ? s.yil_deneyim + ' yıl' : '—'}</td>
-                    <td className="px-4 py-3 text-right">
-                      {yeterliVeri ? (
-                        <span className="text-[14px] font-semibold text-ink-900">{s.maas.toLocaleString('tr-TR')} TL</span>
-                      ) : (
-                        <span className="text-[12px] text-ink-400">Gizli</span>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-            {!yeterliVeri && (
-              <p className="text-center text-[11px] text-ink-400 py-3 border-t border-ink-50">Maaş verileri 3 paylaşımdan sonra görünür hale gelir.</p>
-            )}
-          </div>
+          <>
+            <div className="bg-white rounded-xl border border-ink-100 p-5 mb-4">
+              <p className="text-[12px] font-medium text-ink-500 mb-4">Seniority bazlı ortalama maaş</p>
+              <div style={{ position: 'relative', height: '220px' }}>
+                <canvas ref={barRef} role="img" aria-label="Seniority bazlı ortalama maaş grafiği"></canvas>
+              </div>
+            </div>
+            <div className="bg-white rounded-xl border border-ink-100 p-5">
+              <p className="text-[12px] font-medium text-ink-500 mb-4">Sektör karşılaştırması</p>
+              <div style={{ position: 'relative', height: `${Math.max(SEKTORLER.filter((_, i) => sektorData[i] > 0).length * 40 + 40, 160)}px` }}>
+                <canvas ref={hbarRef} role="img" aria-label="Sektör bazlı ortalama maaş karşılaştırması"></canvas>
+              </div>
+            </div>
+          </>
         )}
       </div>
       <Footer />
