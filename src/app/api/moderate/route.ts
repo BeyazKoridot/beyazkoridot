@@ -6,6 +6,21 @@ const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
 export async function POST(req: NextRequest) {
   const { text } = await req.json()
 
+  const YASAKLI_KELIMELER = ['aptal', 'salak', 'pislik', 'gerizekalı', 'mal', 'göt', 'orospu', 'siktir', 'amk', 'bok', 'sürtük', 'kahpe', 'öldür', 'öldüreceğim', 'gebereceğim', 'keriz', 'dangalak', 'nobran', 'hırsız', 'dolandırıcı']
+  
+  const metinKucuk = text.toLowerCase()
+  const yasakliKelimeBulundu = YASAKLI_KELIMELER.some(kelime => metinKucuk.includes(kelime))
+  
+  if (yasakliKelimeBulundu) {
+    return NextResponse.json({
+      approved: false,
+      reason: 'İçeriğiniz hakaret veya uygunsuz ifadeler içeriyor. Lütfen yapıcı bir dil kullanın.',
+      category: 'Diğer',
+      hashtags: [],
+      sentiment: 'negative'
+    })
+  }
+
   try {
     const response = await openai.chat.completions.create({
       model: 'gpt-4o-mini',
@@ -14,46 +29,43 @@ export async function POST(req: NextRequest) {
           role: 'system',
           content: `Sen bir içerik moderatörüsün. Türkçe iş deneyimi paylaşım platformu için içerikleri analiz ediyorsun.
 
-REDDET:
-- Herhangi bir kişiye yönelik hakaret veya aşağılama (aptal, salak, pislik, mal, gerizekalı vb.)
-- Gerçek kişilere yönelik iftira
-- TC kimlik no, telefon, adres gibi kişisel bilgiler
-- Nefret söylemi veya ayrımcılık
-- Küfür içeren ifadeler
-- Spam veya reklam içeriği
+KESINLIKLE REDDET:
+- Kişilere hakaret veya aşağılama
+- Gerçek kişilere iftira (isim + suçlama)
 - Tehdit içeren ifadeler
+- Küfür veya argo
+- Kişisel bilgiler (TC, telefon, adres)
+- Nefret söylemi
 
 İZİN VER:
-- Anonim iş deneyimi paylaşımı
-- Maaş bilgisi paylaşımı
-- Şirket kültürü eleştirisi (yapıcı)
+- İş deneyimi paylaşımı
+- Maaş bilgisi
+- Yapıcı eleştiri
 - Kariyer tavsiyeleri
-- Burnout ve stres paylaşımı
-- "Yönetim tarzından memnun değilim" gibi yapıcı eleştiriler
-- "Bu şirkette çalışmak zordu" gibi genel değerlendirmeler
-
-NOT: Kişileri aşağılayan her türlü içerik reddedilmeli. "Müdürüm çok baskıcı" kabul edilebilir ama "Müdürüm aptal" reddedilmeli.
+- Burnout paylaşımı
 
 JSON formatında yanıt ver:
 {
   "approved": true/false,
-  "reason": "red sebebi (sadece reddedilince)",
+  "reason": "red sebebi",
   "category": "Maaş/Çalışma kültürü/Kariyer/Burnout/Diğer",
-  "hashtags": ["#hashtag1", "#hashtag2"],
+  "hashtags": ["#hashtag1"],
   "sentiment": "positive/negative/neutral"
 }`
         },
-        {
-          role: 'user',
-          content: text
-        }
+        { role: 'user', content: text }
       ],
       response_format: { type: 'json_object' }
     })
 
     const result = JSON.parse(response.choices[0].message.content ?? '{}')
     return NextResponse.json(result)
-  } catch (error) {
-    return NextResponse.json({ approved: true, category: 'Diğer', hashtags: [], sentiment: 'neutral' })
+
+  } catch (error: any) {
+    console.error('Moderasyon hatası:', error?.message)
+    return NextResponse.json({ 
+      approved: false, 
+      reason: 'Moderasyon servisi şu an kullanılamıyor, lütfen tekrar dene.' 
+    })
   }
 }
