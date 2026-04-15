@@ -317,7 +317,9 @@ export default function PostPage() {
             <button onClick={() => handleShare('copy')} className="flex items-center gap-1.5 text-[12px] text-ink-500 px-3 py-1.5 rounded-full border border-ink-100 hover:bg-ink-50 transition-colors">
               {copied ? '✓ Kopyalandı' : 'Linki kopyala'}
             </button>
+            <button onClick={() => window.location.href='mailto:iletisim@beyazkoridot.com?subject=İçerik Şikayeti&body=Post ID: '+post.id} className='flex items-center gap-1.5 text-[12px] text-red-400 px-3 py-1.5 rounded-full border border-red-100 hover:bg-red-50 transition-colors'>Şikayet et</button>
           </div>
+          <p className='text-[10px] text-ink-300 mt-2'>Bu içerik kullanıcı tarafından paylaşılmıştır. Platform doğruluğunu taahhüt etmez.</p>
         </div>
 
         <div className="mb-4">
