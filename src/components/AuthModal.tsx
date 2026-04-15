@@ -22,6 +22,7 @@ export default function AuthModal({ onClose, defaultMode = 'login' }: Props) {
 
   const handleEmailAuth = async () => {
     if (mode === 'register') {
+      if (!displayName.trim()) { setError('Lütfen bir kullanıcı adı gir'); return }
       if (!sektor) { setError('Lütfen sektörünü seç'); return }
       if (!kvkk) { setError('KVKK Aydınlatma Metni\'ni kabul etmen gerekiyor'); return }
       if (!kullanim) { setError('Kullanım Koşulları\'nı kabul etmen gerekiyor'); return }
@@ -104,7 +105,7 @@ export default function AuthModal({ onClose, defaultMode = 'login' }: Props) {
           {mode === 'register' && (
             <input
               type="text"
-              placeholder="İsim (opsiyonel — görünür ismin olur)"
+              placeholder="Kullanıcı adı (zorunlu — görünür ismin olur) *"
               value={displayName}
               onChange={e => setDisplayName(e.target.value)}
               className="w-full px-4 py-2.5 rounded-xl border border-ink-200 text-[13px] outline-none focus:border-ink-400"
