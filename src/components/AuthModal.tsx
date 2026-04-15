@@ -14,6 +14,8 @@ export default function AuthModal({ onClose, defaultMode = 'login' }: Props) {
   const [displayName, setDisplayName] = useState('')
   const [sektor, setSektor] = useState('')
   const [unvan, setUnvan] = useState('')
+  const [kvkk, setKvkk] = useState(false)
+  const [kullanim, setKullanim] = useState(false)
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
   const [error, setError] = useState('')
@@ -21,6 +23,8 @@ export default function AuthModal({ onClose, defaultMode = 'login' }: Props) {
   const handleEmailAuth = async () => {
     if (mode === 'register') {
       if (!sektor) { setError('Lütfen sektörünü seç'); return }
+      if (!kvkk) { setError('KVKK Aydınlatma Metni\'ni kabul etmen gerekiyor'); return }
+      if (!kullanim) { setError('Kullanım Koşulları\'nı kabul etmen gerekiyor'); return }
     }
     setLoading(true)
     setError('')
@@ -45,6 +49,9 @@ export default function AuthModal({ onClose, defaultMode = 'login' }: Props) {
           username: displayName || null,
           sector: sektor,
           level: unvan,
+          kvkk_accepted: true,
+          terms_accepted: true,
+          accepted_at: new Date().toISOString(),
         })
         setMessage('E-postanı kontrol et — onay linki gönderdik!')
       }
@@ -138,6 +145,34 @@ export default function AuthModal({ onClose, defaultMode = 'login' }: Props) {
                 {UNVANLAR.map(u => <option key={u}>{u}</option>)}
               </select>
               <p className="text-[11px] text-ink-400 px-1">Sektör bilgin anonim paylaşımlarda bile görünür — kimliğini değil, bağlamını gösterir.</p>
+
+              <div className="border border-ink-100 rounded-xl p-3 space-y-2.5 bg-ink-50">
+                <label className="flex items-start gap-2.5 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={kvkk}
+                    onChange={e => setKvkk(e.target.checked)}
+                    className="mt-0.5 shrink-0"
+                  />
+                  <span className="text-[11px] text-ink-600 leading-relaxed">
+                    <a href="/kvkk" target="_blank" className="text-ink-900 font-medium underline underline-offset-2">KVKK Aydınlatma Metni</a>'ni okudum ve kişisel verilerimin işlenmesine açık rıza gösteriyorum. *
+                  </span>
+                </label>
+                <label className="flex items-start gap-2.5 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={kullanim}
+                    onChange={e => setKullanim(e.target.checked)}
+                    className="mt-0.5 shrink-0"
+                  />
+                  <span className="text-[11px] text-ink-600 leading-relaxed">
+                    <a href="/kullanim-kosullari" target="_blank" className="text-ink-900 font-medium underline underline-offset-2">Kullanım Koşulları</a>'nı ve <a href="/kvkk" target="_blank" className="text-ink-900 font-medium underline underline-offset-2">Gizlilik Politikası</a>'nı kabul ediyorum. *
+                  </span>
+                </label>
+                <p className="text-[10px] text-ink-400 pt-1 border-t border-ink-200">
+                  Paylaştığın içerikler ve maaş verileri gönüllülük esasına dayanmaktadır. Platform, bu verilerin doğruluğunu taahhüt etmez.
+                </p>
+              </div>
             </>
           )}
         </div>
