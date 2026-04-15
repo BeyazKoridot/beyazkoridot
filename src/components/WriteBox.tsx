@@ -10,13 +10,33 @@ export default function WriteBox({ onPost }: { onPost?: () => void }) {
   const [expanded, setExpanded] = useState(false)
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
-  const [tag, setTag] = useState('Çalışma kültürü')
   const [sektor, setSektor] = useState('')
   const [unvan, setUnvan] = useState('')
+  const [hashtagInput, setHashtagInput] = useState('')
+  const [hashtags, setHashtags] = useState<string[]>([])
   const [loading, setLoading] = useState(false)
+  const [moderating, setModerating] = useState(false)
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState('')
-  const [moderating, setModerating] = useState(false)
+
+  const handleHashtagKey = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ' || e.key === ',') {
+      e.preventDefault()
+      addHashtag()
+    }
+  }
+
+  const addHashtag = () => {
+    let tag = hashtagInput.trim().replace(/^#/, '')
+    if (tag && !hashtags.includes('#' + tag) && hashtags.length < 5) {
+      setHashtags([...hashtags, '#' + tag])
+      setHashtagInput('')
+    }
+  }
+
+  const removeHashtag = (tag: string) => {
+    setHashtags(hashtags.filter(h => h !== tag))
+  }
 
   const handleSubmit = async () => {
     if (!title.trim()) return
@@ -35,24 +55,25 @@ export default function WriteBox({ onPost }: { onPost?: () => void }) {
       setModerating(false)
 
       if (!modResult.approved) {
-        setError(modResult.reason ?? 'Bu içerik yayınlanamaz. Lütfen içeriğini gözden geçir.')
+        setError(modResult.reason ?? 'Bu içerik yayınlanamaz.')
         setLoading(false)
         return
       }
 
       const { data: { user } } = await supabase.auth.getUser()
+      const allHashtags = [...new Set([...hashtags, ...(modResult.hashtags ?? [])])]
 
       const { error: err } = await supabase.from('posts').insert({
         title: title.trim(),
         content: content.trim(),
         is_anon: isAnon,
-        tag: modResult.category ?? tag,
+        tag: modResult.category ?? 'Diğer',
         user_id: user?.id ?? null,
         sector: sektor,
         level: unvan,
         vote_count: 0,
         comment_count: 0,
-        hashtags: modResult.hashtags ?? [],
+        hashtags: allHashtags,
         sentiment: modResult.sentiment ?? 'neutral',
       })
 
@@ -61,6 +82,7 @@ export default function WriteBox({ onPost }: { onPost?: () => void }) {
         setContent('')
         setSektor('')
         setUnvan('')
+        setHashtags([])
         setExpanded(false)
         setSuccess(true)
         onPost?.()
@@ -69,7 +91,6 @@ export default function WriteBox({ onPost }: { onPost?: () => void }) {
     } catch (e) {
       setError('Bir hata oluştu, tekrar dene.')
     }
-
     setLoading(false)
   }
 
@@ -89,13 +110,9 @@ export default function WriteBox({ onPost }: { onPost?: () => void }) {
           </svg>
         </div>
         {expanded ? (
-          <input
-            autoFocus
-            value={title}
-            onChange={e => setTitle(e.target.value)}
+          <input autoFocus value={title} onChange={e => setTitle(e.target.value)}
             className="flex-1 text-[13px] text-ink-800 placeholder-ink-300 outline-none bg-transparent"
-            placeholder="Başlık yaz..."
-          />
+            placeholder="Başlık yaz..." />
         ) : (
           <span className="flex-1 text-[13px] text-ink-300 cursor-text">
             Bir şeyler yaz... (anonim veya adınla)
@@ -105,13 +122,9 @@ export default function WriteBox({ onPost }: { onPost?: () => void }) {
 
       {expanded && (
         <>
-          <textarea
-            value={content}
-            onChange={e => setContent(e.target.value)}
+          <textarea value={content} onChange={e => setContent(e.target.value)}
             className="w-full mt-3 text-[13px] text-ink-700 placeholder-ink-300 outline-none bg-transparent resize-none"
-            placeholder="Detayları buraya yaz... (opsiyonel)"
-            rows={3}
-          />
+            placeholder="Detayları buraya yaz... (opsiyonel)" rows={3} />
 
           <div className="mt-3 grid grid-cols-2 gap-2">
             <select value={sektor} onChange={e => setSektor(e.target.value)}
@@ -126,27 +139,39 @@ export default function WriteBox({ onPost }: { onPost?: () => void }) {
             </select>
           </div>
 
+          <div className="mt-3">
+            <div className="flex flex-wrap gap-1.5 mb-2">
+              {hashtags.map(tag => (
+                <span key={tag} className="flex items-center gap-1 text-[11px] px-2 py-0.5 rounded-full bg-ink-100 text-ink-600">
+                  {tag}
+                  <button onClick={() => removeHashtag(tag)} className="text-ink-400 hover:text-ink-700">✕</button>
+                </span>
+              ))}
+            </div>
+            <input
+              value={hashtagInput}
+              onChange={e => setHashtagInput(e.target.value)}
+              onKeyDown={handleHashtagKey}
+              onBlur={addHashtag}
+              placeholder="Hashtag ekle (Enter ile onayla, max 5)"
+              className="w-full text-[12px] text-ink-600 border border-ink-200 rounded-lg px-2.5 py-1.5 outline-none focus:border-ink-400"
+            />
+          </div>
+
           {error && <p className="text-[11px] text-red-500 mt-1.5">{error}</p>}
 
           <div className="mt-3 pt-3 border-t border-ink-50 flex items-center justify-between flex-wrap gap-2">
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => setIsAnon(v => !v)}
-                className={`flex items-center gap-1.5 text-[12px] px-2.5 py-1 rounded-full border transition-colors ${isAnon ? 'bg-ink-100 text-ink-600 border-ink-200' : 'bg-ink-900 text-white border-ink-900'}`}
-              >
-                {isAnon ? 'Anonim' : 'Adımla paylaş'}
-              </button>
-            </div>
+            <button onClick={() => setIsAnon(v => !v)}
+              className={`flex items-center gap-1.5 text-[12px] px-2.5 py-1 rounded-full border transition-colors ${isAnon ? 'bg-ink-100 text-ink-600 border-ink-200' : 'bg-ink-900 text-white border-ink-900'}`}>
+              {isAnon ? 'Anonim' : 'Adımla paylaş'}
+            </button>
             <div className="flex items-center gap-2">
               <button onClick={() => { setExpanded(false); setError('') }}
                 className="text-[12px] text-ink-400 hover:text-ink-700 px-3 py-1.5">
                 İptal
               </button>
-              <button
-                onClick={handleSubmit}
-                disabled={loading || !title.trim()}
-                className="text-[12px] font-medium text-white px-4 py-1.5 rounded-md bg-ink-900 hover:bg-ink-700 transition-colors disabled:opacity-50"
-              >
+              <button onClick={handleSubmit} disabled={loading || !title.trim()}
+                className="text-[12px] font-medium text-white px-4 py-1.5 rounded-md bg-ink-900 hover:bg-ink-700 transition-colors disabled:opacity-50">
                 {moderating ? 'Kontrol ediliyor...' : loading ? 'Yükleniyor...' : 'Paylaş'}
               </button>
             </div>

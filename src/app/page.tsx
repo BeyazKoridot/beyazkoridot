@@ -26,7 +26,7 @@ const TAG_COLORS: Record<string, string> = {
   'Anket': 'bg-gray-100 text-gray-700 border-gray-200',
 }
 
-function PostCard({ post, onLike }: { post: any; onLike: (id: string) => void }) {
+function PostCard({ post, onLike, onHashtagClick }: { post: any; onLike: (id: string) => void; onHashtagClick: (tag: string) => void }) {
   const [liked, setLiked] = useState(false)
 
   const handleLike = (e: React.MouseEvent) => {
@@ -57,10 +57,8 @@ function PostCard({ post, onLike }: { post: any; onLike: (id: string) => void })
   }
 
   return (
-    <div
-      onClick={() => window.location.href = `/post/${post.id}`}
-      className="bg-white rounded-xl border border-ink-100 p-5 hover:border-ink-300 transition-colors cursor-pointer"
-    >
+    <div onClick={() => window.location.href = `/post/${post.id}`}
+      className="bg-white rounded-xl border border-ink-100 p-5 hover:border-ink-300 transition-colors cursor-pointer">
       <div className="flex items-center gap-3 mb-3">
         <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${post.is_anon ? 'bg-ink-100' : 'bg-ink-900'}`}>
           {post.is_anon ? (
@@ -79,9 +77,7 @@ function PostCard({ post, onLike }: { post: any; onLike: (id: string) => void })
             <span className="text-[13px] font-medium text-ink-900">
               {post.is_anon ? 'Anonim' : (post.author_name ?? 'Üye')}
             </span>
-            {post.is_anon && (
-              <span className="text-[10px] px-1.5 py-0.5 rounded bg-ink-100 text-ink-500">gizli</span>
-            )}
+            {post.is_anon && <span className="text-[10px] px-1.5 py-0.5 rounded bg-ink-100 text-ink-500">gizli</span>}
             {post.sector && post.sector !== 'Genel' && (
               <span className="text-[10px] px-2 py-0.5 rounded-full bg-ink-900 text-white font-medium">{post.sector}</span>
             )}
@@ -99,33 +95,39 @@ function PostCard({ post, onLike }: { post: any; onLike: (id: string) => void })
         <p className="text-[12px] text-ink-500 leading-relaxed mb-3 line-clamp-2">{post.content}</p>
       )}
 
+      {post.hashtags && post.hashtags.length > 0 && (
+        <div className="flex flex-wrap gap-1.5 mb-3">
+          {post.hashtags.map((tag: string) => (
+            <button key={tag}
+              onClick={(e) => { e.stopPropagation(); onHashtagClick(tag) }}
+              className="text-[11px] px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-100 hover:bg-blue-100 transition-colors">
+              {tag}
+            </button>
+          ))}
+        </div>
+      )}
+
       <div className="flex items-center gap-2 pt-3 border-t border-ink-50">
         <span className={`text-[11px] px-2 py-0.5 rounded-full border ${TAG_COLORS[post.tag] ?? 'bg-ink-100 text-ink-600 border-ink-200'}`}>
           {post.tag}
         </span>
         <div className="flex-1" />
-        <button
-          onClick={handleLike}
-          className={`flex items-center gap-1 text-[12px] px-2.5 py-1 rounded-full border transition-colors ${liked ? 'bg-red-50 text-red-600 border-red-200' : 'text-ink-400 border-ink-100 hover:bg-ink-50'}`}
-        >
+        <button onClick={handleLike}
+          className={`flex items-center gap-1 text-[12px] px-2.5 py-1 rounded-full border transition-colors ${liked ? 'bg-red-50 text-red-600 border-red-200' : 'text-ink-400 border-ink-100 hover:bg-ink-50'}`}>
           <svg width="13" height="13" viewBox="0 0 13 13" fill={liked ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="1.2">
             <path d="M6.5 11S1 7.5 1 4a2.5 2.5 0 015 0 2.5 2.5 0 015 0c0 3.5-5.5 7-5.5 7z"/>
           </svg>
           {(post.vote_count ?? 0) + (liked ? 1 : 0)}
         </button>
-        <button
-          onClick={(e) => { e.stopPropagation(); window.location.href = `/post/${post.id}` }}
-          className="flex items-center gap-1 text-[12px] text-ink-400 px-2.5 py-1 rounded-full border border-ink-100 hover:bg-ink-50 transition-colors"
-        >
+        <button onClick={(e) => { e.stopPropagation(); window.location.href = `/post/${post.id}` }}
+          className="flex items-center gap-1 text-[12px] text-ink-400 px-2.5 py-1 rounded-full border border-ink-100 hover:bg-ink-50 transition-colors">
           <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" strokeWidth="1.2">
             <path d="M11.5 1h-10a1 1 0 00-1 1v6a1 1 0 001 1h3l2 2 2-2h3a1 1 0 001-1V2a1 1 0 00-1-1z"/>
           </svg>
           {post.comment_count ?? 0}
         </button>
-        <button
-          onClick={handleShare}
-          className="flex items-center text-[12px] text-ink-400 px-2.5 py-1 rounded-full border border-ink-100 hover:bg-ink-50 transition-colors"
-        >
+        <button onClick={handleShare}
+          className="flex items-center text-[12px] text-ink-400 px-2.5 py-1 rounded-full border border-ink-100 hover:bg-ink-50 transition-colors">
           <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" strokeWidth="1.2">
             <circle cx="10.5" cy="2.5" r="1.5"/><circle cx="10.5" cy="10.5" r="1.5"/><circle cx="2.5" cy="6.5" r="1.5"/>
             <path d="M4 6.5l5.5-4M4 6.5l5.5 4" strokeLinecap="round"/>
@@ -139,6 +141,7 @@ function PostCard({ post, onLike }: { post: any; onLike: (id: string) => void })
 export default function HomePage() {
   const [activeFilter, setActiveFilter] = useState('Tümü')
   const [activeSector, setActiveSector] = useState<string | null>(null)
+  const [activeHashtag, setActiveHashtag] = useState<string | null>(null)
   const [posts, setPosts] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
 
@@ -155,7 +158,14 @@ export default function HomePage() {
     await supabase.from('posts').update({ vote_count: posts.find(p => p.id === id)?.vote_count + 1 }).eq('id', id)
   }
 
+  const handleHashtagClick = (tag: string) => {
+    setActiveHashtag(activeHashtag === tag ? null : tag)
+    setActiveFilter('Tümü')
+    setActiveSector(null)
+  }
+
   const filteredPosts = posts.filter(post => {
+    if (activeHashtag) return post.hashtags?.includes(activeHashtag)
     if (activeSector) return post.sector === activeSector
     if (activeFilter === 'Tümü') return true
     if (activeFilter === 'Anket') return post.type === 'poll'
@@ -169,7 +179,7 @@ export default function HomePage() {
   return (
     <>
       <TopBanner label="Sponsorlu" headline="Kariyer koçluğu — ücretsiz ilk seans" sub="Beyaz yaka profesyonelleri için 1:1 mentorluk" cta="Başvur" variant="brand" />
-      <Navbar onFilterChange={(f) => { setActiveFilter(f); setActiveSector(null) }} />
+      <Navbar onFilterChange={(f) => { setActiveFilter(f); setActiveSector(null); setActiveHashtag(null) }} />
       <div className="max-w-6xl mx-auto px-4 py-6">
         <div className="grid grid-cols-1 md:grid-cols-[200px_1fr_200px] gap-6">
 
@@ -177,8 +187,8 @@ export default function HomePage() {
             <nav className="space-y-0.5">
               {NAV_ITEMS.map((item) => (
                 <button key={item.label}
-                  onClick={() => { setActiveFilter(item.filter); setActiveSector(null) }}
-                  className={`w-full text-left flex items-center gap-2.5 px-3 py-2 rounded-lg text-[13px] transition-colors ${activeFilter === item.filter && !activeSector ? 'bg-ink-900 text-white font-medium' : 'text-ink-600 hover:bg-ink-100'}`}>
+                  onClick={() => { setActiveFilter(item.filter); setActiveSector(null); setActiveHashtag(null) }}
+                  className={`w-full text-left flex items-center gap-2.5 px-3 py-2 rounded-lg text-[13px] transition-colors ${activeFilter === item.filter && !activeSector && !activeHashtag ? 'bg-ink-900 text-white font-medium' : 'text-ink-600 hover:bg-ink-100'}`}>
                   {item.label}
                 </button>
               ))}
@@ -188,7 +198,7 @@ export default function HomePage() {
               <nav className="space-y-0.5">
                 {['Teknoloji', 'Finans', 'Pazarlama', 'Danışmanlık', 'İnsan kaynakları'].map(s => (
                   <button key={s}
-                    onClick={() => { setActiveSector(activeSector === s ? null : s); setActiveFilter('Tümü') }}
+                    onClick={() => { setActiveSector(activeSector === s ? null : s); setActiveFilter('Tümü'); setActiveHashtag(null) }}
                     className={`w-full text-left px-3 py-1.5 rounded-lg text-[12px] transition-colors ${activeSector === s ? 'bg-ink-900 text-white font-medium' : 'text-ink-500 hover:bg-ink-100'}`}>
                     {s}
                   </button>
@@ -201,12 +211,19 @@ export default function HomePage() {
             <div className="flex items-center gap-2 mb-4 overflow-x-auto pb-1">
               {FILTERS.map((f) => (
                 <button key={f}
-                  onClick={() => { setActiveFilter(f); setActiveSector(null) }}
-                  className={`shrink-0 text-[12px] px-3 py-1.5 rounded-full border transition-colors ${activeFilter === f && !activeSector ? 'bg-ink-900 text-white border-ink-900' : 'border-ink-200 text-ink-500 bg-white hover:border-ink-400'}`}>
+                  onClick={() => { setActiveFilter(f); setActiveSector(null); setActiveHashtag(null) }}
+                  className={`shrink-0 text-[12px] px-3 py-1.5 rounded-full border transition-colors ${activeFilter === f && !activeSector && !activeHashtag ? 'bg-ink-900 text-white border-ink-900' : 'border-ink-200 text-ink-500 bg-white hover:border-ink-400'}`}>
                   {f}
                 </button>
               ))}
             </div>
+
+            {activeHashtag && (
+              <div className="mb-3 flex items-center gap-2">
+                <span className="text-[13px] text-blue-700 font-medium">{activeHashtag}</span>
+                <button onClick={() => setActiveHashtag(null)} className="text-[11px] text-ink-400 hover:text-ink-700">✕ temizle</button>
+              </div>
+            )}
 
             <WriteBox onPost={fetchPosts} />
 
@@ -215,7 +232,7 @@ export default function HomePage() {
             ) : filteredPosts.length > 0 ? (
               <div className="space-y-3">
                 {filteredPosts.map(post => (
-                  <PostCard key={post.id} post={post} onLike={handleLike} />
+                  <PostCard key={post.id} post={post} onLike={handleLike} onHashtagClick={handleHashtagClick} />
                 ))}
               </div>
             ) : (
@@ -228,7 +245,7 @@ export default function HomePage() {
               <h3 className="text-[12px] font-medium text-ink-800 mb-3">Günün trendleri</h3>
               {TRENDING.map((item, i) => (
                 <div key={item.tag} className={`flex items-center justify-between py-2 ${i < TRENDING.length - 1 ? 'border-b border-ink-50' : ''}`}>
-                  <span className="text-[12px] text-ink-700">{item.tag}</span>
+                  <button onClick={() => handleHashtagClick(item.tag)} className="text-[12px] text-blue-600 hover:text-blue-800">{item.tag}</button>
                   <span className="text-[11px] text-ink-400">{item.count}</span>
                 </div>
               ))}
