@@ -5,6 +5,141 @@ import { supabase } from '@/lib/supabase'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 
+const YASAKLI_KELIMELER = ['aptal', 'salak', 'pislik', 'gerizekalı', 'mal', 'göt', 'orospu', 'siktir', 'amk', 'bok', 'sürtük', 'kahpe', 'öldür', 'öldüreceğim', 'gebereceğim', 'keriz', 'dangalak']
+
+function containsBannedWord(text: string) {
+  const lower = text.toLowerCase()
+  return YASAKLI_KELIMELER.some(k => lower.includes(k))
+}
+
+function CommentThread({ comment, allComments, depth, postId, userId, onReplyAdded }: {
+  comment: any
+  allComments: any[]
+  depth: number
+  postId: string
+  userId: string
+  onReplyAdded: () => void
+}) {
+  const [showReply, setShowReply] = useState(false)
+  const [replyText, setReplyText] = useState('')
+  const [isAnon, setIsAnon] = useState(true)
+  const [submitting, setSubmitting] = useState(false)
+  const [error, setError] = useState('')
+
+  const replies = allComments.filter(c => c.parent_id === comment.id)
+
+  const handleReply = async () => {
+    if (!replyText.trim()) return
+    if (containsBannedWord(replyText)) {
+      setError('İçeriğiniz uygunsuz ifadeler içeriyor.')
+      return
+    }
+    setSubmitting(true)
+    setError('')
+    const { error: err } = await supabase.from('comments').insert({
+      post_id: postId,
+      content: replyText.trim(),
+      is_anon: isAnon,
+      user_id: userId,
+      parent_id: comment.id,
+      display_name: 'Anonim',
+      display_sector: null,
+      display_level: null,
+    })
+    if (!err) {
+      setReplyText('')
+      setShowReply(false)
+      onReplyAdded()
+    }
+    setSubmitting(false)
+  }
+
+  return (
+    <div className={depth > 0 ? 'ml-6 border-l-2 border-ink-100 pl-4' : ''}>
+      <div className="bg-white rounded-xl border border-ink-100 p-4 mb-2">
+        <div className="flex items-center gap-2 mb-2">
+          <div className="w-6 h-6 rounded-full bg-ink-100 flex items-center justify-center shrink-0">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <circle cx="6" cy="4.5" r="2.2" stroke="#888" strokeWidth="1.1"/>
+              <path d="M1.5 11c0-2.2 2-4 4.5-4s4.5 1.8 4.5 4" stroke="#888" strokeWidth="1.1" strokeLinecap="round"/>
+            </svg>
+          </div>
+          <div className="flex items-center gap-1.5 flex-wrap">
+            <span className="text-[12px] font-medium text-ink-700">
+              {comment.display_name ?? (comment.is_anon ? 'Anonim' : 'Üye')}
+            </span>
+            {comment.is_anon && (
+              <span className="text-[10px] px-1.5 py-0.5 rounded bg-ink-100 text-ink-500">gizli</span>
+            )}
+            {comment.display_sector && (
+              <span className="text-[10px] px-2 py-0.5 rounded-full bg-ink-900 text-white font-medium">{comment.display_sector}</span>
+            )}
+            {comment.display_level && (
+              <span className="text-[11px] text-ink-400">{comment.display_level}</span>
+            )}
+            <span className="text-[11px] text-ink-400">{new Date(comment.created_at).toLocaleDateString('tr-TR')}</span>
+          </div>
+        </div>
+        <p className="text-[13px] text-ink-700 leading-relaxed mb-2">{comment.content}</p>
+        <button
+          onClick={() => setShowReply(v => !v)}
+          className="text-[11px] text-ink-400 hover:text-brand-600 transition-colors"
+        >
+          ↩ Yanıtla
+        </button>
+
+        {showReply && (
+          <div className="mt-3 pt-3 border-t border-ink-50">
+            {error && <p className="text-[11px] text-red-500 mb-2">{error}</p>}
+            <textarea
+              value={replyText}
+              onChange={e => setReplyText(e.target.value)}
+              placeholder="Yanıtını yaz..."
+              rows={2}
+              className="w-full text-[12px] text-ink-700 placeholder-ink-300 outline-none resize-none mb-2 border border-ink-100 rounded-lg p-2"
+            />
+            <div className="flex items-center justify-between">
+              <button
+                onClick={() => setIsAnon(v => !v)}
+                className={`text-[11px] px-2 py-0.5 rounded-full border transition-colors ${isAnon ? 'bg-ink-100 text-ink-600 border-ink-200' : 'bg-ink-800 text-white border-ink-800'}`}
+              >
+                {isAnon ? 'Anonim' : 'Adımla'}
+              </button>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => setShowReply(false)}
+                  className="text-[11px] text-ink-400 px-3 py-1 rounded-md hover:bg-ink-50"
+                >
+                  İptal
+                </button>
+                <button
+                  onClick={handleReply}
+                  disabled={submitting || !replyText.trim()}
+                  className="text-[11px] font-medium text-white px-3 py-1 rounded-md bg-ink-900 hover:bg-ink-700 disabled:opacity-50"
+                >
+                  {submitting ? '...' : 'Gönder'}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {replies.map(reply => (
+        <CommentThread
+          key={reply.id}
+          comment={reply}
+          allComments={allComments}
+          depth={depth + 1}
+          postId={postId}
+          userId={userId}
+          onReplyAdded={onReplyAdded}
+        />
+      ))}
+    </div>
+  )
+}
+
 export default function PostPage() {
   const { id } = useParams()
   const router = useRouter()
@@ -15,17 +150,25 @@ export default function PostPage() {
   const [loading, setLoading] = useState(true)
   const [submitting, setSubmitting] = useState(false)
   const [copied, setCopied] = useState(false)
+  const [userId, setUserId] = useState<string>('')
+  const [commentError, setCommentError] = useState('')
+
+  const fetchComments = async () => {
+    const { data: c } = await supabase
+      .from('comments')
+      .select('*')
+      .eq('post_id', id)
+      .order('created_at', { ascending: true })
+    setComments(c ?? [])
+  }
 
   useEffect(() => {
     const fetchPost = async () => {
       const { data } = await supabase.from('posts').select('*').eq('id', id).single()
       setPost(data)
-      const { data: c } = await supabase
-        .from('comments')
-        .select('*, profiles(username, sector, level)')
-        .eq('post_id', id)
-        .order('created_at', { ascending: true })
-      setComments(c ?? [])
+      await fetchComments()
+      const { data: { user } } = await supabase.auth.getUser()
+      setUserId(user?.id ?? '8ee532b6-42a3-426b-850a-278ad90a2490')
       setLoading(false)
     }
     fetchPost()
@@ -33,22 +176,23 @@ export default function PostPage() {
 
   const handleComment = async () => {
     if (!comment.trim()) return
+    if (containsBannedWord(comment)) {
+      setCommentError('İçeriğiniz uygunsuz ifadeler içeriyor.')
+      return
+    }
     setSubmitting(true)
+    setCommentError('')
     const { data: { user } } = await supabase.auth.getUser()
     const { error } = await supabase.from('comments').insert({
       post_id: id,
       content: comment.trim(),
       is_anon: isAnon,
       user_id: user?.id ?? null,
+      display_name: 'Anonim',
     })
     if (!error) {
       setComment('')
-      const { data: c } = await supabase
-        .from('comments')
-        .select('*, profiles(username, sector, level)')
-        .eq('post_id', id)
-        .order('created_at', { ascending: true })
-      setComments(c ?? [])
+      await fetchComments()
     }
     setSubmitting(false)
   }
@@ -66,6 +210,8 @@ export default function PostPage() {
       setTimeout(() => setCopied(false), 2000)
     }
   }
+
+  const topLevelComments = comments.filter(c => !c.parent_id)
 
   if (loading) return (
     <>
@@ -113,12 +259,8 @@ export default function PostPage() {
           <div className="flex items-center gap-2 pt-4 border-t border-ink-50 flex-wrap">
             <span className="text-[11px] px-2.5 py-1 rounded-full bg-ink-100 text-ink-600 border border-ink-200">{post.tag}</span>
             <div className="flex-1" />
-            <button onClick={() => handleShare('whatsapp')} className="flex items-center gap-1.5 text-[12px] text-ink-500 px-3 py-1.5 rounded-full border border-ink-100 hover:bg-ink-50 transition-colors">
-              WhatsApp
-            </button>
-            <button onClick={() => handleShare('twitter')} className="flex items-center gap-1.5 text-[12px] text-ink-500 px-3 py-1.5 rounded-full border border-ink-100 hover:bg-ink-50 transition-colors">
-              X
-            </button>
+            <button onClick={() => handleShare('whatsapp')} className="flex items-center gap-1.5 text-[12px] text-ink-500 px-3 py-1.5 rounded-full border border-ink-100 hover:bg-ink-50 transition-colors">WhatsApp</button>
+            <button onClick={() => handleShare('twitter')} className="flex items-center gap-1.5 text-[12px] text-ink-500 px-3 py-1.5 rounded-full border border-ink-100 hover:bg-ink-50 transition-colors">X</button>
             <button onClick={() => handleShare('copy')} className="flex items-center gap-1.5 text-[12px] text-ink-500 px-3 py-1.5 rounded-full border border-ink-100 hover:bg-ink-50 transition-colors">
               {copied ? '✓ Kopyalandı' : 'Linki kopyala'}
             </button>
@@ -128,45 +270,25 @@ export default function PostPage() {
         <div className="mb-4">
           <h2 className="text-[13px] font-medium text-ink-700 mb-3">{comments.length} yorum</h2>
           <div className="space-y-3">
-            {comments.map(c => {
-              const displayName = c.display_name ?? (c.is_anon ? 'Anonim' : 'Üye')
-              const sector = c.display_sector ?? c.profiles?.sector
-              const level = c.display_level ?? c.profiles?.level
-
-              return (
-                <div key={c.id} className="bg-white rounded-xl border border-ink-100 p-4">
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className="w-6 h-6 rounded-full bg-ink-100 flex items-center justify-center shrink-0">
-                      <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                        <circle cx="6" cy="4.5" r="2.2" stroke="#888" strokeWidth="1.1"/>
-                        <path d="M1.5 11c0-2.2 2-4 4.5-4s4.5 1.8 4.5 4" stroke="#888" strokeWidth="1.1" strokeLinecap="round"/>
-                      </svg>
-                    </div>
-                    <div className="flex items-center gap-1.5 flex-wrap">
-                      <span className="text-[12px] font-medium text-ink-700">{displayName}</span>
-                      {c.is_anon && (
-                        <span className="text-[10px] px-1.5 py-0.5 rounded bg-ink-100 text-ink-500">gizli</span>
-                      )}
-                      {sector && (
-                        <span className="text-[10px] px-2 py-0.5 rounded-full bg-ink-900 text-white font-medium">{sector}</span>
-                      )}
-                      {level && (
-                        <span className="text-[11px] text-ink-400">{level}</span>
-                      )}
-                      <span className="text-[11px] text-ink-400">{new Date(c.created_at).toLocaleDateString('tr-TR')}</span>
-                    </div>
-                  </div>
-                  <p className="text-[13px] text-ink-700 leading-relaxed">{c.content}</p>
-                </div>
-              )
-            })}
-            {comments.length === 0 && (
+            {topLevelComments.map(c => (
+              <CommentThread
+                key={c.id}
+                comment={c}
+                allComments={comments}
+                depth={0}
+                postId={id as string}
+                userId={userId}
+                onReplyAdded={fetchComments}
+              />
+            ))}
+            {topLevelComments.length === 0 && (
               <p className="text-[13px] text-ink-400 text-center py-6">Henüz yorum yok. İlk yorumu sen yaz!</p>
             )}
           </div>
         </div>
 
         <div className="bg-white rounded-xl border border-ink-100 p-4">
+          {commentError && <p className="text-[11px] text-red-500 mb-2">{commentError}</p>}
           <textarea
             value={comment}
             onChange={e => setComment(e.target.value)}
