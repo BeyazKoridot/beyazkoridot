@@ -1,3 +1,4 @@
+max-w-6xl mx-auto px-4 py-6
 'use client'
 import { useState, useEffect } from 'react'
 import Navbar from '@/components/Navbar'
@@ -180,27 +181,6 @@ export default function HomePage() {
     <>
       <TopBanner label="Sponsorlu" headline="Kariyer koçluğu — ücretsiz ilk seans" sub="Beyaz yaka profesyonelleri için 1:1 mentorluk" cta="Başvur" variant="brand" />
       <Navbar onFilterChange={(f) => { setActiveFilter(f); setActiveSector(null); setActiveHashtag(null) }} />
-      <section style={{background: "#1a1a1a"}} className="text-center py-16 px-4">
-        <span style={{border: "0.5px solid rgba(255,255,255,0.25)", color: "rgba(255,255,255,0.6)", fontSize: "11px", fontWeight: 500, letterSpacing: "0.08em", padding: "4px 14px", borderRadius: "20px", display: "inline-block", marginBottom: "1.5rem"}}>BETA</span>
-        <h1 style={{fontSize: "2.4rem", fontWeight: 700, color: "#ffffff", lineHeight: 1.25, margin: "0 0 1rem"}}>
-          Türkiye'nin <span style={{fontStyle: "italic"}}>anonim</span> <span style={{fontSize: "1rem", fontStyle: "italic", fontWeight: 400, color: "rgba(255,255,255,0.35)"}}>(opsiyonel)</span><br/>beyaz yaka deneyim platformu
-        </h1>
-        <p style={{fontSize: "1rem", color: "rgba(255,255,255,0.55)", margin: "0 auto 2rem", maxWidth: "440px", lineHeight: 1.6}}>Özgeçmişte yazmadığın her şey için. Maaş, kültür, gerçek deneyim — anonim, kimse görmez.</p>
-        <div style={{display: "flex", gap: "12px", justifyContent: "center", marginBottom: "2.5rem", flexWrap: "wrap"}}>
-          <button style={{background: "#ffffff", color: "#1a1a1a", border: "none", padding: "10px 22px", borderRadius: "8px", fontSize: "14px", fontWeight: 500, cursor: "pointer"}}>Üye ol — ücretsiz</button>
-          <button style={{background: "transparent", color: "#ffffff", border: "0.5px solid rgba(255,255,255,0.3)", padding: "10px 22px", borderRadius: "8px", fontSize: "14px", cursor: "pointer"}}>Nasıl çalışır?</button>
-        </div>
-        <div style={{display: "flex", justifyContent: "center", gap: "2.5rem", marginBottom: "2rem", flexWrap: "wrap"}}>
-          <div style={{textAlign: "center"}}><div style={{fontSize: "1.4rem", fontWeight: 700, color: "#ffffff"}}>4.2K+</div><div style={{fontSize: "12px", color: "rgba(255,255,255,0.4)", marginTop: "2px"}}>paylaşım</div></div>
-          <div style={{textAlign: "center"}}><div style={{fontSize: "1.4rem", fontWeight: 700, color: "#ffffff"}}>1.8K+</div><div style={{fontSize: "12px", color: "rgba(255,255,255,0.4)", marginTop: "2px"}}>çalışanların paylaştığı maaş verisi</div></div>
-          <div style={{textAlign: "center"}}><div style={{fontSize: "1.4rem", fontWeight: 700, color: "#ffffff"}}>200+</div><div style={{fontSize: "12px", color: "rgba(255,255,255,0.4)", marginTop: "2px"}}>şirket</div></div>
-        </div>
-        <div style={{display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: "10px", maxWidth: "700px", margin: "0 auto"}}>
-          <div style={{background: "#2a2a2a", border: "0.5px solid rgba(255,255,255,0.08)", borderRadius: "12px", padding: "1rem", textAlign: "left"}}><div style={{fontSize: "20px", marginBottom: "0.6rem"}}>🔒</div><p style={{fontSize: "13px", fontWeight: 500, color: "#ffffff", margin: "0 0 4px"}}>%100 Anonim</p><p style={{fontSize: "12px", color: "rgba(255,255,255,0.45)", margin: 0, lineHeight: 1.5}}>Kimliğini gizleyerek paylaş, gerçek deneyimleri oku.</p></div>
-          <div style={{background: "#2a2a2a", border: "0.5px solid rgba(255,255,255,0.08)", borderRadius: "12px", padding: "1rem", textAlign: "left"}}><div style={{fontSize: "20px", marginBottom: "0.6rem"}}>💰</div><p style={{fontSize: "13px", fontWeight: 500, color: "#ffffff", margin: "0 0 4px"}}>Maaş Şeffaflığı</p><p style={{fontSize: "12px", color: "rgba(255,255,255,0.45)", margin: 0, lineHeight: 1.5}}>Çalışanların paylaştığı gerçek maaş aralıklarını gör.</p></div>
-          <div style={{background: "#2a2a2a", border: "0.5px solid rgba(255,255,255,0.08)", borderRadius: "12px", padding: "1rem", textAlign: "left"}}><div style={{fontSize: "20px", marginBottom: "0.6rem"}}>🏢</div><p style={{fontSize: "13px", fontWeight: 500, color: "#ffffff", margin: "0 0 4px"}}>Şirket Kültürü</p><p style={{fontSize: "12px", color: "rgba(255,255,255,0.45)", margin: 0, lineHeight: 1.5}}>200+ şirkette çalışan deneyimleri ve yorumları.</p></div>
-        </div>
-      </section>
       <div className="max-w-6xl mx-auto px-4 py-6">
         <div className="grid grid-cols-1 md:grid-cols-[200px_1fr_200px] gap-6">
 
