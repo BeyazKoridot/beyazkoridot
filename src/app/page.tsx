@@ -7,6 +7,7 @@ import SideAd from '@/components/SideAd'
 import Footer from '@/components/Footer'
 import { supabase } from '@/lib/supabase'
 import { TRENDING } from '@/lib/data'
+import UserAvatar from '@/components/UserAvatar'
 
 const FILTERS = ['Tümü', 'Gündem', 'Maaş', 'Burnout', 'Kariyer', 'Anket']
 const NAV_ITEMS = [
@@ -60,16 +61,15 @@ function PostCard({ post, onLike, onHashtagClick }: { post: any; onLike: (id: st
     <div onClick={() => window.location.href = `/post/${post.id}`}
       className="bg-white rounded-xl border border-ink-100 p-5 hover:border-ink-300 transition-colors cursor-pointer">
       <div className="flex items-center gap-3 mb-3">
-        <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${post.is_anon ? 'bg-ink-100' : 'bg-ink-900'}`}>
+        <div className="shrink-0">
           {post.is_anon ? (
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-              <circle cx="9" cy="7" r="3.5" stroke="#888" strokeWidth="1.3"/>
-              <path d="M2.5 16c0-3.5 3-6 6.5-6s6.5 2.5 6.5 6" stroke="#888" strokeWidth="1.3" strokeLinecap="round"/>
-            </svg>
+            <UserAvatar size={40} />
           ) : (
-            <span className="text-white text-[13px] font-semibold">
-              {post.author_name?.slice(0, 2).toUpperCase() ?? 'Ü'}
-            </span>
+            <div className="w-10 h-10 rounded-full flex items-center justify-center bg-ink-900">
+              <span className="text-white text-[13px] font-semibold">
+                {post.author_name?.slice(0, 2).toUpperCase() ?? 'Ü'}
+              </span>
+            </div>
           )}
         </div>
         <div className="flex-1 min-w-0">
