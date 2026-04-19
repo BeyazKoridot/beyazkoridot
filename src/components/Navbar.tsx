@@ -10,7 +10,6 @@ export default function Navbar({ onFilterChange }: Props) {
   const [user, setUser] = useState<User | null>(null)
   const [showAuth, setShowAuth] = useState(false)
   const [showBizMenu, setShowBizMenu] = useState(false)
-  const [showBizMenu, setShowBizMenu] = useState(false)
   const [authMode, setAuthMode] = useState<'login' | 'register'>('login')
   const [unreadCount, setUnreadCount] = useState(0)
   const [showNotifications, setShowNotifications] = useState(false)
