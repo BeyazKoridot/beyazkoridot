@@ -141,9 +141,16 @@ export default function ProfilPage() {
                 <a key={post.id} href={`/post/${post.id}`} className="block bg-white rounded-xl border border-ink-100 p-4 hover:border-ink-300 transition-colors">
                   <div className="flex items-center gap-2 mb-2">
                     <span className="text-[11px] px-2 py-0.5 rounded-full bg-ink-100 text-ink-600 border border-ink-200">{post.tag}</span>
+                    {post.is_anon && <span className="text-[10px] px-1.5 py-0.5 rounded bg-ink-100 text-ink-500">anonim</span>}
                     <span className="text-[11px] text-ink-400 ml-auto">{new Date(post.created_at).toLocaleDateString('tr-TR')}</span>
                   </div>
-                  <h3 className="text-[14px] font-medium text-ink-900 leading-snug">{post.title}</h3>
+                  <h3 className="text-[14px] font-medium text-ink-900 leading-snug mb-2">{post.title}</h3>
+                  {post.content && <p className="text-[12px] text-ink-500 line-clamp-2 mb-3">{post.content}</p>}
+                  <div className="flex items-center gap-3 text-[11px] text-ink-400 pt-2 border-t border-ink-50">
+                    <span>♥ {post.vote_count ?? 0}</span>
+                    <span>💬 {post.comment_count ?? 0}</span>
+                    {post.sector && <span className="ml-auto text-[10px] px-2 py-0.5 rounded-full bg-ink-900 text-white">{post.sector}</span>}
+                  </div>
                 </a>
               ))
             ) : posts.map(post => (
