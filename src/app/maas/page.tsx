@@ -280,7 +280,7 @@ export default function MaasPage() {
 
         <div className="px-4 py-3 bg-ink-50 rounded-lg border border-ink-100">
           <p className="text-[11px] text-ink-400 leading-relaxed">
-            <span className="font-medium text-ink-500">Yasal uyarı:</span> Bu sayfadaki maaş verileri, kullanıcıların gönüllü ve anonim olarak paylaştığı bilgilerden oluşmaktadır. Beyaz Koridot, söz konusu verilerin doğruluğunu, güncelliğini veya eksiksizliğini taahhüt etmez; yalnızca bilgilendirme amacıyla sunar. Veriler herhangi bir işveren veya çalışan hakkında bağlayıcı bir beyan niteliği taşımaz. Kullanım Koşulları ve Gizlilik Politikamız kapsamında değerlendirilir.
+            <span className="font-medium text-ink-500">Yasal uyarı:</span> Bu sayfadaki maaş verileri, kullanıcıların gönüllü ve anonim olarak paylaştığı bilgilerden oluşmaktadır. OTR Social, söz konusu verilerin doğruluğunu, güncelliğini veya eksiksizliğini taahhüt etmez; yalnızca bilgilendirme amacıyla sunar. Veriler herhangi bir işveren veya çalışan hakkında bağlayıcı bir beyan niteliği taşımaz. Kullanım Koşulları ve Gizlilik Politikamız kapsamında değerlendirilir.
           </p>
         </div>
       </div>
