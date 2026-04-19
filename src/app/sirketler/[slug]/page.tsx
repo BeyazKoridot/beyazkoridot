@@ -45,8 +45,22 @@ export default function SirketPage() {
   const tagCounts: Record<string, number> = {}
   posts.forEach(p => { if (p.tag) tagCounts[p.tag] = (tagCounts[p.tag] || 0) + 1 })
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: company.name,
+    description: company.description ?? `${company.name} çalışan yorumları ve deneyimleri`,
+    url: `https://otrsocial.com/sirketler/${company.slug}`,
+    aggregateRating: posts.length > 0 ? {
+      '@type': 'AggregateRating',
+      ratingValue: '4.0',
+      reviewCount: posts.length,
+    } : undefined,
+  }
+
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <Navbar />
       <div className="max-w-4xl mx-auto px-4 py-8 pb-24 md:pb-8">
         <a href="/sirketler" className="text-[13px] text-ink-400 hover:text-ink-700 mb-6 block">← Tüm şirketler</a>
