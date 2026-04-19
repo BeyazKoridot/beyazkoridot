@@ -17,6 +17,9 @@ const playfair = Playfair_Display({
 })
 
 export const metadata: Metadata = {
+  verification: {
+    google: 'XRB54ocIwzAl9Xhlj2yqtQBFJX3V_spiymPH0yZpMSI',
+  },
   title: 'OTR Social — Türkiye\'nin anonim beyaz yaka platformu',
   description: 'Off the record. Maaş, kariyer, çalışma kültürü — özgeçmişte yazmadığın her şey için.',
   keywords: ['beyaz yaka', 'maaş paylaşımı', 'kariyer', 'anonim platform', 'çalışma kültürü', 'burnout', 'türkiye iş dünyası'],
