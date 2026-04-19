@@ -17,20 +17,20 @@ const playfair = Playfair_Display({
 })
 
 export const metadata: Metadata = {
-  title: 'Platform — Beyaz yaka deneyim platformu',
-  description: 'Türkiye\'nin beyaz yakası için anonim deneyim platformu. Maaş, kariyer, çalışma kültürü — söyleyemediklerini burada söyle.',
+  title: 'OTR Social — Türkiye\'nin anonim beyaz yaka platformu',
+  description: 'Off the record. Maaş, kariyer, çalışma kültürü — özgeçmişte yazmadığın her şey için.',
   keywords: ['beyaz yaka', 'maaş paylaşımı', 'kariyer', 'anonim platform', 'çalışma kültürü', 'burnout', 'türkiye iş dünyası'],
-  authors: [{ name: 'Platform' }],
+  authors: [{ name: 'OTR Social' }],
   openGraph: {
-    title: 'Platform — Beyaz yaka deneyim platformu',
+    title: 'OTR Social — Türkiye\'nin anonim beyaz yaka platformu',
     description: 'Maaş, kariyer, çalışma kültürü — söyleyemediklerini burada söyle.',
     type: 'website',
     locale: 'tr_TR',
-    siteName: 'Platform',
+    siteName: 'OTR Social',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Platform — Beyaz yaka deneyim platformu',
+    title: 'OTR Social — Türkiye\'nin anonim beyaz yaka platformu',
     description: 'Maaş, kariyer, çalışma kültürü — söyleyemediklerini burada söyle.',
   },
   robots: {
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
-    title: 'Platform',
+    title: 'OTR Social',
   },
 }
 

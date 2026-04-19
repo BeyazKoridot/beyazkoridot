@@ -118,7 +118,7 @@ export default function SirketPage() {
 
         <div className="mt-6 px-4 py-3 bg-ink-50 rounded-lg border border-ink-100">
           <p className="text-[11px] text-ink-400 leading-relaxed">
-            Bu sayfadaki içerikler kullanıcılar tarafından anonim olarak paylaşılmıştır. Platform doğruluğunu taahhüt etmez. İçerik şikayeti için <a href="mailto:iletisim@beyazkoridot.com" className="underline">iletisim@beyazkoridot.com</a> adresine yazabilirsiniz.
+            Bu sayfadaki içerikler kullanıcılar tarafından anonim olarak paylaşılmıştır. Platform doğruluğunu taahhüt etmez. İçerik şikayeti için <a href="mailto:iletisim@otrsocial.com" className="underline">iletisim@otrsocial.com</a> adresine yazabilirsiniz.
           </p>
         </div>
       </div>
