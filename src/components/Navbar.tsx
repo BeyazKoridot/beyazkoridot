@@ -153,7 +153,7 @@ export default function Navbar({ onFilterChange }: Props) {
                   Giriş yap
                 </button>
                 <button
-                  onClick={() => { setAuthMode('register'); setShowAuth(true) }}
+                  id="navbar-register" onClick={() => { setAuthMode('register'); setShowAuth(true) }}
                   className="text-[12px] text-white px-4 py-1.5 rounded-md bg-ink-900 hover:bg-ink-700 font-medium transition-colors"
                 >
                   Üye ol

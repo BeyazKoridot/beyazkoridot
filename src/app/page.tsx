@@ -199,8 +199,8 @@ export default function HomePage() {
         </h1>
         <p style={{fontSize: "1rem", color: "rgba(255,255,255,0.55)", margin: "0 auto 2rem", maxWidth: "440px", lineHeight: 1.6}}>Özgeçmişte yazmadığın her şey için. Maaş, kültür, gerçek deneyim — anonim, kimse görmez.</p>
         <div style={{display: "flex", gap: "12px", justifyContent: "center", marginBottom: "2.5rem", flexWrap: "wrap"}}>
-          <button style={{background: "#ffffff", color: "#1a1a1a", border: "none", padding: "10px 22px", borderRadius: "8px", fontSize: "14px", fontWeight: 500, cursor: "pointer"}}>Üye ol — ücretsiz</button>
-          <button style={{background: "transparent", color: "#ffffff", border: "0.5px solid rgba(255,255,255,0.3)", padding: "10px 22px", borderRadius: "8px", fontSize: "14px", cursor: "pointer"}}>Nasıl çalışır?</button>
+          <button onClick={() => { const el = document.getElementById('navbar-register'); if(el) (el as HTMLElement).click() }} style={{background: "#ffffff", color: "#1a1a1a", border: "none", padding: "10px 22px", borderRadius: "8px", fontSize: "14px", fontWeight: 500, cursor: "pointer"}}>Üye ol — ücretsiz</button>
+          <a href="/hakkinda" style={{background: "transparent", color: "#ffffff", border: "0.5px solid rgba(255,255,255,0.3)", padding: "10px 22px", borderRadius: "8px", fontSize: "14px", cursor: "pointer", textDecoration: "none", display: "inline-block"}}>Nasıl çalışır?</a>
         </div>
         <div style={{display: "flex", justifyContent: "center", gap: "2.5rem", marginBottom: "2rem", flexWrap: "wrap"}}>
           <div style={{textAlign: "center"}}><div style={{fontSize: "1.4rem", fontWeight: 700, color: "#ffffff"}}>4.2K+</div><div style={{fontSize: "12px", color: "rgba(255,255,255,0.4)", marginTop: "2px"}}>paylaşım</div></div>
