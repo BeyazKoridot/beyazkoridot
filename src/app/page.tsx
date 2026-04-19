@@ -117,7 +117,7 @@ function PostCard({ post, onLike, onHashtagClick, currentUserId, likedPostIds }:
           <svg width="13" height="13" viewBox="0 0 13 13" fill={liked ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="1.2">
             <path d="M6.5 11S1 7.5 1 4a2.5 2.5 0 015 0 2.5 2.5 0 015 0c0 3.5-5.5 7-5.5 7z"/>
           </svg>
-          {(post.vote_count ?? 0) + (liked ? 1 : 0)}
+          {post.vote_count ?? 0}
         </button>
         <button onClick={(e) => { e.stopPropagation(); window.location.href = `/post/${post.id}` }}
           className="flex items-center gap-1 text-[12px] text-ink-400 px-2.5 py-1 rounded-full border border-ink-100 hover:bg-ink-50 transition-colors">
