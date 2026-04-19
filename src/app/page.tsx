@@ -175,12 +175,10 @@ export default function HomePage() {
     const isLiked = likedPostIds.has(id)
     if (isLiked) {
       await supabase.from('post_likes').delete().eq('post_id', id).eq('user_id', user.id)
-      await supabase.from('posts').update({ vote_count: Math.max(0, (posts.find(p => p.id === id)?.vote_count ?? 1) - 1) }).eq('id', id)
       setLikedPostIds(prev => { const next = new Set(prev); next.delete(id); return next })
       setPosts(prev => prev.map(p => p.id === id ? { ...p, vote_count: Math.max(0, p.vote_count - 1) } : p))
     } else {
       await supabase.from('post_likes').insert({ post_id: id, user_id: user.id })
-      await supabase.from('posts').update({ vote_count: (posts.find(p => p.id === id)?.vote_count ?? 0) + 1 }).eq('id', id)
       setLikedPostIds(prev => new Set([...prev, id]))
       setPosts(prev => prev.map(p => p.id === id ? { ...p, vote_count: p.vote_count + 1 } : p))
     }
