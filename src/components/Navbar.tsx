@@ -81,7 +81,8 @@ export default function Navbar({ onFilterChange }: Props) {
                 <button key={item.label} onClick={() => onFilterChange?.(item.filter)} className="text-[13px] text-ink-600 hover:text-ink-900 px-3 py-1.5 rounded-md hover:bg-ink-50 transition-colors">{item.label}</button>
               )
             ))}
-          <a href="/sirketler" className="text-[13px] text-ink-600 hover:text-ink-900 px-3 py-1.5 rounded-md hover:bg-ink-50 transition-colors">Sirketler</a>
+          <a href="/sirketler" className="text-[13px] text-ink-600 hover:text-ink-900 px-3 py-1.5 rounded-md hover:bg-ink-50 transition-colors">Şirketler</a>
+              <a href="/fiyatlandirma" className="text-[13px] text-ink-600 hover:text-ink-900 px-3 py-1.5 rounded-md hover:bg-ink-50 transition-colors">Şirketler için</a>
           </nav>
 
           <div className="flex items-center gap-2">
