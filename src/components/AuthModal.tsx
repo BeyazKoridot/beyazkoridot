@@ -12,6 +12,7 @@ export default function AuthModal({ onClose, defaultMode = 'login' }: Props) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [displayName, setDisplayName] = useState('')
+  const [accountType, setAccountType] = useState<'individual' | 'company'>('individual')
   const [sektor, setSektor] = useState('')
   const [unvan, setUnvan] = useState('')
   const [kvkk, setKvkk] = useState(false)
@@ -102,6 +103,22 @@ export default function AuthModal({ onClose, defaultMode = 'login' }: Props) {
         </div>
 
         <div className="space-y-3 mb-4">
+          {mode === 'register' && (
+            <div className="grid grid-cols-2 gap-2 mb-1">
+              <button
+                onClick={() => setAccountType('individual')}
+                className={`flex flex-col items-start p-3 rounded-xl border transition-colors ${accountType === 'individual' ? 'border-ink-900 bg-ink-50' : 'border-ink-200'}`}>
+                <span className="text-[13px] font-medium text-ink-900 mb-0.5">Çalışan</span>
+                <span className="text-[11px] text-ink-400">Anonim paylaş</span>
+              </button>
+              <button
+                onClick={() => setAccountType('company')}
+                className={`flex flex-col items-start p-3 rounded-xl border transition-colors ${accountType === 'company' ? 'border-ink-900 bg-ink-50' : 'border-ink-200'}`}>
+                <span className="text-[13px] font-medium text-ink-900 mb-0.5">Şirket</span>
+                <span className="text-[11px] text-ink-400">Profil oluştur</span>
+              </button>
+            </div>
+          )}
           {mode === 'register' && (
             <input
               type="text"
