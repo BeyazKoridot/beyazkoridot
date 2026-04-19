@@ -60,6 +60,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="google-site-verification" content="XRB54ocIwzAl9Xhlj2yqtQBFJX3V_spiymPH0yZpMSI" />
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-0Y0L4TTQG6"></script>
+        <script dangerouslySetInnerHTML={{__html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-0Y0L4TTQG6');`}} />
       </head>
       <body className={`${dmSans.variable} ${playfair.variable} font-sans bg-ink-50 text-ink-900 pb-16 md:pb-0`}>
         {children}
