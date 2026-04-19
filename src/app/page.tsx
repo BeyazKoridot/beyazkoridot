@@ -28,12 +28,11 @@ const TAG_COLORS: Record<string, string> = {
   'Anket': 'bg-gray-100 text-gray-700 border-gray-200',
 }
 
-function PostCard({ post, onLike, onHashtagClick }: { post: any; onLike: (id: string) => void; onHashtagClick: (tag: string) => void }) {
-  const [liked, setLiked] = useState(false)
+function PostCard({ post, onLike, onHashtagClick, currentUserId, likedPostIds }: { post: any; onLike: (id: string) => void; onHashtagClick: (tag: string) => void; currentUserId?: string; likedPostIds?: Set<string> }) {
+  const liked = likedPostIds?.has(post.id) ?? false
 
   const handleLike = (e: React.MouseEvent) => {
     e.stopPropagation()
-    setLiked(v => !v)
     onLike(post.id)
   }
 
@@ -158,8 +157,33 @@ export default function HomePage() {
 
   useEffect(() => { fetchPosts() }, [])
 
+  const [likedPostIds, setLikedPostIds] = useState<Set<string>>(new Set())
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => {
+      if (data.user) {
+        supabase.from('post_likes').select('post_id').eq('user_id', data.user.id).then(({ data: likes }) => {
+          if (likes) setLikedPostIds(new Set(likes.map((l: any) => l.post_id)))
+        })
+      }
+    })
+  }, [])
+
   const handleLike = async (id: string) => {
-    await supabase.from('posts').update({ vote_count: posts.find(p => p.id === id)?.vote_count + 1 }).eq('id', id)
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) return
+    const isLiked = likedPostIds.has(id)
+    if (isLiked) {
+      await supabase.from('post_likes').delete().eq('post_id', id).eq('user_id', user.id)
+      await supabase.from('posts').update({ vote_count: Math.max(0, (posts.find(p => p.id === id)?.vote_count ?? 1) - 1) }).eq('id', id)
+      setLikedPostIds(prev => { const next = new Set(prev); next.delete(id); return next })
+      setPosts(prev => prev.map(p => p.id === id ? { ...p, vote_count: Math.max(0, p.vote_count - 1) } : p))
+    } else {
+      await supabase.from('post_likes').insert({ post_id: id, user_id: user.id })
+      await supabase.from('posts').update({ vote_count: (posts.find(p => p.id === id)?.vote_count ?? 0) + 1 }).eq('id', id)
+      setLikedPostIds(prev => new Set([...prev, id]))
+      setPosts(prev => prev.map(p => p.id === id ? { ...p, vote_count: p.vote_count + 1 } : p))
+    }
   }
 
   const handleHashtagClick = (tag: string) => {
@@ -300,7 +324,7 @@ export default function HomePage() {
             ) : filteredPosts.length > 0 ? (
               <div className="space-y-3">
                 {filteredPosts.map(post => (
-                  <PostCard key={post.id} post={post} onLike={handleLike} onHashtagClick={handleHashtagClick} />
+                  <PostCard key={post.id} post={post} onLike={handleLike} onHashtagClick={handleHashtagClick} likedPostIds={likedPostIds} />
                 ))}
               </div>
             ) : (
