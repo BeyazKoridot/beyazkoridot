@@ -82,8 +82,7 @@ export default function Navbar({ onFilterChange }: Props) {
                 <button key={item.label} onClick={() => onFilterChange?.(item.filter)} className="text-[13px] text-ink-600 hover:text-ink-900 px-3 py-1.5 rounded-md hover:bg-ink-50 transition-colors">{item.label}</button>
               )
             ))}
-          <a href="/sirketler" className="text-[13px] text-ink-600 hover:text-ink-900 px-3 py-1.5 rounded-md hover:bg-ink-50 transition-colors">Şirketler</a>
-              <div className="relative" onMouseEnter={() => setShowBizMenu(true)} onMouseLeave={() => setShowBizMenu(false)}>
+          <div className="relative" onMouseEnter={() => setShowBizMenu(true)} onMouseLeave={() => setShowBizMenu(false)}>
               <button className="flex items-center gap-1 text-[13px] text-ink-600 hover:text-ink-900 px-3 py-1.5 rounded-md hover:bg-ink-50 transition-colors font-medium">
                 İşletmeler için
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M2 4l4 4 4-4"/></svg>

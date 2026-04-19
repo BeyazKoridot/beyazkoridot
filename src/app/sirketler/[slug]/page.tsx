@@ -35,6 +35,10 @@ export default function SirketPage() {
       })
   }, [slug])
 
+  useEffect(() => {
+    if (company) document.title = `${company.name} Çalışan Yorumları | OTR Social`
+  }, [company])
+
   if (loading) return <><Navbar /><div className="max-w-4xl mx-auto px-4 py-12 text-center text-ink-400 text-[13px]">Yükleniyor...</div></>
   if (!company) return <><Navbar /><div className="max-w-4xl mx-auto px-4 py-12 text-center text-ink-400 text-[13px]">Şirket bulunamadı.</div></>
 

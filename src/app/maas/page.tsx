@@ -33,11 +33,19 @@ export default function MaasPage() {
   const hbarChart = useRef(null as any)
 
   useEffect(() => {
+    document.title = 'Maaş Rehberi — Anonim Maaş Verileri | OTR Social'
+  }, [])
+
+  useEffect(() => {
     supabase.auth.getUser().then(({ data }) => setUser(data.user))
     supabase.from('salary_data').select('*').order('created_at', { ascending: false }).then(({ data }) => {
       setSalaries(data || [])
       setLoading(false)
     })
+  }, [])
+
+  useEffect(() => {
+    document.title = 'Maaş Rehberi — Anonim Maaş Verileri | OTR Social'
   }, [])
 
   useEffect(() => {
@@ -74,6 +82,10 @@ export default function MaasPage() {
     const group = filtered.filter(s => s.sektor === sk)
     return Math.round(group.reduce((a, s) => a + s.maas, 0) / group.length)
   })
+
+  useEffect(() => {
+    document.title = 'Maaş Rehberi — Anonim Maaş Verileri | OTR Social'
+  }, [])
 
   useEffect(() => {
     if (!chartReady || loading || !yeterliVeri) return
