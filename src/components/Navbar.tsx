@@ -58,10 +58,10 @@ export default function Navbar({ onFilterChange }: Props) {
   }
 
   const navItems = [
-    { label: 'Ana Akış', filter: 'Tümü' },
+    { label: 'Ana Sayfa', filter: 'Tümü', href: '/' },
     { label: 'Maaş Rehberi', filter: 'Maaş', href: '/maas' },
-    { label: 'Kariyer', filter: 'Kariyer' },
-    { label: 'Anketler', filter: 'Anket' },
+    { label: 'İş İlanları', filter: 'İlan', href: '/is-ilanlari' },
+    { label: 'Şirket Deneyimleri', filter: 'Şirket', href: '/sirketler' },
   ]
 
   return (
