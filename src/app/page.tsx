@@ -126,6 +126,13 @@ function PostCard({ post, onLike, onHashtagClick, currentUserId, likedPostIds }:
           </svg>
           {post.comment_count ?? 0}
         </button>
+        <span className="flex items-center gap-1 text-[12px] text-ink-400 px-2.5 py-1">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" strokeWidth="1.2">
+            <ellipse cx="6.5" cy="6.5" rx="5.5" ry="3.5"/>
+            <circle cx="6.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/>
+          </svg>
+          {post.view_count ?? 0}
+        </span>
         <button onClick={handleShare}
           className="flex items-center text-[12px] text-ink-400 px-2.5 py-1 rounded-full border border-ink-100 hover:bg-ink-50 transition-colors">
           <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" strokeWidth="1.2">
