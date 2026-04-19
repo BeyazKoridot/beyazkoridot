@@ -131,10 +131,7 @@ export default function ProfilPage() {
             Beğendiklerim ({likedPosts.length})
           </button>
         </div>
-        {posts.length === 0 ? (
-          <div className="text-center py-12 text-ink-400 text-[13px]">Henüz gönderin yok. İlk gönderini yaz!</div>
-        ) : (
-          <div className="space-y-3">
+        <div className="space-y-3">
             {activeTab === 'likes' ? (
               likedPosts.length === 0 ? (
                 <div className="text-center py-12 bg-white rounded-xl border border-ink-100">
@@ -177,7 +174,6 @@ export default function ProfilPage() {
               </div>
             ))}
           </div>
-        )}
       </div>
       <Footer />
     </>
