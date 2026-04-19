@@ -8,6 +8,7 @@ import Footer from '@/components/Footer'
 import { supabase } from '@/lib/supabase'
 import { TRENDING } from '@/lib/data'
 import UserAvatar from '@/components/UserAvatar'
+import AuthModal from '@/components/AuthModal'
 
 const FILTERS = ['Tümü', 'Gündem', 'Maaş', 'Burnout', 'Kariyer', 'Anket']
 const NAV_ITEMS = [
@@ -140,6 +141,7 @@ function PostCard({ post, onLike, onHashtagClick }: { post: any; onLike: (id: st
 
 export default function HomePage() {
   const [activeFilter, setActiveFilter] = useState('Tümü')
+  const [showAuthModal, setShowAuthModal] = useState(false)
   const [activeTab, setActiveTab] = useState('kesffet')
   const [kategoriler, setKategoriler] = useState<string[]>(typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('kategoriler') || '[]') : [])
   const [activeSector, setActiveSector] = useState<string | null>(null)
@@ -190,6 +192,7 @@ export default function HomePage() {
 
   return (
     <>
+      {showAuthModal && <AuthModal onClose={() => setShowAuthModal(false)} defaultMode="register" />}
       <TopBanner label="Sponsorlu" headline="Kariyer koçluğu — ücretsiz ilk seans" sub="Beyaz yaka profesyonelleri için 1:1 mentorluk" cta="Başvur" variant="brand" />
       <Navbar onFilterChange={(f) => { setActiveFilter(f); setActiveSector(null); setActiveHashtag(null) }} />
       <section style={{background: "#1a1a1a"}} className="text-center py-16 px-8 w-full">
@@ -199,7 +202,7 @@ export default function HomePage() {
         </h1>
         <p style={{fontSize: "1rem", color: "rgba(255,255,255,0.55)", margin: "0 auto 2rem", maxWidth: "440px", lineHeight: 1.6}}>Özgeçmişte yazmadığın her şey için. Maaş, kültür, gerçek deneyim — anonim, kimse görmez.</p>
         <div style={{display: "flex", gap: "12px", justifyContent: "center", marginBottom: "2.5rem", flexWrap: "wrap"}}>
-          <button onClick={() => { const el = document.getElementById('navbar-register'); if(el) (el as HTMLElement).click() }} style={{background: "#ffffff", color: "#1a1a1a", border: "none", padding: "10px 22px", borderRadius: "8px", fontSize: "14px", fontWeight: 500, cursor: "pointer"}}>Üye ol — ücretsiz</button>
+          <button onClick={() => setShowAuthModal(true)} style={{background: "#ffffff", color: "#1a1a1a", border: "none", padding: "10px 22px", borderRadius: "8px", fontSize: "14px", fontWeight: 500, cursor: "pointer"}}>Üye ol — ücretsiz</button>
           <a href="/hakkinda" style={{background: "transparent", color: "#ffffff", border: "0.5px solid rgba(255,255,255,0.3)", padding: "10px 22px", borderRadius: "8px", fontSize: "14px", cursor: "pointer", textDecoration: "none", display: "inline-block"}}>Nasıl çalışır?</a>
         </div>
         <div style={{display: "flex", justifyContent: "center", gap: "2.5rem", marginBottom: "2rem", flexWrap: "wrap"}}>
