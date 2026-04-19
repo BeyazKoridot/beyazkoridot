@@ -32,12 +32,6 @@ function CommentThread({ comment, allComments, depth, postId, userId, onReplyAdd
   const replies = allComments.filter(c => c.parent_id === comment.id)
 
   useEffect(() => {
-    if (post?.id) {
-      supabase.from('posts').update({ view_count: (post.view_count ?? 0) + 1 }).eq('id', post.id)
-    }
-  }, [post?.id])
-
-  useEffect(() => {
     const fetchLikes = async () => {
       const { count } = await supabase
         .from('likes')
@@ -222,15 +216,12 @@ export default function PostPage() {
   }
 
   useEffect(() => {
-    if (post?.id) {
-      supabase.from('posts').update({ view_count: (post.view_count ?? 0) + 1 }).eq('id', post.id)
-    }
-  }, [post?.id])
-
-  useEffect(() => {
     const fetchPost = async () => {
       const { data } = await supabase.from('posts').select('*').eq('id', id).single()
       setPost(data)
+      if (data?.id) {
+        supabase.from('posts').update({ view_count: (data.view_count ?? 0) + 1 }).eq('id', data.id)
+      }
       await fetchComments()
       const { data: { user } } = await supabase.auth.getUser()
       setUserId(user?.id ?? '8ee532b6-42a3-426b-850a-278ad90a2490')
