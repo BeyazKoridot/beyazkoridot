@@ -12,6 +12,8 @@ export default function ProfilPage() {
   const [loading, setLoading] = useState(true)
   const [showAuth, setShowAuth] = useState(false)
   const [deleting, setDeleting] = useState<string | null>(null)
+  const [likedPosts, setLikedPosts] = useState<any[]>([])
+  const [activeTab, setActiveTab] = useState<'posts' | 'likes'>('posts')
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -22,6 +24,12 @@ export default function ProfilPage() {
       setProfile(p)
       const { data: myPosts } = await supabase.from('posts').select('*').eq('user_id', user.id).order('created_at', { ascending: false })
       setPosts(myPosts ?? [])
+      const { data: likes } = await supabase.from('post_likes').select('post_id').eq('user_id', user.id)
+      if (likes && likes.length > 0) {
+        const likedIds = likes.map((l: any) => l.post_id)
+        const { data: likedPostsData } = await supabase.from('posts').select('*').in('id', likedIds).order('created_at', { ascending: false })
+        setLikedPosts(likedPostsData ?? [])
+      }
       setLoading(false)
     }
     fetchProfile()
@@ -111,12 +119,37 @@ export default function ProfilPage() {
           </div>
         </div>
 
-        <h2 className="text-[15px] font-semibold text-ink-900 mb-3">Gönderilerin</h2>
+        <div className="flex gap-1.5 p-1 bg-ink-100 rounded-xl mb-4">
+          <button
+            onClick={() => setActiveTab('posts')}
+            className={`flex-1 py-2 text-[13px] font-medium rounded-lg transition-colors ${activeTab === 'posts' ? 'bg-white text-ink-900 border border-ink-200' : 'text-ink-400 hover:text-ink-600'}`}>
+            Gönderilerim ({posts.length})
+          </button>
+          <button
+            onClick={() => setActiveTab('likes')}
+            className={`flex-1 py-2 text-[13px] font-medium rounded-lg transition-colors ${activeTab === 'likes' ? 'bg-white text-ink-900 border border-ink-200' : 'text-ink-400 hover:text-ink-600'}`}>
+            Beğendiklerim ({likedPosts.length})
+          </button>
+        </div>
         {posts.length === 0 ? (
           <div className="text-center py-12 text-ink-400 text-[13px]">Henüz gönderin yok. İlk gönderini yaz!</div>
         ) : (
           <div className="space-y-3">
-            {posts.map(post => (
+            {activeTab === 'likes' ? (
+              likedPosts.length === 0 ? (
+                <div className="text-center py-12 bg-white rounded-xl border border-ink-100">
+                  <p className="text-[13px] text-ink-400">Henüz beğendiğin bir gönderi yok.</p>
+                </div>
+              ) : likedPosts.map(post => (
+                <a key={post.id} href={`/post/${post.id}`} className="block bg-white rounded-xl border border-ink-100 p-4 hover:border-ink-300 transition-colors">
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-[11px] px-2 py-0.5 rounded-full bg-ink-100 text-ink-600 border border-ink-200">{post.tag}</span>
+                    <span className="text-[11px] text-ink-400 ml-auto">{new Date(post.created_at).toLocaleDateString('tr-TR')}</span>
+                  </div>
+                  <h3 className="text-[14px] font-medium text-ink-900 leading-snug">{post.title}</h3>
+                </a>
+              ))
+            ) : posts.map(post => (
               <div key={post.id} className="bg-white rounded-xl border border-ink-100 p-4 hover:border-ink-300 transition-colors">
                 <div className="flex items-center gap-2 mb-2">
                   <span className="text-[11px] px-2 py-0.5 rounded-full bg-ink-100 text-ink-600 border border-ink-200">{post.tag}</span>
