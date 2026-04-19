@@ -29,6 +29,26 @@ const TAG_COLORS: Record<string, string> = {
 }
 
 function PostCard({ post, onLike, onHashtagClick, currentUserId, likedPostIds }: { post: any; onLike: (id: string) => void; onHashtagClick: (tag: string) => void; currentUserId?: string; likedPostIds?: Set<string> }) {
+  if (post.is_sponsored) return (
+    <div className="bg-white rounded-xl p-4 mb-3 relative" style={{border: '1.5px solid #BA7517'}}>
+      <div className="absolute -top-px right-3 text-white text-[10px] font-medium px-2 py-0.5 rounded-b-md" style={{background: '#BA7517'}}>SPONSORLU</div>
+      <div className="flex items-center gap-2.5 mt-1.5 mb-3">
+        <div className="w-10 h-10 rounded-lg bg-blue-50 border border-ink-100 flex items-center justify-center shrink-0">
+          <span className="text-[15px] font-medium text-blue-700">{post.sponsor_name?.[0] ?? 'S'}</span>
+        </div>
+        <div>
+          <p className="text-[13px] font-medium text-ink-900">{post.sponsor_name}</p>
+          <p className="text-[11px] text-ink-400">Sponsorlu içerik</p>
+        </div>
+      </div>
+      <h3 className="text-[14px] font-medium text-ink-900 mb-1.5 leading-snug">{post.title}</h3>
+      {post.content && <p className="text-[12px] text-ink-500 mb-3 line-clamp-2">{post.content}</p>}
+      <div className="flex items-center justify-between pt-2.5 border-t border-ink-50">
+        <span className="text-[11px] text-ink-400">{post.sponsor_url}</span>
+        {post.sponsor_url && <a href={post.sponsor_url} target="_blank" className="text-[12px] font-medium text-white px-3 py-1.5 rounded-lg" style={{background: '#185FA5'}}>Devamını gör</a>}
+      </div>
+    </div>
+  )
   const liked = likedPostIds?.has(post.id) ?? false
 
   const handleLike = (e: React.MouseEvent) => {
