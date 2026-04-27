@@ -71,7 +71,7 @@ export default function Navbar({ onFilterChange }: Props) {
             <div className="w-7 h-7 rounded-lg bg-ink-900 flex items-center justify-center">
               <span className="text-white text-[10px] font-bold">OTR</span>
             </div>
-            <span className="font-semibold text-ink-900 text-[15px]">OTR Social</span>
+            <span style={{display:"flex", alignItems:"baseline", gap:"5px"}}><span className="font-semibold text-ink-900 text-[15px]">Off The Record</span><span className="text-[11px] text-ink-400">Social</span></span>
           </a>
 
           <nav className="hidden md:flex items-center gap-1">
