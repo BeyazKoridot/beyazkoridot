@@ -50,6 +50,7 @@ function PostCard({ post, onLike, onHashtagClick, currentUserId, likedPostIds }:
     </div>
   )
   const liked = likedPostIds?.has(post.id) ?? false
+  const [imgError, setImgError] = useState(false)
 
   const handleLike = (e: React.MouseEvent) => {
     e.stopPropagation()

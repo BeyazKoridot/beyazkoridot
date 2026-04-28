@@ -23,12 +23,30 @@ export default function WriteBox({ onPost }: { onPost?: () => void }) {
   const [showNewCompany, setShowNewCompany] = useState(false)
   const [companyName, setCompanyName] = useState('')
   const [companies, setCompanies] = useState([] as any[])
+  const [imageUrl, setImageUrl] = useState('')
+  const [imageUploading, setImageUploading] = useState(false)
 
   useState(() => {
     import('@/lib/supabase').then(({ supabase }) => {
       supabase.from('companies').select('id, name').eq('is_approved', true).order('name').then(({ data }) => setCompanies(data || []))
     })
   })
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    if (file.size > 5 * 1024 * 1024) { setError('Görsel 5MB'dan küçük olmalı'); return }
+    setImageUploading(true)
+    const ext = file.name.split('.').pop()
+    const fileName = `${Date.now()}.${ext}`
+    const { data, error: uploadError } = await supabase.storage
+      .from('post-images')
+      .upload(fileName, file, { contentType: file.type })
+    if (uploadError) { setError('Görsel yüklenemedi'); setImageUploading(false); return }
+    const { data: urlData } = supabase.storage.from('post-images').getPublicUrl(fileName)
+    setImageUrl(urlData.publicUrl)
+    setImageUploading(false)
+  }
 
   const handleHashtagKey = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' || e.key === ' ' || e.key === ',') {
@@ -90,6 +108,7 @@ export default function WriteBox({ onPost }: { onPost?: () => void }) {
         company_id: companyId || null,
         company_name: companyName || null,
         author_name: profile?.username || null,
+        image_url: imageUrl || null,
       })
 
       if (!err) {
@@ -186,6 +205,20 @@ export default function WriteBox({ onPost }: { onPost?: () => void }) {
             />
           </div>
 
+          <div className="mt-3">
+            {imageUrl ? (
+              <div className="relative inline-block">
+                <img src={imageUrl} alt="preview" className="max-h-48 rounded-lg border border-ink-200 object-cover" />
+                <button onClick={() => setImageUrl('')} className="absolute top-1 right-1 w-5 h-5 bg-ink-900 text-white rounded-full text-[10px] flex items-center justify-center">✕</button>
+              </div>
+            ) : (
+              <label className="flex items-center gap-1.5 text-[12px] text-ink-400 cursor-pointer hover:text-ink-600 w-fit">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.3"><rect x="1" y="1" width="12" height="12" rx="2"/><circle cx="4.5" cy="4.5" r="1.2" fill="currentColor" stroke="none"/><path d="M1 9l3-3 2.5 2.5L9 6l4 4"/></svg>
+                {imageUploading ? 'Yükleniyor...' : 'Görsel ekle'}
+                <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" disabled={imageUploading} />
+              </label>
+            )}
+          </div>
           {error && <p className="text-[11px] text-red-500 mt-1.5">{error}</p>}
 
           <div className="mt-3 pt-3 border-t border-ink-50 flex items-center justify-between flex-wrap gap-2">
