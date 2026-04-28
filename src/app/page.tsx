@@ -28,7 +28,7 @@ const TAG_COLORS: Record<string, string> = {
   'Anket': 'bg-gray-100 text-gray-700 border-gray-200',
 }
 
-function PostCard({ post, onLike, onHashtagClick, currentUserId, likedPostIds }: { post: any; onLike: (id: string) => void; onHashtagClick: (tag: string) => void; currentUserId?: string; likedPostIds?: Set<string> }) {
+function PostCard({ post, onLike, onHashtagClick, currentUserId, likedPostIds, onQuote }: { post: any; onLike: (id: string) => void; onHashtagClick: (tag: string) => void; currentUserId?: string; likedPostIds?: Set<string>; onQuote?: (post: any) => void }) {
   if (post.is_sponsored) return (
     <div className="bg-white rounded-xl p-4 mb-3 relative" style={{border: '1.5px solid #BA7517'}}>
       <div className="absolute -top-px right-3 text-white text-[10px] font-medium px-2 py-0.5 rounded-b-md" style={{background: '#BA7517'}}>SPONSORLU</div>
@@ -51,6 +51,12 @@ function PostCard({ post, onLike, onHashtagClick, currentUserId, likedPostIds }:
   )
   const liked = likedPostIds?.has(post.id) ?? false
   const [imgError, setImgError] = useState(false)
+  const [quotedPost, setQuotedPost] = useState<any>(null)
+  useEffect(() => {
+    if (post.quote_post_id) {
+      supabase.from('posts').select('*').eq('id', post.quote_post_id).single().then(({ data }) => setQuotedPost(data))
+    }
+  }, [post.quote_post_id])
 
   const handleLike = (e: React.MouseEvent) => {
     e.stopPropagation()
@@ -154,6 +160,11 @@ function PostCard({ post, onLike, onHashtagClick, currentUserId, likedPostIds }:
           </svg>
           {post.view_count ?? 0}
         </span>
+        <button onClick={(e) => { e.stopPropagation(); onQuote?.(post) }}
+          className="flex items-center gap-1 text-[12px] text-ink-400 px-2.5 py-1 rounded-full border border-ink-100 hover:bg-ink-50 transition-colors">
+          <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.3"><path d="M1 4h7a3 3 0 010 6H5"/><path d="M3 2L1 4l2 2"/></svg>
+          {post.quote_count > 0 ? post.quote_count : ''}
+        </button>
         <button onClick={handleShare}
           className="flex items-center text-[12px] text-ink-400 px-2.5 py-1 rounded-full border border-ink-100 hover:bg-ink-50 transition-colors">
           <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" strokeWidth="1.2">
@@ -169,6 +180,10 @@ function PostCard({ post, onLike, onHashtagClick, currentUserId, likedPostIds }:
 export default function HomePage() {
   const [activeFilter, setActiveFilter] = useState('Tümü')
   const [showAuthModal, setShowAuthModal] = useState(false)
+  const [quotePost, setQuotePost] = useState<any>(null)
+  const [quoteText, setQuoteText] = useState('')
+  const [quoteAnon, setQuoteAnon] = useState(true)
+  const [quoteLoading, setQuoteLoading] = useState(false)
   const [activeTab, setActiveTab] = useState('kesffet')
   const [kategoriler, setKategoriler] = useState<string[]>(typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('kategoriler') || '[]') : [])
   const [activeSector, setActiveSector] = useState<string | null>(null)
@@ -196,6 +211,29 @@ export default function HomePage() {
       }
     })
   }, [])
+
+  const handleQuoteSubmit = async () => {
+    if (!quotePost || !quoteText.trim()) return
+    setQuoteLoading(true)
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) { setShowAuthModal(true); setQuoteLoading(false); return }
+    const { data: profile } = await supabase.from('profiles').select('username').eq('id', user.id).single()
+    await supabase.from('posts').insert({
+      title: quoteText.trim(),
+      is_anon: quoteAnon,
+      author_name: quoteAnon ? null : profile?.username,
+      user_id: user.id,
+      quote_post_id: quotePost.id,
+      vote_count: 0, comment_count: 0, view_count: 0, quote_count: 0,
+      tag: quotePost.tag,
+      sector: quotePost.sector,
+    })
+    await supabase.from('posts').update({ quote_count: (quotePost.quote_count ?? 0) + 1 }).eq('id', quotePost.id)
+    setQuotePost(null)
+    setQuoteText('')
+    fetchPosts()
+    setQuoteLoading(false)
+  }
 
   const handleLike = async (id: string) => {
     const { data: { user } } = await supabase.auth.getUser()
@@ -243,6 +281,42 @@ export default function HomePage() {
   return (
     <>
       {showAuthModal && <AuthModal onClose={() => setShowAuthModal(false)} defaultMode="register" />}
+      {quotePost && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40" onClick={() => setQuotePost(null)}>
+          <div className="bg-white rounded-2xl p-5 w-full max-w-md mx-4" onClick={e => e.stopPropagation()}>
+            <div className="flex items-center justify-between mb-4">
+              <p className="text-[15px] font-medium text-ink-900">Alıntıla</p>
+              <button onClick={() => setQuotePost(null)} className="text-ink-400 hover:text-ink-700">✕</button>
+            </div>
+            <textarea
+              value={quoteText}
+              onChange={e => setQuoteText(e.target.value)}
+              placeholder="Yorumunu ekle..."
+              rows={3}
+              autoFocus
+              className="w-full text-[13px] text-ink-800 placeholder-ink-300 outline-none resize-none mb-3"
+            />
+            <div className="border border-ink-100 rounded-xl p-3 mb-4 bg-ink-50">
+              <div className="flex items-center gap-2 mb-2">
+                <div className="w-5 h-5 rounded bg-ink-900 flex items-center justify-center shrink-0">
+                  <span className="text-white text-[8px] font-bold">OTR</span>
+                </div>
+                <span className="text-[12px] font-medium text-ink-700">{quotePost.author_name ?? 'Anonim'}</span>
+                <span className="text-[11px] text-ink-400">· {quotePost.sector}</span>
+              </div>
+              <p className="text-[12px] text-ink-600 line-clamp-2">{quotePost.title}</p>
+            </div>
+            <div className="flex items-center justify-between">
+              <button onClick={() => setQuoteAnon(v => !v)} className={`text-[12px] px-2.5 py-1 rounded-full border transition-colors ${quoteAnon ? 'bg-ink-100 text-ink-600 border-ink-200' : 'bg-ink-900 text-white border-ink-900'}`}>
+                {quoteAnon ? 'Anonim' : 'Adımla'}
+              </button>
+              <button onClick={handleQuoteSubmit} disabled={quoteLoading || !quoteText.trim()} className="text-[12px] font-medium text-white px-4 py-1.5 rounded-lg bg-ink-900 hover:bg-ink-700 disabled:opacity-50 transition-colors">
+                {quoteLoading ? 'Paylaşılıyor...' : 'Paylaş'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       <TopBanner label="Sponsorlu" headline="Kariyer koçluğu — ücretsiz ilk seans" sub="Beyaz yaka profesyonelleri için 1:1 mentorluk" cta="Başvur" variant="brand" />
       <Navbar onFilterChange={(f) => { setActiveFilter(f); setActiveSector(null); setActiveHashtag(null) }} />
       <section style={{background: "#1a1a1a"}} className="text-center py-16 px-8 w-full">
@@ -350,7 +424,7 @@ export default function HomePage() {
             ) : filteredPosts.length > 0 ? (
               <div className="space-y-3">
                 {filteredPosts.map(post => (
-                  <PostCard key={post.id} post={post} onLike={handleLike} onHashtagClick={handleHashtagClick} likedPostIds={likedPostIds} />
+                  <PostCard key={post.id} post={post} onLike={handleLike} onHashtagClick={handleHashtagClick} likedPostIds={likedPostIds} onQuote={setQuotePost} />
                 ))}
               </div>
             ) : (
