@@ -19,19 +19,19 @@ export default async function sitemap() {
 
   return [
     {
-      url: 'https://otrsocial.com',
+      url: 'https://www.otrsocial.com',
       lastModified: new Date(),
       changeFrequency: 'daily' as const,
       priority: 1,
     },
     {
-      url: 'https://otrsocial.com/sirketler',
+      url: 'https://www.otrsocial.com/sirketler',
       lastModified: new Date(),
       changeFrequency: 'daily' as const,
       priority: 0.9,
     },
     {
-      url: 'https://otrsocial.com/maas',
+      url: 'https://www.otrsocial.com/maas',
       lastModified: new Date(),
       changeFrequency: 'daily' as const,
       priority: 0.8,
