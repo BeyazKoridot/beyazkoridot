@@ -6,11 +6,20 @@ import { useState } from 'react'
 export default function IletisimPage() {
   const [form, setForm] = useState({ ad: '', email: '', konu: '', mesaj: '' })
   const [sent, setSent] = useState(false)
+  const [loading, setLoading] = useState(false)
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!form.ad || !form.email || !form.mesaj) return
-    window.location.href = `mailto:info@otrsocial.com?subject=${encodeURIComponent(form.konu || 'İletişim')}&body=${encodeURIComponent(`Ad: ${form.ad}\nE-posta: ${form.email}\n\n${form.mesaj}`)}`
-    setSent(true)
+    setLoading(true)
+    try {
+      const res = await fetch('/api/iletisim', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form)
+      })
+      if (res.ok) setSent(true)
+    } catch (e) {}
+    setLoading(false)
   }
 
   return (
@@ -41,7 +50,7 @@ export default function IletisimPage() {
             {sent ? (
               <div className="text-center py-8">
                 <p className="text-[15px] font-medium text-ink-900 mb-2">Teşekkürler!</p>
-                <p className="text-[13px] text-ink-400">Mail uygulamanız açıldı, mesajınızı gönderin.</p>
+                <p className="text-[13px] text-ink-400">Mesajınız iletildi, en kısa sürede dönüş yapacağız.</p>
               </div>
             ) : (
               <>
@@ -55,7 +64,9 @@ export default function IletisimPage() {
                   <option>Diğer</option>
                 </select>
                 <textarea placeholder="Mesajınız *" rows={5} value={form.mesaj} onChange={e => setForm({...form, mesaj: e.target.value})} className="w-full text-[13px] px-3 py-2.5 border border-ink-200 rounded-xl bg-ink-50 text-ink-900 outline-none focus:border-ink-400 transition-colors resize-none" />
-                <button onClick={handleSubmit} className="w-full py-2.5 text-[13px] font-medium text-white bg-ink-900 rounded-xl hover:bg-ink-700 transition-colors">Gönder</button>
+                <button onClick={handleSubmit} disabled={loading} className="w-full py-2.5 text-[13px] font-medium text-white bg-ink-900 rounded-xl hover:bg-ink-700 disabled:opacity-50 transition-colors">
+                  {loading ? 'Gönderiliyor...' : 'Gönder'}
+                </button>
               </>
             )}
           </div>
