@@ -64,7 +64,7 @@ export default function AuthModal({ onClose, defaultMode = 'login', isForced = f
 
   if (step === 'profile') {
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm" onClick={isForced ? undefined : onClose}>
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-md" onClick={isForced ? undefined : onClose}>
         <div className="bg-white rounded-2xl w-full max-w-sm mx-4 overflow-hidden" onClick={e => e.stopPropagation()}>
           <div className="bg-ink-900 px-6 py-4 flex items-center justify-between">
             <div className="flex items-center gap-2">
