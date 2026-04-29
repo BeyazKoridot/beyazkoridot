@@ -181,6 +181,19 @@ export default function HomePage() {
   const [activeFilter, setActiveFilter] = useState('Tümü')
   const [showAuthModal, setShowAuthModal] = useState(false)
   const [isForced, setIsForced] = useState(false)
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) {
+        setTimeout(() => {
+          setShowAuthModal(true)
+          setIsForced(true)
+        }, 8000)
+      }
+    }
+    checkAuth()
+  }, [])
   const [quotePost, setQuotePost] = useState<any>(null)
   const [quoteText, setQuoteText] = useState('')
   const [quoteAnon, setQuoteAnon] = useState(true)
