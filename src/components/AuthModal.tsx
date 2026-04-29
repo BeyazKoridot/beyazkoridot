@@ -5,9 +5,9 @@ import { supabase } from '@/lib/supabase'
 const SEKTORLER = ['Teknoloji', 'Finans', 'Pazarlama', 'Danışmanlık', 'İnsan kaynakları', 'E-ticaret', 'Medya', 'Hukuk', 'Diğer']
 const UNVANLAR = ['Stajyer', 'Junior', 'Mid-level', 'Senior', 'Lead', 'Manager', 'Director', 'C-level']
 
-type Props = { onClose: () => void; defaultMode?: 'login' | 'register' }
+type Props = { onClose: () => void; defaultMode?: 'login' | 'register'; isForced?: boolean }
 
-export default function AuthModal({ onClose, defaultMode = 'login' }: Props) {
+export default function AuthModal({ onClose, defaultMode = 'login', isForced = false }: Props) {
   const [mode, setMode] = useState<'login' | 'register'>(defaultMode)
   const [step, setStep] = useState<'auth' | 'profile'>('auth')
   const [userId, setUserId] = useState('')
@@ -64,7 +64,7 @@ export default function AuthModal({ onClose, defaultMode = 'login' }: Props) {
 
   if (step === 'profile') {
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50" onClick={onClose}>
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm" onClick={isForced ? undefined : onClose}>
         <div className="bg-white rounded-2xl w-full max-w-sm mx-4 overflow-hidden" onClick={e => e.stopPropagation()}>
           <div className="bg-ink-900 px-6 py-4 flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -120,7 +120,7 @@ export default function AuthModal({ onClose, defaultMode = 'login' }: Props) {
               </div>
               <span className="text-[13px] font-medium text-white">Off The Record <span className="text-white/35 font-normal">Social</span></span>
             </div>
-            <button onClick={onClose} className="text-white/30 hover:text-white/60 text-lg">✕</button>
+            {!isForced && <button onClick={onClose} className="text-white/30 hover:text-white/60 text-lg">✕</button>}
           </div>
           {mode === 'register' && (
             <>

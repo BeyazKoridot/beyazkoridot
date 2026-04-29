@@ -180,6 +180,7 @@ function PostCard({ post, onLike, onHashtagClick, currentUserId, likedPostIds, o
 export default function HomePage() {
   const [activeFilter, setActiveFilter] = useState('Tümü')
   const [showAuthModal, setShowAuthModal] = useState(false)
+  const [isForced, setIsForced] = useState(false)
   const [quotePost, setQuotePost] = useState<any>(null)
   const [quoteText, setQuoteText] = useState('')
   const [quoteAnon, setQuoteAnon] = useState(true)
@@ -280,7 +281,7 @@ export default function HomePage() {
 
   return (
     <>
-      {showAuthModal && <AuthModal onClose={() => setShowAuthModal(false)} defaultMode="register" />}
+      {showAuthModal && <AuthModal onClose={() => { if (!isForced) setShowAuthModal(false) }} defaultMode="register" isForced={isForced} />}
       {quotePost && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40" onClick={() => setQuotePost(null)}>
           <div className="bg-white rounded-2xl p-5 w-full max-w-md mx-4" onClick={e => e.stopPropagation()}>
