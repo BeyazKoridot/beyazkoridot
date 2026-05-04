@@ -9,6 +9,7 @@ import { supabase } from '@/lib/supabase'
 import { TRENDING } from '@/lib/data'
 import UserAvatar from '@/components/UserAvatar'
 import AuthModal from '@/components/AuthModal'
+import ProductTour from '@/components/ProductTour'
 
 const FILTERS = ['Tümü', 'Gündem', 'Maaş', 'Burnout', 'Kariyer', 'Anket']
 const NAV_ITEMS = [
@@ -180,6 +181,7 @@ function PostCard({ post, onLike, onHashtagClick, currentUserId, likedPostIds, o
 export default function HomePage() {
   const [activeFilter, setActiveFilter] = useState('Tümü')
   const [showAuthModal, setShowAuthModal] = useState(false)
+  const [showTour, setShowTour] = useState(false)
   const [isForced, setIsForced] = useState(false)
 
   useEffect(() => {
@@ -190,6 +192,9 @@ export default function HomePage() {
           setShowAuthModal(true)
           setIsForced(true)
         }, 8000)
+      } else {
+        const tourDone = localStorage.getItem('otr_tour_done')
+        if (!tourDone) setShowTour(true)
       }
     }
     checkAuth()
@@ -295,6 +300,7 @@ export default function HomePage() {
   return (
     <>
       {showAuthModal && <AuthModal onClose={() => { if (!isForced) setShowAuthModal(false) }} defaultMode="register" isForced={isForced} />}
+      {showTour && <ProductTour onDone={() => setShowTour(false)} />}
       {quotePost && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40" onClick={() => setQuotePost(null)}>
           <div className="bg-white rounded-2xl p-5 w-full max-w-md mx-4" onClick={e => e.stopPropagation()}>
@@ -431,7 +437,7 @@ export default function HomePage() {
               </div>
             )}
 
-            <WriteBox onPost={fetchPosts} />
+            <div id="writebox"><WriteBox onPost={fetchPosts} /></div>
 
             {loading ? (
               <div className="text-center py-12 text-ink-400 text-[13px]">Yükleniyor...</div>

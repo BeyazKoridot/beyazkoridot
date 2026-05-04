@@ -58,9 +58,9 @@ export default function Navbar({ onFilterChange }: Props) {
 
   const navItems = [
     { label: 'Ana Sayfa', filter: 'Tümü', href: '/' },
-    { label: 'Maaş Rehberi', filter: 'Maaş', href: '/maas' },
+    { label: 'Maaş Rehberi', filter: 'Maaş', href: '/maas', id: 'maas-link' },
     { label: 'İş İlanları', filter: 'İlan', href: '/is-ilanlari' },
-    { label: 'Şirket Deneyimleri', filter: 'Şirket', href: '/sirketler' },
+    { label: 'Şirket Deneyimleri', filter: 'Şirket', href: '/sirketler', id: 'sirket-link' },
   ]
 
   return (
@@ -77,7 +77,7 @@ export default function Navbar({ onFilterChange }: Props) {
           <nav className="hidden md:flex items-center gap-1">
             {navItems.map(item => (
               item.href ? (
-                <a key={item.label} href={item.href} className="text-[13px] text-ink-600 hover:text-ink-900 px-3 py-1.5 rounded-md hover:bg-ink-50 transition-colors">{item.label}</a>
+                <a key={item.label} id={item.id} href={item.href} className="text-[13px] text-ink-600 hover:text-ink-900 px-3 py-1.5 rounded-md hover:bg-ink-50 transition-colors">{item.label}</a>
               ) : (
                 <button key={item.label} onClick={() => onFilterChange?.(item.filter)} className="text-[13px] text-ink-600 hover:text-ink-900 px-3 py-1.5 rounded-md hover:bg-ink-50 transition-colors">{item.label}</button>
               )
