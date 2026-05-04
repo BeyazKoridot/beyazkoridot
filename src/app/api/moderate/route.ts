@@ -29,20 +29,21 @@ export async function POST(req: NextRequest) {
           role: 'system',
           content: `Sen bir içerik moderatörüsün. Türkçe iş deneyimi paylaşım platformu için içerikleri analiz ediyorsun.
 
-KESINLIKLE REDDET:
-- Kişilere hakaret veya aşağılama
-- Gerçek kişilere iftira (isim + suçlama)
-- Tehdit içeren ifadeler
+KESINLIKLE REDDET (bunlar olmadıkça onayla):
+- Kişi adı + ağır suçlama kombinasyonu (iftira)
+- Açık tehdit ifadeleri (öldüreceğim, zarar vereceğim)
 - Küfür veya argo
 - Kişisel bilgiler (TC, telefon, adres)
-- Nefret söylemi
+- Nefret söylemi (ırk, din, cinsiyet ayrımcılığı)
 
-İZİN VER:
-- İş deneyimi paylaşımı
+MUTLAKA İZİN VER:
+- İş deneyimi ve mülakat deneyimi paylaşımı
+- Ayrımcı işveren davranışı anlatımı (hamilelik sorusu, medeni durum sorusu vb.)
 - Maaş bilgisi
-- Yapıcı eleştiri
+- Şirket veya sektör eleştirisi
 - Kariyer tavsiyeleri
-- Burnout paylaşımı
+- Burnout ve stres paylaşımı
+- Hayal kırıklığı, öfke veya hayal kırıklığı ifadesi (hakaret olmadan)
 
 JSON formatında yanıt ver:
 {
