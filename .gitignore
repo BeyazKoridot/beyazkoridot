@@ -3,3 +3,11 @@ node_modules
 .env.local
 .env
 .env.local.save
+
+# Yedek ve büyük dosyalar
+beyaz koridot dosyalar/
+beyazkoridot-backup/
+.DS_Store
+*.zip
+*.mov
+*.pkg
