@@ -349,15 +349,14 @@ export default function HomePage() {
           <button onClick={() => setShowAuthModal(true)} style={{background: "#ffffff", color: "#1a1a1a", border: "none", padding: "10px 22px", borderRadius: "8px", fontSize: "14px", fontWeight: 500, cursor: "pointer"}}>Üye ol — ücretsiz</button>
           <a href="/hakkinda" style={{background: "transparent", color: "#ffffff", border: "0.5px solid rgba(255,255,255,0.3)", padding: "10px 22px", borderRadius: "8px", fontSize: "14px", cursor: "pointer", textDecoration: "none", display: "inline-block"}}>Nasıl çalışır?</a>
         </div>
-        <div style={{display: "flex", justifyContent: "center", gap: "2.5rem", marginBottom: "2rem", flexWrap: "wrap"}}>
-          <div style={{textAlign: "center"}}><div style={{fontSize: "1.4rem", fontWeight: 700, color: "#ffffff"}}>4.2K+</div><div style={{fontSize: "12px", color: "rgba(255,255,255,0.4)", marginTop: "2px"}}>paylaşım</div></div>
-          <div style={{textAlign: "center"}}><div style={{fontSize: "1.4rem", fontWeight: 700, color: "#ffffff"}}>1.8K+</div><div style={{fontSize: "12px", color: "rgba(255,255,255,0.4)", marginTop: "2px"}}>çalışanların paylaştığı maaş verisi</div></div>
-          <div style={{textAlign: "center"}}><div style={{fontSize: "1.4rem", fontWeight: 700, color: "#ffffff"}}>200+</div><div style={{fontSize: "12px", color: "rgba(255,255,255,0.4)", marginTop: "2px"}}>şirket</div></div>
+        <div style={{textAlign: "center", marginBottom: "2rem"}}>
+          <div style={{fontSize: "1.1rem", fontWeight: 600, color: "#ffffff", marginBottom: "6px"}}>Yeni başladık.</div>
+          <div style={{fontSize: "13px", color: "rgba(255,255,255,0.5)", lineHeight: 1.6, maxWidth: "420px", margin: "0 auto"}}>İlk 1000 üye arasına katıl. Beta dönemindeki üyelere özel rozet ve erken erişim ayrıcalıkları.</div>
         </div>
         <div style={{display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: "10px", maxWidth: "700px", margin: "0 auto"}}>
           <div style={{background: "#2a2a2a", border: "0.5px solid rgba(255,255,255,0.08)", borderRadius: "12px", padding: "1rem", textAlign: "left"}}><div style={{fontSize: "20px", marginBottom: "0.6rem"}}>🔒</div><p style={{fontSize: "13px", fontWeight: 500, color: "#ffffff", margin: "0 0 4px"}}>%100 Anonim</p><p style={{fontSize: "12px", color: "rgba(255,255,255,0.45)", margin: 0, lineHeight: 1.5}}>Kimliğini gizleyerek paylaş, gerçek deneyimleri oku.</p></div>
           <div style={{background: "#2a2a2a", border: "0.5px solid rgba(255,255,255,0.08)", borderRadius: "12px", padding: "1rem", textAlign: "left"}}><div style={{fontSize: "20px", marginBottom: "0.6rem"}}>💰</div><p style={{fontSize: "13px", fontWeight: 500, color: "#ffffff", margin: "0 0 4px"}}>Maaş Şeffaflığı</p><p style={{fontSize: "12px", color: "rgba(255,255,255,0.45)", margin: 0, lineHeight: 1.5}}>Çalışanların paylaştığı gerçek maaş aralıklarını gör.</p></div>
-          <div style={{background: "#2a2a2a", border: "0.5px solid rgba(255,255,255,0.08)", borderRadius: "12px", padding: "1rem", textAlign: "left"}}><div style={{fontSize: "20px", marginBottom: "0.6rem"}}>🏢</div><p style={{fontSize: "13px", fontWeight: 500, color: "#ffffff", margin: "0 0 4px"}}>Şirket Kültürü</p><p style={{fontSize: "12px", color: "rgba(255,255,255,0.45)", margin: 0, lineHeight: 1.5}}>200+ şirkette çalışan deneyimleri ve yorumları.</p></div>
+          <div style={{background: "#2a2a2a", border: "0.5px solid rgba(255,255,255,0.08)", borderRadius: "12px", padding: "1rem", textAlign: "left"}}><div style={{fontSize: "20px", marginBottom: "0.6rem"}}>🏢</div><p style={{fontSize: "13px", fontWeight: 500, color: "#ffffff", margin: "0 0 4px"}}>Şirket Kültürü</p><p style={{fontSize: "12px", color: "rgba(255,255,255,0.45)", margin: 0, lineHeight: 1.5}}>Çalışanların paylaştığı şirket içi gerçek deneyimler.</p></div>
         </div>
       </section>
       <div className="max-w-6xl mx-auto px-4 py-6">
