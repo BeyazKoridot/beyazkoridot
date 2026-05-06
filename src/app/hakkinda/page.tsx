@@ -7,6 +7,13 @@ export default function HakkindaPage() {
       <Navbar />
       <div className="max-w-2xl mx-auto px-4 py-16">
 
+        <div className="mb-8 flex items-center gap-3 px-4 py-3 rounded-xl bg-amber-50 border border-amber-200">
+          <span className="text-[10px] font-semibold tracking-wider text-amber-800 bg-amber-100 px-2 py-1 rounded-md">BETA</span>
+          <p className="text-[13px] text-amber-900 leading-relaxed">
+            Beta döneminde sayılı üye alıyoruz. Erken üyeler için özel rozet.
+          </p>
+        </div>
+
         <div className="mb-12">
           <h1 className="text-[32px] font-bold text-ink-900 leading-tight mb-4">
             LinkedIn'de söyleyemediklerini burada söyle.
