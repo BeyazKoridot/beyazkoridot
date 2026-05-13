@@ -29,7 +29,7 @@ export default function KVKKPage() {
 
           <section>
             <h2 className="text-[16px] font-semibold text-ink-900 mb-3">3. Anonim Paylaşım</h2>
-            <p>Kullanıcılar içeriklerini anonim olarak paylaşmayı tercih ettiğinde, paylaşım diğer kullanıcılara anonim görünür. Ancak teknik altyapı gereği sistem tarafında kullanıcı kimliği ile içerik arasında ilişki bulunabilir. Bu bilgi hiçbir koşulda üçüncü şahıslarla paylaşılmaz.</p>
+            <p>Kullanıcılar içeriklerini anonim olarak paylaşmayı tercih ettiğinde, paylaşım diğer kullanıcılara anonim görünür. Anonim paylaşımlar teknik altyapı düzeyinde de kullanıcı kimliğiyle ilişkilendirilemez; bu bağ kriptografik olarak koparılmıştır. Aşırı kullanımı önlemek amacıyla günlük post sayısı sınırlandırılmış olup bu denetim kullanıcı kimliğini açığa çıkarmayan tek yönlü şifreleme yöntemiyle yapılmaktadır.</p>
           </section>
 
           <section>

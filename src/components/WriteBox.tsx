@@ -98,12 +98,12 @@ export default function WriteBox({ onPost }: { onPost?: () => void }) {
 
       if (isAnon) {
         const tokenRes = await fetch('/api/anonymous-token', { method: 'POST' })
+        const tokenData = await tokenRes.json()
         if (!tokenRes.ok) {
-          setError('Anonim post için giriş yapmalısın.')
+          setError(tokenData.error ?? 'Anonim post için giriş yapmalısın.')
           setLoading(false)
           return
         }
-        const tokenData = await tokenRes.json()
         rateToken = tokenData.rate_token
         rateTokenExpiresAt = tokenData.rate_token_expires_at
       }

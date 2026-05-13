@@ -38,19 +38,30 @@ export async function POST(req: NextRequest) {
   }
 
   // 3. Bugünün tarihini al (UTC, gün bazında)
-  // Aynı kullanıcı aynı gün aynı token alacak — bu rate limiting'in temeli
-  const today = new Date().toISOString().slice(0, 10) // "2026-05-07" gibi
+  const today = new Date().toISOString().slice(0, 10)
 
-  // 4. HMAC token üret
-  // HMAC(secret, user_id + ":" + tarih) → geri çevrilemez 64 karakterlik string
+  // 4. HMAC token üret — aynı kullanıcı aynı gün aynı token alır
   const tokenPayload = `${user.id}:${today}`
   const rateToken = createHmac('sha256', SECRET).update(tokenPayload).digest('hex')
 
-  // 5. Expires_at hesapla — 30 gün sonra
+  // 5. Rate limit kontrolü: günde max 5 anonim post
+  const { count } = await supabase
+    .from('posts')
+    .select('*', { count: 'exact', head: true })
+    .eq('rate_token', rateToken)
+
+  if ((count ?? 0) >= 5) {
+    return NextResponse.json(
+      { error: 'Günlük anonim post limitine ulaştın (5/5). Yarın tekrar deneyebilirsin.' },
+      { status: 429 }
+    )
+  }
+
+  // 6. Expires_at hesapla — 30 gün sonra
   const expiresAt = new Date()
   expiresAt.setDate(expiresAt.getDate() + 30)
 
-  // 6. Frontend'e dön
+  // 7. Frontend'e dön
   return NextResponse.json({
     rate_token: rateToken,
     rate_token_expires_at: expiresAt.toISOString(),
