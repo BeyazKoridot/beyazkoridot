@@ -93,6 +93,21 @@ export default function WriteBox({ onPost }: { onPost?: () => void }) {
       const { data: profile } = await supabase.from('profiles').select('username').eq('id', user?.id ?? '').single()
       const allHashtags = [...new Set([...hashtags, ...(modResult.hashtags ?? [])])]
 
+      let rateToken: string | null = null
+      let rateTokenExpiresAt: string | null = null
+
+      if (isAnon) {
+        const tokenRes = await fetch('/api/anonymous-token', { method: 'POST' })
+        if (!tokenRes.ok) {
+          setError('Anonim post için giriş yapmalısın.')
+          setLoading(false)
+          return
+        }
+        const tokenData = await tokenRes.json()
+        rateToken = tokenData.rate_token
+        rateTokenExpiresAt = tokenData.rate_token_expires_at
+      }
+
       const { error: err } = await supabase.from('posts').insert({
         title: title.trim(),
         content: content.trim(),
@@ -109,6 +124,8 @@ export default function WriteBox({ onPost }: { onPost?: () => void }) {
         company_name: companyName || null,
         author_name: profile?.username || null,
         image_url: imageUrl || null,
+        rate_token: isAnon ? rateToken : null,
+        rate_token_expires_at: isAnon ? rateTokenExpiresAt : null,
       })
 
       if (!err) {
