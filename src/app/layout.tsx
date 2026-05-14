@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import { DM_Sans, Playfair_Display } from 'next/font/google'
 import './globals.css'
 import BottomNav from '@/components/BottomNav'
-import Footer from '@/components/Footer'
 
 const dmSans = DM_Sans({
   subsets: ['latin'],
@@ -66,7 +65,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className={`${dmSans.variable} ${playfair.variable} font-sans bg-ink-50 text-ink-900 pb-16 md:pb-0`}>
         {children}
-        <Footer />
         <BottomNav />
       </body>
     </html>

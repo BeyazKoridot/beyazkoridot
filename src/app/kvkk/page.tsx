@@ -1,4 +1,5 @@
 import Navbar from '@/components/Navbar'
+import Footer from '@/components/Footer'
 
 export default function KVKKPage() {
   return (
@@ -77,6 +78,7 @@ export default function KVKKPage() {
 
         </div>
       </div>
+      <Footer />
     </>
   )
 }

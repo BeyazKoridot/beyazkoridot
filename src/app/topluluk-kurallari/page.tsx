@@ -1,5 +1,6 @@
 import Navbar from '@/components/Navbar'
 import Link from 'next/link'
+import Footer from '@/components/Footer'
 
 export const metadata = {
   title: 'Topluluk Kuralları | OTR Social',
@@ -123,6 +124,7 @@ export default function ToplulukKurallariPage() {
 
         </div>
       </div>
+      <Footer />
     </>
   )
 }

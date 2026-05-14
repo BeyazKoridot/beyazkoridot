@@ -1,4 +1,5 @@
 import Navbar from '@/components/Navbar'
+import Footer from '@/components/Footer'
 
 export default function KullanimKosullariPage() {
   return (
@@ -35,7 +36,8 @@ export default function KullanimKosullariPage() {
 
           <section>
             <h2 className="text-[16px] font-semibold text-ink-900 mb-3">4. Anonim Paylaşım</h2>
-            <p>Anonim paylaşım seçeneği, içeriğin diğer kullanıcılara anonim görünmesi anlamına gelir. Yasal zorunluluk halinde yetkili mercilere bilgi verilebilir.</p>
+            <p className="mb-2">Anonim paylaşım seçeneği, içeriğin diğer kullanıcılara anonim görünmesi anlamına gelir. Platform, teknik mimarisi gereği anonim paylaşımları yazarıyla ilişkilendirmez; bu bağ, sistem tasarımı düzeyinde koparılmıştır.</p>
+            <p>Bununla birlikte, geçerli bir mahkeme kararı veya yasal zorunluluk hâlinde platform, mevcut teknik kayıtlar (ör. IP adresi, istek zamanı) kapsamında yetkili mercilerle iş birliği yapabilir. Platform bu kayıtları aktif olarak saklamaz; ancak üçüncü taraf altyapı sağlayıcılarının (Vercel, Supabase) kendi politikaları doğrultusunda tuttuğu loglar bu kapsamın dışındadır.</p>
           </section>
 
           <section>
@@ -55,6 +57,7 @@ export default function KullanimKosullariPage() {
 
         </div>
       </div>
+      <Footer />
     </>
   )
 }
