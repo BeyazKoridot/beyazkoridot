@@ -34,19 +34,12 @@ export default function ProfilPage() {
       setLoading(false)
     }
 
-    supabase.auth.getUser().then(({ data: { user: u } }) => {
-      if (u) {
-        setUser(u)
-        loadProfile(u.id)
-      } else {
-        setLoading(false)
-      }
-    })
-
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       if (session?.user) {
         setUser(session.user)
         loadProfile(session.user.id)
+      } else if (_event === 'INITIAL_SESSION' || _event === 'SIGNED_OUT') {
+        if (!loaded) setLoading(false)
       }
     })
 

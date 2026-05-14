@@ -14,9 +14,10 @@ export default function BottomNav() {
   const notifRef = useRef(null)
 
   useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => {
-      if (data.user) fetchNotifications(data.user.id)
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session?.user) fetchNotifications(session.user.id)
     })
+    return () => subscription.unsubscribe()
   }, [])
 
   const fetchNotifications = async (userId: string) => {

@@ -18,10 +18,6 @@ export default function Navbar({ onFilterChange }: Props) {
   const notifRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => {
-      setUser(data.user)
-      if (data.user) fetchNotifications(data.user.id)
-    })
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null)
       if (session?.user) fetchNotifications(session.user.id)
