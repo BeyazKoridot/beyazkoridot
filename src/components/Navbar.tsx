@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect, useRef } from 'react'
-import { supabase } from '@/lib/supabase'
+import Link from 'next/link'
+import { supabaseBrowser as supabase } from '@/lib/supabase-browser'
 import AuthModal from './AuthModal'
 import type { User } from '@supabase/supabase-js'
 
@@ -183,12 +184,12 @@ export default function Navbar({ onFilterChange }: Props) {
                     </div>
                   )}
                 </div>
-                <a href="/profil" className="flex items-center gap-2 px-3 py-1.5 rounded-md hover:bg-ink-50 transition-colors">
+                <Link href="/profil" className="flex items-center gap-2 px-3 py-1.5 rounded-md hover:bg-ink-50 transition-colors">
                   <div className="w-7 h-7 rounded-full bg-ink-900 flex items-center justify-center">
                     <span className="text-white text-[11px] font-medium">{user.email?.slice(0, 2).toUpperCase()}</span>
                   </div>
                   <span className="hidden md:block text-[13px] text-ink-600">Profil</span>
-                </a>
+                </Link>
               </div>
             ) : (
               <>

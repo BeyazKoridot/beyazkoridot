@@ -34,10 +34,10 @@ export default function ProfilPage() {
       setLoading(false)
     }
 
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session?.user) {
-        setUser(session.user)
-        loadProfile(session.user.id)
+    supabase.auth.getUser().then(({ data: { user: u } }) => {
+      if (u) {
+        setUser(u)
+        loadProfile(u.id)
       } else {
         setLoading(false)
       }

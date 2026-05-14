@@ -1,5 +1,6 @@
 'use client'
 import { usePathname } from 'next/navigation'
+import Link from 'next/link'
 import AuthModal from './AuthModal'
 import { useState, useEffect, useRef } from 'react'
 import { supabaseBrowser as supabase } from '@/lib/supabase-browser'
@@ -88,10 +89,10 @@ export default function BottomNav() {
             </div>
           )}
         </div>
-        <a href="/profil" className={`flex flex-col items-center gap-0.5 px-4 py-2 ${pathname === '/profil' ? 'text-ink-900' : 'text-ink-400'}`}>
+        <Link href="/profil" className={`flex flex-col items-center gap-0.5 px-4 py-2 ${pathname === '/profil' ? 'text-ink-900' : 'text-ink-400'}`}>
           <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" strokeWidth="1.6"><circle cx="11" cy="8" r="4"/><path d="M4 20c0-3.9 3.1-7 7-7s7 3.1 7 7" strokeLinecap="round"/></svg>
           <span className="text-[10px] font-medium">Profil</span>
-        </a>
+        </Link>
       </nav>
       {showAuth && <AuthModal onClose={() => setShowAuth(false)} />}
     </>
