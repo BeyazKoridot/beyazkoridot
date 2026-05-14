@@ -28,10 +28,8 @@ export default function ProfilDuzenle() {
   const [workEmailSuccess, setWorkEmailSuccess] = useState('')
 
   useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
-      if (!session?.user) { window.location.href = '/profil'; return }
-      setUser(session.user)
-      const { data: p } = await supabase.from('profiles').select('*').eq('id', session.user.id).single()
+    const load = async (uid: string) => {
+      const { data: p } = await supabase.from('profiles').select('*').eq('id', uid).single()
       if (p) {
         setUsername(p.username ?? '')
         setSektor(p.sector ?? '')
@@ -40,6 +38,15 @@ export default function ProfilDuzenle() {
         setWorkEmailVerified(p.work_email_verified ?? false)
         setExistingWorkEmail(p.work_email ?? '')
       }
+    }
+
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session?.user) { setUser(session.user); load(session.user.id) }
+      else window.location.href = '/profil'
+    })
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session?.user) { setUser(session.user); load(session.user.id) }
     })
     return () => subscription.unsubscribe()
   }, [])

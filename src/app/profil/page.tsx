@@ -16,7 +16,11 @@ export default function ProfilPage() {
   const [activeTab, setActiveTab] = useState<'posts' | 'likes'>('posts')
 
   useEffect(() => {
+    let loaded = false
+
     const loadProfile = async (uid: string) => {
+      if (loaded) return
+      loaded = true
       const { data: p } = await supabase.from('profiles').select('*').eq('id', uid).single()
       setProfile(p)
       const { data: myPosts } = await supabase.from('posts').select('*').eq('user_id', uid).order('created_at', { ascending: false })
@@ -30,11 +34,20 @@ export default function ProfilPage() {
       setLoading(false)
     }
 
+    // Hızlı yol: mevcut session'ı direkt oku
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session?.user) {
+        setUser(session.user)
+        loadProfile(session.user.id)
+      }
+    })
+
+    // Yedek yol: auth değişimlerini dinle
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       if (session?.user) {
         setUser(session.user)
         loadProfile(session.user.id)
-      } else {
+      } else if (!loaded) {
         setLoading(false)
       }
     })
