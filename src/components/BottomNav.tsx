@@ -2,7 +2,7 @@
 import { usePathname } from 'next/navigation'
 import AuthModal from './AuthModal'
 import { useState, useEffect, useRef } from 'react'
-import { supabase } from '@/lib/supabase'
+import { supabaseBrowser as supabase } from '@/lib/supabase-browser'
 
 export default function BottomNav() {
   const pathname = usePathname()
