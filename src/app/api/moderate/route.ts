@@ -6,7 +6,21 @@ const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
 export async function POST(req: NextRequest) {
   const { text } = await req.json()
 
-  const YASAKLI_KELIMELER = ['aptal', 'salak', 'pislik', 'gerizekalı', 'mal', 'göt', 'orospu', 'siktir', 'amk', 'bok', 'sürtük', 'kahpe', 'öldür', 'öldüreceğim', 'gebereceğim', 'keriz', 'dangalak', 'nobran', 'hırsız', 'dolandırıcı']
+  const YASAKLI_KELIMELER = [
+    // Hakaretler
+    'aptal', 'salak', 'gerizekalı', 'keriz', 'dangalak', 'nobran', 'ahmak', 'budala', 'geri zekalı',
+    'mankafa', 'eşek', 'öküz', 'hayvan', 'it', 'köpek', 'domuz',
+    // Ağır küfürler
+    'orospu', 'siktir', 'amk', 'amına', 'göt', 'götveren', 'bok', 'boktan',
+    'sürtük', 'kahpe', 'kaltak', 'orospuçocuğu', 'piç',
+    // Pis söylemler
+    'pislik', 'şerefsiz', 'namussuz', 'alçak', 'rezil', 'haysiyetsiz',
+    // Tehdit ifadeleri
+    'öldür', 'öldüreceğim', 'gebereceğim', 'geberteceğim', 'kanını dökeceğim',
+    'bedelini ödersin', 'pişman ederim', 'canını yakarım',
+    // Doxxing tetikleyiciler (bağlamla değerlendirilecek)
+    'tc kimlik', 'kimlik numarası',
+  ]
   
   const metinKucuk = text.toLowerCase()
   const yasakliKelimeBulundu = YASAKLI_KELIMELER.some(kelime => metinKucuk.includes(kelime))

@@ -7,6 +7,7 @@ export default function Footer() {
           <a href="/hakkinda" className="text-[12px] text-ink-400 hover:text-ink-700 transition-colors">Hakkında</a>
           <a href="/kvkk" className="text-[12px] text-ink-400 hover:text-ink-700 transition-colors">Gizlilik Politikası</a>
           <a href="/kullanim-kosullari" className="text-[12px] text-ink-400 hover:text-ink-700 transition-colors">Kullanım Koşulları</a>
+          <a href="/topluluk-kurallari" className="text-[12px] text-ink-400 hover:text-ink-700 transition-colors">Topluluk Kuralları</a>
           <a href="/iletisim" className="text-[12px] text-ink-400 hover:text-ink-700 transition-colors">İletişim</a>
           <div className="w-px h-4 bg-ink-200"></div>
           <div className="flex items-center gap-2.5">
