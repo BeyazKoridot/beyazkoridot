@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react'
-import { supabaseBrowser as supabase } from '@/lib/supabase-browser'
+import { supabase } from '@/lib/supabase'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import AuthModal from '@/components/AuthModal'

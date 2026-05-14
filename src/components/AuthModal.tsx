@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react'
-import { supabaseBrowser as supabase } from '@/lib/supabase-browser'
+import { supabase } from '@/lib/supabase'
 
 const SEKTORLER = ['Teknoloji', 'Finans', 'Pazarlama', 'Danışmanlık', 'İnsan kaynakları', 'E-ticaret', 'Medya', 'Hukuk', 'Diğer']
 const UNVANLAR = ['Stajyer', 'Junior', 'Mid-level', 'Senior', 'Lead', 'Manager', 'Director', 'C-level']

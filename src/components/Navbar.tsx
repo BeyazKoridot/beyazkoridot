@@ -1,7 +1,7 @@
 'use client'
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
-import { supabaseBrowser as supabase } from '@/lib/supabase-browser'
+import { supabase } from '@/lib/supabase'
 import AuthModal from './AuthModal'
 import type { User } from '@supabase/supabase-js'
 
