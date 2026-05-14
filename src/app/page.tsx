@@ -188,9 +188,13 @@ export default function HomePage() {
     let timerRef: ReturnType<typeof setTimeout> | null = null
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (session?.user && timerRef) {
-        clearTimeout(timerRef)
-        timerRef = null
+      if (session?.user) {
+        if (timerRef) {
+          clearTimeout(timerRef)
+          timerRef = null
+        }
+        setShowAuthModal(false)
+        setIsForced(false)
       }
     })
 
