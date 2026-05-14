@@ -6,10 +6,13 @@ const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
 export async function POST(req: NextRequest) {
   const { text } = await req.json()
 
-  const YASAKLI_KELIMELER = ['aptal', 'salak', 'pislik', 'gerizekalı', 'mal', 'göt', 'orospu', 'siktir', 'amk', 'bok', 'sürtük', 'kahpe', 'öldür', 'öldüreceğim', 'gebereceğim', 'keriz', 'dangalak', 'nobran', 'hırsız', 'dolandırıcı']
-  
+  const YASAKLI_KELIMELER = ['aptal', 'salak', 'pislik', 'gerizekalı', 'göt', 'orospu', 'siktir', 'amk', 'sürtük', 'kahpe', 'öldüreceğim', 'gebereceğim', 'keriz', 'dangalak']
+
   const metinKucuk = text.toLowerCase()
-  const yasakliKelimeBulundu = YASAKLI_KELIMELER.some(kelime => metinKucuk.includes(kelime))
+  const yasakliKelimeBulundu = YASAKLI_KELIMELER.some(kelime => {
+    const regex = new RegExp(`(^|[\\s.,!?;:()'"'])${kelime}([\\s.,!?;:()'"']|$)`)
+    return regex.test(metinKucuk)
+  })
   
   if (yasakliKelimeBulundu) {
     return NextResponse.json({
@@ -27,7 +30,7 @@ export async function POST(req: NextRequest) {
       messages: [
         {
           role: 'system',
-          content: `Sen bir içerik moderatörüsün. Türkçe iş deneyimi paylaşım platformu için içerikleri analiz ediyorsun.
+          content: `Sen bir içerik modatörüsün. Türkçe iş deneyimi paylaşım platformu için içerikleri analiz ediyorsun.
 
 KESINLIKLE REDDET (bunlar olmadıkça onayla):
 - Kişi adı + ağır suçlama kombinasyonu (iftira)
@@ -64,9 +67,11 @@ JSON formatında yanıt ver:
 
   } catch (error: any) {
     console.error('Moderasyon hatası:', error?.message, error?.status, error?.code)
-    return NextResponse.json({ 
-      approved: false, 
-      reason: error?.message ?? 'Moderasyon servisi kullanılamıyor'
+    return NextResponse.json({
+      approved: true,
+      category: 'Diğer',
+      hashtags: [],
+      sentiment: 'neutral'
     })
   }
 }
