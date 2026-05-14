@@ -16,15 +16,12 @@ export default function ProfilPage() {
   const [activeTab, setActiveTab] = useState<'posts' | 'likes'>('posts')
 
   useEffect(() => {
-    const fetchProfile = async () => {
-      const { data: { user } } = await supabase.auth.getUser()
-      if (!user) { setLoading(false); return }
-      setUser(user)
-      const { data: p } = await supabase.from('profiles').select('*').eq('id', user.id).single()
+    const loadProfile = async (uid: string) => {
+      const { data: p } = await supabase.from('profiles').select('*').eq('id', uid).single()
       setProfile(p)
-      const { data: myPosts } = await supabase.from('posts').select('*').eq('user_id', user.id).order('created_at', { ascending: false })
+      const { data: myPosts } = await supabase.from('posts').select('*').eq('user_id', uid).order('created_at', { ascending: false })
       setPosts(myPosts ?? [])
-      const { data: likes } = await supabase.from('post_likes').select('post_id').eq('user_id', user.id)
+      const { data: likes } = await supabase.from('post_likes').select('post_id').eq('user_id', uid)
       if (likes && likes.length > 0) {
         const likedIds = likes.map((l: any) => l.post_id)
         const { data: likedPostsData } = await supabase.from('posts').select('*').in('id', likedIds).order('created_at', { ascending: false })
@@ -32,7 +29,17 @@ export default function ProfilPage() {
       }
       setLoading(false)
     }
-    fetchProfile()
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session?.user) {
+        setUser(session.user)
+        loadProfile(session.user.id)
+      } else {
+        setLoading(false)
+      }
+    })
+
+    return () => subscription.unsubscribe()
   }, [])
 
   const handleSignOut = async () => {
