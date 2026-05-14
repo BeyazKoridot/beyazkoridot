@@ -1,6 +1,11 @@
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 
+export const metadata = {
+  title: 'OTR Social Nedir? Anonim Beyaz Yaka Platformu | OTR',
+  description: 'OTR Social, Türkiye\'deki beyaz yaka çalışanların maaş, kariyer ve çalışma kültürü deneyimlerini anonim paylaşabildiği platformdur.',
+}
+
 export default function HakkindaPage() {
   return (
     <>

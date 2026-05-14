@@ -1,6 +1,11 @@
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 
+export const metadata = {
+  title: 'Beyaz Yaka İş İlanları — Türkiye | OTR Social',
+  description: 'Türkiye\'de teknoloji, finans ve diğer sektörlerde güncel beyaz yaka iş ilanları. OTR Social\'da kariyer fırsatlarını keşfet.',
+}
+
 export default function IsIlanariPage() {
   return (
     <>
