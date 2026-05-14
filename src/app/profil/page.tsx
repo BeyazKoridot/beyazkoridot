@@ -34,21 +34,19 @@ export default function ProfilPage() {
       setLoading(false)
     }
 
-    // Hızlı yol: mevcut session'ı direkt oku
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session?.user) {
         setUser(session.user)
         loadProfile(session.user.id)
+      } else {
+        setLoading(false)
       }
     })
 
-    // Yedek yol: auth değişimlerini dinle
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       if (session?.user) {
         setUser(session.user)
         loadProfile(session.user.id)
-      } else if (!loaded) {
-        setLoading(false)
       }
     })
 
