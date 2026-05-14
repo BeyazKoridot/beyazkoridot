@@ -105,6 +105,12 @@ export default function ProfilPage() {
             {profile?.level && (
               <span className="text-[12px] px-3 py-1 rounded-full bg-ink-100 text-ink-600 border border-ink-200">{profile.level}</span>
             )}
+            {profile?.work_email_verified && (
+              <span className="flex items-center gap-1 text-[11px] font-medium text-blue-700 bg-blue-50 border border-blue-200 px-2.5 py-1 rounded-full">
+                <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                Doğrulanmış
+              </span>
+            )}
           </div>
           <div className="mt-4 pt-4 border-t border-ink-50 flex items-center justify-between">
             <span className="text-[13px] text-ink-500">{posts.length} gönderi</span>

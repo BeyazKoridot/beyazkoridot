@@ -18,6 +18,15 @@ export default function ProfilDuzenle() {
   const [success, setSuccess] = useState(false)
   const fileRef = useRef<HTMLInputElement>(null)
 
+  const [workEmail, setWorkEmail] = useState('')
+  const [workEmailVerified, setWorkEmailVerified] = useState(false)
+  const [existingWorkEmail, setExistingWorkEmail] = useState('')
+  const [otpSent, setOtpSent] = useState(false)
+  const [otp, setOtp] = useState('')
+  const [workEmailLoading, setWorkEmailLoading] = useState(false)
+  const [workEmailError, setWorkEmailError] = useState('')
+  const [workEmailSuccess, setWorkEmailSuccess] = useState('')
+
   useEffect(() => {
     const fetchProfile = async () => {
       const { data: { user } } = await supabase.auth.getUser()
@@ -29,6 +38,8 @@ export default function ProfilDuzenle() {
         setSektor(p.sector ?? '')
         setUnvan(p.level ?? '')
         setAvatarUrl(p.avatar_url ?? null)
+        setWorkEmailVerified(p.work_email_verified ?? false)
+        setExistingWorkEmail(p.work_email ?? '')
       }
     }
     fetchProfile()
@@ -63,6 +74,47 @@ export default function ProfilDuzenle() {
     setTimeout(() => { setSuccess(false); window.location.href = '/profil' }, 1500)
   }
 
+  const handleSendOtp = async () => {
+    setWorkEmailError('')
+    setWorkEmailSuccess('')
+    setWorkEmailLoading(true)
+    const res = await fetch('/api/verify-work-email/request', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId: user.id, workEmail }),
+    })
+    const data = await res.json()
+    if (!res.ok) {
+      setWorkEmailError(data.error ?? 'Bir hata oluştu')
+    } else {
+      setOtpSent(true)
+      setWorkEmailSuccess('Kod gönderildi! E-postanı kontrol et.')
+    }
+    setWorkEmailLoading(false)
+  }
+
+  const handleConfirmOtp = async () => {
+    setWorkEmailError('')
+    setWorkEmailLoading(true)
+    const res = await fetch('/api/verify-work-email/confirm', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId: user.id, otp }),
+    })
+    const data = await res.json()
+    if (!res.ok) {
+      setWorkEmailError(data.error ?? 'Bir hata oluştu')
+    } else {
+      setWorkEmailVerified(true)
+      setExistingWorkEmail(workEmail)
+      setOtpSent(false)
+      setOtp('')
+      setWorkEmail('')
+      setWorkEmailSuccess('İş e-postanız doğrulandı! Doğrulanmış rozetini kazandın.')
+    }
+    setWorkEmailLoading(false)
+  }
+
   return (
     <>
       <Navbar />
@@ -73,7 +125,6 @@ export default function ProfilDuzenle() {
         </div>
 
         <div className="bg-white rounded-xl border border-ink-100 p-6 space-y-5">
-
           <div className="flex flex-col items-center gap-3">
             <div
               onClick={() => fileRef.current?.click()}
@@ -142,6 +193,85 @@ export default function ProfilDuzenle() {
           >
             {saving ? 'Kaydediliyor...' : 'Kaydet'}
           </button>
+        </div>
+
+        {/* İş e-postası doğrulama bölümü */}
+        <div className="bg-white rounded-xl border border-ink-100 p-6 mt-4 space-y-4">
+          <div className="flex items-start justify-between">
+            <div>
+              <h2 className="text-[14px] font-semibold text-ink-900">İş e-postası doğrulama</h2>
+              <p className="text-[12px] text-ink-400 mt-0.5 leading-relaxed">
+                Kurumsal e-postanı doğrula, profilinde "Doğrulanmış" rozeti kazan.
+              </p>
+            </div>
+            {workEmailVerified && (
+              <span className="flex items-center gap-1 text-[11px] font-medium text-blue-700 bg-blue-50 border border-blue-200 px-2.5 py-1 rounded-full shrink-0 ml-3">
+                <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                Doğrulanmış
+              </span>
+            )}
+          </div>
+
+          {workEmailVerified ? (
+            <div className="px-3 py-2.5 bg-blue-50 border border-blue-100 rounded-lg">
+              <p className="text-[12px] text-blue-800">
+                <span className="font-medium">{existingWorkEmail}</span> doğrulandı.
+              </p>
+            </div>
+          ) : (
+            <>
+              {!otpSent ? (
+                <div className="space-y-3">
+                  {existingWorkEmail && (
+                    <p className="text-[11px] text-ink-400">Mevcut: {existingWorkEmail} (henüz doğrulanmamış)</p>
+                  )}
+                  <input
+                    type="email"
+                    value={workEmail}
+                    onChange={e => setWorkEmail(e.target.value)}
+                    placeholder="isim@sirket.com"
+                    className="w-full px-4 py-2.5 rounded-xl border border-ink-200 text-[13px] outline-none focus:border-ink-400"
+                  />
+                  <button
+                    onClick={handleSendOtp}
+                    disabled={workEmailLoading || !workEmail}
+                    className="w-full py-2.5 bg-ink-900 text-white rounded-xl text-[13px] font-medium hover:bg-ink-700 transition-colors disabled:opacity-50"
+                  >
+                    {workEmailLoading ? 'Gönderiliyor...' : 'Doğrulama kodu gönder'}
+                  </button>
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  <p className="text-[12px] text-ink-600 bg-green-50 border border-green-100 rounded-lg px-3 py-2">
+                    <span className="font-medium">{workEmail}</span> adresine 6 haneli kod gönderildi.
+                  </p>
+                  <input
+                    type="text"
+                    value={otp}
+                    onChange={e => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                    placeholder="123456"
+                    maxLength={6}
+                    className="w-full px-4 py-2.5 rounded-xl border border-ink-200 text-[15px] text-center tracking-widest font-mono outline-none focus:border-ink-400"
+                  />
+                  <button
+                    onClick={handleConfirmOtp}
+                    disabled={workEmailLoading || otp.length !== 6}
+                    className="w-full py-2.5 bg-ink-900 text-white rounded-xl text-[13px] font-medium hover:bg-ink-700 transition-colors disabled:opacity-50"
+                  >
+                    {workEmailLoading ? 'Doğrulanıyor...' : 'Doğrula'}
+                  </button>
+                  <button
+                    onClick={() => { setOtpSent(false); setOtp(''); setWorkEmailError(''); setWorkEmailSuccess('') }}
+                    className="w-full text-[12px] text-ink-400 hover:text-ink-700"
+                  >
+                    Farklı e-posta dene
+                  </button>
+                </div>
+              )}
+              {workEmailError && <p className="text-[11px] text-red-500">{workEmailError}</p>}
+              {workEmailSuccess && <p className="text-[11px] text-green-600">{workEmailSuccess}</p>}
+            </>
+          )}
         </div>
       </div>
       <Footer />
