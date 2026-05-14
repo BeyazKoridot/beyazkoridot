@@ -185,10 +185,19 @@ export default function HomePage() {
   const [isForced, setIsForced] = useState(false)
 
   useEffect(() => {
+    let timerRef: ReturnType<typeof setTimeout> | null = null
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session?.user && timerRef) {
+        clearTimeout(timerRef)
+        timerRef = null
+      }
+    })
+
     const checkAuth = async () => {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) {
-        setTimeout(() => {
+        timerRef = setTimeout(() => {
           setShowAuthModal(true)
           setIsForced(true)
         }, 8000)
@@ -198,6 +207,11 @@ export default function HomePage() {
       }
     }
     checkAuth()
+
+    return () => {
+      subscription.unsubscribe()
+      if (timerRef) clearTimeout(timerRef)
+    }
   }, [])
   const [quotePost, setQuotePost] = useState<any>(null)
   const [quoteText, setQuoteText] = useState('')
