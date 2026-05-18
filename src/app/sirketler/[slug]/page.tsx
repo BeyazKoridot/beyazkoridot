@@ -1,49 +1,57 @@
-'use client'
-import { useState, useEffect } from 'react'
-import { useParams } from 'next/navigation'
-import { supabase } from '@/lib/supabase'
+import { createClient } from '@supabase/supabase-js'
+import { notFound } from 'next/navigation'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 
-export default function SirketPage() {
-  const { slug } = useParams()
-  const [company, setCompany] = useState<any>(null)
-  const [posts, setPosts] = useState<any[]>([])
-  const [loading, setLoading] = useState(true)
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+)
 
-  useEffect(() => {
-    supabase
-      .from('companies')
-      .select('*')
-      .eq('slug', slug)
-      .single()
-      .then(({ data: c }) => {
-        setCompany(c)
-        if (c) {
-          supabase
-            .from('posts')
-            .select('*')
-            .eq('company_id', c.id)
-            .order('created_at', { ascending: false })
-            .then(({ data: p }) => {
-              setPosts(p || [])
-              setLoading(false)
-            })
-        } else {
-          setLoading(false)
-        }
-      })
-  }, [slug])
+export async function generateMetadata({ params }: { params: { slug: string } }) {
+  const { data: company } = await supabase
+    .from('companies')
+    .select('name, description, sector')
+    .eq('slug', params.slug)
+    .single()
 
-  useEffect(() => {
-    if (company) document.title = `${company.name} Çalışan Yorumları | OTR Social`
-  }, [company])
+  if (!company) return { title: 'Şirket bulunamadı | OTR Social' }
 
-  if (loading) return <><Navbar /><div className="max-w-4xl mx-auto px-4 py-12 text-center text-ink-400 text-[13px]">Yükleniyor...</div></>
-  if (!company) return <><Navbar /><div className="max-w-4xl mx-auto px-4 py-12 text-center text-ink-400 text-[13px]">Şirket bulunamadı.</div></>
+  const desc = `${company.name} hakkında gerçek çalışan yorumları, maaş bilgileri ve iş deneyimleri. Anonim paylaşımlar.`
+
+  return {
+    title: `${company.name} Çalışan Yorumları ve Deneyimleri | OTR Social`,
+    description: desc,
+    openGraph: {
+      title: `${company.name} Çalışan Yorumları | OTR Social`,
+      description: desc,
+      url: `https://otrsocial.com/sirketler/${params.slug}`,
+    },
+    alternates: {
+      canonical: `https://otrsocial.com/sirketler/${params.slug}`,
+    },
+  }
+}
+
+export default async function SirketPage({ params }: { params: { slug: string } }) {
+  const { data: company } = await supabase
+    .from('companies')
+    .select('*')
+    .eq('slug', params.slug)
+    .single()
+
+  if (!company) notFound()
+
+  const { data: postsRaw } = await supabase
+    .from('posts')
+    .select('*')
+    .eq('company_id', company.id)
+    .order('created_at', { ascending: false })
+
+  const posts = postsRaw ?? []
 
   const tagCounts: Record<string, number> = {}
-  posts.forEach(p => { if (p.tag) tagCounts[p.tag] = (tagCounts[p.tag] || 0) + 1 })
+  posts.forEach((p: any) => { if (p.tag) tagCounts[p.tag] = (tagCounts[p.tag] || 0) + 1 })
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -51,11 +59,13 @@ export default function SirketPage() {
     name: company.name,
     description: company.description ?? `${company.name} çalışan yorumları ve deneyimleri`,
     url: `https://otrsocial.com/sirketler/${company.slug}`,
-    aggregateRating: posts.length > 0 ? {
-      '@type': 'AggregateRating',
-      ratingValue: '4.0',
-      reviewCount: posts.length,
-    } : undefined,
+    ...(posts.length > 0 ? {
+      aggregateRating: {
+        '@type': 'AggregateRating',
+        ratingValue: '4.0',
+        reviewCount: posts.length,
+      }
+    } : {}),
   }
 
   return (
@@ -71,7 +81,9 @@ export default function SirketPage() {
               <h1 className="text-[22px] font-semibold text-ink-900">{company.name}</h1>
               {company.sector && <p className="text-[13px] text-ink-400 mt-0.5">{company.sector}</p>}
             </div>
-            {company.is_verified && <span className="text-[11px] px-2.5 py-1 rounded-full bg-blue-50 text-blue-600 border border-blue-100">✓ Doğrulandı</span>}
+            {company.is_verified && (
+              <span className="text-[11px] px-2.5 py-1 rounded-full bg-blue-50 text-blue-600 border border-blue-100">✓ Doğrulandı</span>
+            )}
           </div>
 
           {company.description && (
@@ -81,7 +93,9 @@ export default function SirketPage() {
           <div className="flex flex-wrap gap-4 text-[12px] text-ink-400 mb-5">
             {company.employee_count && <span>👥 {company.employee_count} çalışan</span>}
             {company.founded_year && <span>📅 {company.founded_year} yılından beri</span>}
-            {company.website && <a href={company.website} target="_blank" rel="noopener noreferrer" className="text-ink-600 hover:underline">🔗 Web sitesi</a>}
+            {company.website && (
+              <a href={company.website} target="_blank" rel="noopener noreferrer" className="text-ink-600 hover:underline">🔗 Web sitesi</a>
+            )}
           </div>
 
           <div className="grid grid-cols-3 gap-3">
@@ -90,7 +104,7 @@ export default function SirketPage() {
               <p className="text-[11px] text-ink-400 mt-0.5">Paylaşım</p>
             </div>
             <div className="bg-ink-50 rounded-lg p-3 text-center">
-              <p className="text-[20px] font-semibold text-ink-900">{posts.filter(p => p.tag === 'Maaş').length}</p>
+              <p className="text-[20px] font-semibold text-ink-900">{posts.filter((p: any) => p.tag === 'Maaş').length}</p>
               <p className="text-[11px] text-ink-400 mt-0.5">Maaş verisi</p>
             </div>
             <div className="bg-ink-50 rounded-lg p-3 text-center">
@@ -121,7 +135,7 @@ export default function SirketPage() {
           </div>
         ) : (
           <div className="space-y-3">
-            {posts.map(p => (
+            {posts.map((p: any) => (
               <a key={p.id} href={'/post/' + p.id} className="block bg-white rounded-xl border border-ink-100 p-4 hover:border-ink-300 transition-colors">
                 <div className="flex items-center gap-2 mb-2">
                   <span className="text-[11px] px-2 py-0.5 rounded-full bg-ink-100 text-ink-600">{p.tag}</span>
@@ -136,7 +150,8 @@ export default function SirketPage() {
 
         <div className="mt-6 px-4 py-3 bg-ink-50 rounded-lg border border-ink-100">
           <p className="text-[11px] text-ink-400 leading-relaxed">
-            Bu sayfadaki içerikler kullanıcılar tarafından anonim olarak paylaşılmıştır. Platform doğruluğunu taahhüt etmez. İçerik şikayeti için <a href="mailto:info@otrsocial.com" className="underline">info@otrsocial.com</a> adresine yazabilirsiniz.
+            Bu sayfadaki içerikler kullanıcılar tarafından anonim olarak paylaşılmıştır. Platform doğruluğunu taahhüt etmez.
+            İçerik şikayeti için <a href="mailto:iletisim@otrsocial.com" className="underline">iletisim@otrsocial.com</a> adresine yazabilirsiniz.
           </p>
         </div>
       </div>

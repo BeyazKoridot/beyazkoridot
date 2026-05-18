@@ -1,7 +1,13 @@
+import { createClient } from '@supabase/supabase-js'
+
 export default async function sitemap() {
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  )
+
   let companyUrls: any[] = []
   try {
-    const { supabase } = await import('@/lib/supabase')
     const { data: companies } = await supabase
       .from('companies')
       .select('slug, created_at')
@@ -13,29 +19,17 @@ export default async function sitemap() {
       priority: 0.8,
     }))
   } catch (e) {}
-  
 
+  const staticPages = [
+    { url: 'https://otrsocial.com', priority: 1.0, changeFrequency: 'daily' as const },
+    { url: 'https://otrsocial.com/sirketler', priority: 0.9, changeFrequency: 'daily' as const },
+    { url: 'https://otrsocial.com/maas', priority: 0.9, changeFrequency: 'daily' as const },
+    { url: 'https://otrsocial.com/hakkinda', priority: 0.5, changeFrequency: 'monthly' as const },
+    { url: 'https://otrsocial.com/iletisim', priority: 0.4, changeFrequency: 'monthly' as const },
+    { url: 'https://otrsocial.com/kvkk', priority: 0.3, changeFrequency: 'monthly' as const },
+    { url: 'https://otrsocial.com/kullanim-kosullari', priority: 0.3, changeFrequency: 'monthly' as const },
+    { url: 'https://otrsocial.com/topluluk-kurallari', priority: 0.4, changeFrequency: 'monthly' as const },
+  ].map(p => ({ ...p, lastModified: new Date() }))
 
-
-  return [
-    {
-      url: 'https://www.otrsocial.com',
-      lastModified: new Date(),
-      changeFrequency: 'daily' as const,
-      priority: 1,
-    },
-    {
-      url: 'https://www.otrsocial.com/sirketler',
-      lastModified: new Date(),
-      changeFrequency: 'daily' as const,
-      priority: 0.9,
-    },
-    {
-      url: 'https://www.otrsocial.com/maas',
-      lastModified: new Date(),
-      changeFrequency: 'daily' as const,
-      priority: 0.8,
-    },
-    ...companyUrls,
-  ]
+  return [...staticPages, ...companyUrls]
 }
