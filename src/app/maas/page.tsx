@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from 'react'
 import { supabase } from '@/lib/supabase'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
+import AuthModal from '@/components/AuthModal'
 
 const SEKTORLER = ['Teknoloji', 'Finans', 'Pazarlama', 'Danismanlik', 'Insan kaynaklari', 'E-ticaret', 'Medya', 'Hukuk', 'Diger']
 const UNVANLAR = ['Stajyer', 'Junior', 'Mid-level', 'Senior', 'Lead', 'Manager', 'Director', 'C-level']
@@ -10,6 +11,8 @@ const SEHIRLER = ['Istanbul', 'Ankara', 'Izmir', 'Bursa', 'Antalya', 'Remote', '
 
 export default function MaasPage() {
   const [user, setUser] = useState(null as any)
+  const [authChecked, setAuthChecked] = useState(false)
+  const [showAuth, setShowAuth] = useState(false)
   const [salaries, setSalaries] = useState([] as any[])
   const [loading, setLoading] = useState(true)
   const [showForm, setShowForm] = useState(false)
@@ -35,6 +38,7 @@ export default function MaasPage() {
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null)
+      setAuthChecked(true)
     })
     supabase.from('salary_data').select('*').order('created_at', { ascending: false }).then(({ data }) => {
       setSalaries(data || [])
@@ -160,15 +164,28 @@ export default function MaasPage() {
     setSubmitting(false)
   }
 
+  if (!authChecked) return (
+    <>
+      <Navbar />
+      <div className="max-w-2xl mx-auto px-4 py-24 text-center text-[13px] text-ink-400">Yükleniyor...</div>
+    </>
+  )
+
   if (!user) return (
     <>
       <Navbar />
       <div className="max-w-2xl mx-auto px-4 py-24 text-center">
         <h1 className="text-[20px] font-semibold text-ink-900 mb-3">Maaş Rehberi</h1>
         <p className="text-[14px] text-ink-400 mb-6">Bu sayfayı görmek için üye olman gerekiyor.</p>
-        <a href="/" className="text-[13px] font-medium text-white px-6 py-2.5 rounded-lg bg-ink-900 hover:bg-ink-700 transition-colors">Üye ol / Giriş yap</a>
+        <button
+          onClick={() => setShowAuth(true)}
+          className="text-[13px] font-medium text-white px-6 py-2.5 rounded-lg bg-ink-900 hover:bg-ink-700 transition-colors"
+        >
+          Üye ol / Giriş yap
+        </button>
       </div>
       <Footer />
+      {showAuth && <AuthModal onClose={() => setShowAuth(false)} />}
     </>
   )
 
