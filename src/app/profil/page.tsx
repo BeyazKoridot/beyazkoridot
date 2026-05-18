@@ -14,6 +14,12 @@ export default function ProfilPage() {
   const [deleting, setDeleting] = useState<string | null>(null)
   const [likedPosts, setLikedPosts] = useState<any[]>([])
   const [activeTab, setActiveTab] = useState<'posts' | 'likes'>('posts')
+  const [workEmail, setWorkEmail] = useState('')
+  const [workEmailStep, setWorkEmailStep] = useState<'idle' | 'input' | 'code'>('idle')
+  const [verifyCode, setVerifyCode] = useState('')
+  const [workEmailLoading, setWorkEmailLoading] = useState(false)
+  const [workEmailError, setWorkEmailError] = useState('')
+  const [workEmailSuccess, setWorkEmailSuccess] = useState(false)
 
   useEffect(() => {
     const fetchProfileData = async (userId: string) => {
@@ -42,6 +48,36 @@ export default function ProfilPage() {
     })
     return () => subscription.unsubscribe()
   }, [])
+
+  const handleSendVerification = async () => {
+    setWorkEmailLoading(true)
+    setWorkEmailError('')
+    const res = await fetch('/api/verify-work-email/send', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId: user.id, workEmail }),
+    })
+    const data = await res.json()
+    setWorkEmailLoading(false)
+    if (!res.ok) { setWorkEmailError(data.error); return }
+    setWorkEmailStep('code')
+  }
+
+  const handleConfirmVerification = async () => {
+    setWorkEmailLoading(true)
+    setWorkEmailError('')
+    const res = await fetch('/api/verify-work-email/confirm', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId: user.id, token: verifyCode }),
+    })
+    const data = await res.json()
+    setWorkEmailLoading(false)
+    if (!res.ok) { setWorkEmailError(data.error); return }
+    setWorkEmailSuccess(true)
+    setWorkEmailStep('idle')
+    setProfile((p: any) => ({ ...p, work_email: data.workEmail, work_email_verified: true }))
+  }
 
   const handleSignOut = async () => {
     await supabase.auth.signOut()
@@ -113,7 +149,85 @@ export default function ProfilPage() {
             {profile?.level && (
               <span className="text-[12px] px-3 py-1 rounded-full bg-ink-100 text-ink-600 border border-ink-200">{profile.level}</span>
             )}
+            {profile?.work_email_verified && (
+              <span className="text-[12px] px-3 py-1 rounded-full bg-blue-50 text-blue-700 border border-blue-100 flex items-center gap-1">
+                ✓ Doğrulanmış çalışan
+              </span>
+            )}
           </div>
+
+          {/* İş e-postası doğrulama */}
+          <div className="mt-4 pt-4 border-t border-ink-50">
+            {workEmailSuccess && (
+              <div className="mb-3 px-3 py-2 bg-green-50 text-green-700 text-[12px] rounded-lg">
+                ✓ İş e-postanız doğrulandı! Rozet profilinize eklendi.
+              </div>
+            )}
+            {profile?.work_email_verified ? (
+              <div className="flex items-center gap-2 text-[12px] text-ink-500">
+                <span>✓</span>
+                <span className="text-ink-700 font-medium">{profile.work_email}</span>
+                <span className="text-ink-400">doğrulanmış iş e-postası</span>
+              </div>
+            ) : workEmailStep === 'idle' ? (
+              <button
+                onClick={() => setWorkEmailStep('input')}
+                className="text-[12px] text-blue-600 hover:text-blue-800 flex items-center gap-1.5"
+              >
+                <span>+</span> İş e-postanı doğrula → Doğrulanmış rozeti kazan
+              </button>
+            ) : workEmailStep === 'input' ? (
+              <div className="space-y-2">
+                <p className="text-[12px] font-medium text-ink-700">Kurumsal iş e-postanı gir</p>
+                <p className="text-[11px] text-ink-400">Gmail, Hotmail gibi kişisel adresler kabul edilmez.</p>
+                <div className="flex gap-2">
+                  <input
+                    value={workEmail}
+                    onChange={e => setWorkEmail(e.target.value)}
+                    placeholder="adi@sirket.com"
+                    type="email"
+                    className="flex-1 text-[12px] border border-ink-200 rounded-lg px-3 py-2 outline-none focus:border-blue-400"
+                  />
+                  <button
+                    onClick={handleSendVerification}
+                    disabled={workEmailLoading || !workEmail}
+                    className="text-[12px] font-medium text-white px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 disabled:opacity-50 transition-colors"
+                  >
+                    {workEmailLoading ? '...' : 'Gönder'}
+                  </button>
+                  <button onClick={() => { setWorkEmailStep('idle'); setWorkEmailError('') }} className="text-[12px] text-ink-400 px-2">İptal</button>
+                </div>
+                {workEmailError && <p className="text-[11px] text-red-500">{workEmailError}</p>}
+              </div>
+            ) : (
+              <div className="space-y-2">
+                <p className="text-[12px] font-medium text-ink-700">Doğrulama kodunu gir</p>
+                <p className="text-[11px] text-ink-400">{workEmail} adresine 6 haneli kod gönderildi. 30 dakika geçerli.</p>
+                <div className="flex gap-2">
+                  <input
+                    value={verifyCode}
+                    onChange={e => setVerifyCode(e.target.value.toUpperCase())}
+                    placeholder="XXXXXX"
+                    maxLength={6}
+                    className="flex-1 text-[14px] font-mono tracking-widest border border-ink-200 rounded-lg px-3 py-2 outline-none focus:border-blue-400 uppercase"
+                  />
+                  <button
+                    onClick={handleConfirmVerification}
+                    disabled={workEmailLoading || verifyCode.length < 6}
+                    className="text-[12px] font-medium text-white px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 disabled:opacity-50 transition-colors"
+                  >
+                    {workEmailLoading ? '...' : 'Doğrula'}
+                  </button>
+                  <button onClick={() => { setWorkEmailStep('input'); setWorkEmailError(''); setVerifyCode('') }} className="text-[12px] text-ink-400 px-2">Geri</button>
+                </div>
+                {workEmailError && <p className="text-[11px] text-red-500">{workEmailError}</p>}
+                <button onClick={handleSendVerification} disabled={workEmailLoading} className="text-[11px] text-ink-400 hover:text-ink-600">
+                  Kodu tekrar gönder
+                </button>
+              </div>
+            )}
+          </div>
+
           <div className="mt-4 pt-4 border-t border-ink-50 flex items-center justify-between">
             <span className="text-[13px] text-ink-500">{posts.length} gönderi</span>
             <div className="flex items-center gap-2">
