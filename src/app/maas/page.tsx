@@ -184,6 +184,26 @@ export default function MaasPage() {
           <button onClick={() => setShowForm(v => !v)} className="text-[13px] font-medium text-white px-4 py-2 rounded-lg bg-ink-900 hover:bg-ink-700 transition-colors">+ Maaşımı ekle</button>
         </div>
 
+        {/* Unvan linkleri — SEO + navigasyon */}
+        <div className="mb-5">
+          <p className="text-[11px] text-ink-400 mb-2">Unvana göre maaş verileri:</p>
+          <div className="flex flex-wrap gap-2">
+            {[
+              { slug: 'junior', label: 'Junior' },
+              { slug: 'mid-level', label: 'Mid-level' },
+              { slug: 'senior', label: 'Senior' },
+              { slug: 'lead', label: 'Lead' },
+              { slug: 'manager', label: 'Manager' },
+              { slug: 'director', label: 'Director' },
+            ].map(u => (
+              <a key={u.slug} href={`/maas/${u.slug}`}
+                className="text-[12px] px-3 py-1.5 rounded-full border border-ink-200 text-ink-600 hover:border-ink-800 hover:text-ink-900 transition-colors bg-white">
+                {u.label} →
+              </a>
+            ))}
+          </div>
+        </div>
+
         <div className="mb-6 px-3 py-2.5 bg-amber-50 border border-amber-100 rounded-lg">
           <p className="text-[11px] text-amber-800 leading-relaxed">
             Bu sayfadaki veriler kullanıcılar tarafından gönüllü olarak paylaşılmıştır. Platform, verilerin doğruluğunu garanti etmez ve herhangi bir sorumluluk kabul etmez. Veriler yalnızca genel bir fikir edinmek amacıyla sunulmaktadır.

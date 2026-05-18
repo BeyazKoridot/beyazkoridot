@@ -6,6 +6,14 @@ export default async function sitemap() {
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   )
 
+  const unvanSlugs = ['senior', 'junior', 'mid-level', 'lead', 'manager', 'director', 'stajyer', 'c-level']
+  const unvanUrls = unvanSlugs.map(slug => ({
+    url: `https://otrsocial.com/maas/${slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'weekly' as const,
+    priority: 0.7,
+  }))
+
   let companyUrls: any[] = []
   try {
     const { data: companies } = await supabase
@@ -31,5 +39,5 @@ export default async function sitemap() {
     { url: 'https://otrsocial.com/topluluk-kurallari', priority: 0.4, changeFrequency: 'monthly' as const },
   ].map(p => ({ ...p, lastModified: new Date() }))
 
-  return [...staticPages, ...companyUrls]
+  return [...staticPages, ...unvanUrls, ...companyUrls]
 }
