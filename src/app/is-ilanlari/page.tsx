@@ -1,4 +1,6 @@
 import type { Metadata } from "next"
+import Navbar from "@/components/Navbar"
+import Footer from "@/components/Footer"
 
 export const metadata: Metadata = {
   title: "İş İlanları | OTR Social",
@@ -19,7 +21,7 @@ export default function IsIlanlariPage() {
   const filters = ["Tümü", "İstanbul", "Remote"]
 
   return (
-    <main className="bg-white min-h-screen">
+    <><Navbar /><main className="bg-white min-h-screen">
       <section className="bg-[#0000FF] px-6 pt-14 pb-12 md:px-16 md:pt-20 md:pb-16">
         <span className="inline-block border border-white/40 rounded-full px-4 py-1 text-[11px] font-semibold tracking-widest text-white/80 mb-6">
           YAKINDA
@@ -100,6 +102,6 @@ export default function IsIlanlariPage() {
           </a>
         </div>
       </div>
-    </main>
+    </main><Footer /></>
   )
 }
