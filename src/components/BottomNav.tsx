@@ -115,6 +115,7 @@ export default function BottomNav() {
                 { href: '/profil', label: 'Profil' },
               ].map((item) => (
                 
+                <a
                   key={item.href}
                   href={item.href}
                   onClick={() => setShowMenu(false)}
