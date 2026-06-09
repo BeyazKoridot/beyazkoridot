@@ -62,18 +62,18 @@ export default function ProductTour({ onDone }: { onDone: () => void }) {
         <div className="flex items-center justify-between mb-3">
           <div className="flex gap-1">
             {STEPS.map((_, i) => (
-              <div key={i} className={`h-1.5 rounded-full transition-all ${i === step ? 'w-6 bg-ink-900' : 'w-3 bg-ink-200'}`} />
+              <div key={i} className={`h-1.5 rounded-full transition-all ${i === step ? 'w-6 bg-[#0000FF]' : 'w-3 bg-ink-200'}`} />
             ))}
           </div>
           <button onClick={finish} className="text-ink-300 hover:text-ink-600 text-sm">✕</button>
         </div>
-        <p className="text-[14px] font-medium text-ink-900 mb-1">{current.title}</p>
+        <p className="text-[14px] font-medium text-[#0a0a0a] mb-1">{current.title}</p>
         <p className="text-[12px] text-ink-400 mb-4 leading-relaxed">{current.desc}</p>
         <div className="flex items-center justify-between">
           <button onClick={finish} className="text-[12px] text-ink-400 hover:text-ink-600">Atla</button>
           <button
             onClick={() => step < STEPS.length - 1 ? setStep(s => s + 1) : finish()}
-            className="text-[12px] font-medium text-white bg-ink-900 px-4 py-1.5 rounded-lg hover:bg-ink-700 transition-colors"
+            className="text-[12px] font-medium text-white bg-[#0000FF] px-4 py-1.5 rounded-lg hover:bg-[#0000cc] transition-colors"
           >
             {step < STEPS.length - 1 ? 'Devam et →' : 'Başla!'}
           </button>

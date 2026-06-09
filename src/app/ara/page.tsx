@@ -28,7 +28,7 @@ export default function AraPage() {
     <>
       <Navbar />
       <div className="max-w-2xl mx-auto px-4 py-6">
-        <h1 className="text-[20px] font-bold text-ink-900 mb-4">Ara</h1>
+        <h1 className="text-[20px] font-bold text-[#0a0a0a] mb-4">Ara</h1>
 
         <div className="flex gap-2 mb-6">
           <input
@@ -43,7 +43,7 @@ export default function AraPage() {
           <button
             onClick={handleSearch}
             disabled={loading || !query.trim()}
-            className="px-5 py-2.5 rounded-xl bg-ink-900 text-white text-[13px] font-medium hover:bg-ink-700 transition-colors disabled:opacity-50"
+            className="px-5 py-2.5 rounded-xl bg-[#0000FF] text-white text-[13px] font-medium hover:bg-[#0000cc] transition-colors disabled:opacity-50"
           >
             {loading ? '...' : 'Ara'}
           </button>
@@ -70,11 +70,11 @@ export default function AraPage() {
               >
                 <div className="flex items-center gap-2 mb-2">
                   {post.sector && post.sector !== 'Genel' && (
-                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-ink-900 text-white font-medium">{post.sector}</span>
+                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#0000FF] text-white font-medium">{post.sector}</span>
                   )}
                   <span className="text-[11px] text-ink-400">{new Date(post.created_at).toLocaleDateString('tr-TR')}</span>
                 </div>
-                <h2 className="text-[14px] font-medium text-ink-900 leading-snug mb-1">{post.title}</h2>
+                <h2 className="text-[14px] font-medium text-[#0a0a0a] leading-snug mb-1">{post.title}</h2>
                 {post.content && (
                   <p className="text-[12px] text-ink-500 line-clamp-2">{post.content}</p>
                 )}

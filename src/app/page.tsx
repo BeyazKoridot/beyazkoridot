@@ -31,22 +31,22 @@ const TAG_COLORS: Record<string, string> = {
 
 function PostCard({ post, onLike, onHashtagClick, currentUserId, likedPostIds, onQuote }: { post: any; onLike: (id: string) => void; onHashtagClick: (tag: string) => void; currentUserId?: string; likedPostIds?: Set<string>; onQuote?: (post: any) => void }) {
   if (post.is_sponsored) return (
-    <div className="bg-white rounded-xl p-4 mb-3 relative" style={{border: '1.5px solid #BA7517'}}>
-      <div className="absolute -top-px right-3 text-white text-[10px] font-medium px-2 py-0.5 rounded-b-md" style={{background: '#BA7517'}}>SPONSORLU</div>
+    <div className="bg-white rounded-xl p-4 mb-3 relative" style={{border: '1.5px solid #0000FF'}}>
+      <div className="absolute -top-px right-3 text-white text-[10px] font-medium px-2 py-0.5 rounded-b-md" style={{background: '#0000FF'}}>SPONSORLU</div>
       <div className="flex items-center gap-2.5 mt-1.5 mb-3">
         <div className="w-10 h-10 rounded-lg bg-blue-50 border border-ink-100 flex items-center justify-center shrink-0">
           <span className="text-[15px] font-medium text-blue-700">{post.sponsor_name?.[0] ?? 'S'}</span>
         </div>
         <div>
-          <p className="text-[13px] font-medium text-ink-900">{post.sponsor_name}</p>
+          <p className="text-[13px] font-medium text-[#0a0a0a]">{post.sponsor_name}</p>
           <p className="text-[11px] text-ink-400">Sponsorlu içerik</p>
         </div>
       </div>
-      <h3 className="text-[14px] font-medium text-ink-900 mb-1.5 leading-snug">{post.title}</h3>
+      <h3 className="text-[14px] font-medium text-[#0a0a0a] mb-1.5 leading-snug">{post.title}</h3>
       {post.content && <p className="text-[12px] text-ink-500 mb-3 line-clamp-2">{post.content}</p>}
       <div className="flex items-center justify-between pt-2.5 border-t border-ink-50">
         <span className="text-[11px] text-ink-400">{post.sponsor_url}</span>
-        {post.sponsor_url && <a href={post.sponsor_url} target="_blank" className="text-[12px] font-medium text-white px-3 py-1.5 rounded-lg" style={{background: '#185FA5'}}>Devamını gör</a>}
+        {post.sponsor_url && <a href={post.sponsor_url} target="_blank" className="text-[12px] font-medium text-white px-3 py-1.5 rounded-lg" style={{background: '#0000FF'}}>Devamını gör</a>}
       </div>
     </div>
   )
@@ -93,7 +93,7 @@ function PostCard({ post, onLike, onHashtagClick, currentUserId, likedPostIds, o
           {post.is_anon ? (
             <UserAvatar size={40} />
           ) : (
-            <div className="w-10 h-10 rounded-full flex items-center justify-center bg-ink-900">
+            <div className="w-10 h-10 rounded-full flex items-center justify-center bg-[#0000FF]">
               <span className="text-white text-[13px] font-semibold">
                 {post.author_name?.slice(0, 2).toUpperCase() ?? 'Ü'}
               </span>
@@ -102,12 +102,12 @@ function PostCard({ post, onLike, onHashtagClick, currentUserId, likedPostIds, o
         </div>
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="text-[13px] font-medium text-ink-900">
+            <span className="text-[13px] font-medium text-[#0a0a0a]">
               {post.author_name ?? (post.is_anon ? 'Anonim' : 'Üye')}
             </span>
             {post.is_anon && <span className="text-[10px] px-1.5 py-0.5 rounded bg-ink-100 text-ink-500">gizli</span>}
             {post.sector && post.sector !== 'Genel' && (
-              <span className="text-[10px] px-2 py-0.5 rounded-full bg-ink-900 text-white font-medium">{post.sector}</span>
+              <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#0000FF] text-white font-medium">{post.sector}</span>
             )}
           </div>
           <div className="flex items-center gap-1.5 mt-0.5">
@@ -118,7 +118,7 @@ function PostCard({ post, onLike, onHashtagClick, currentUserId, likedPostIds, o
         </div>
       </div>
 
-      <h2 className="text-[14px] font-semibold text-ink-900 leading-snug mb-2">{post.title}</h2>
+      <h2 className="text-[14px] font-semibold text-[#0a0a0a] leading-snug mb-2">{post.title}</h2>
       {post.content && (
         <p className="text-[12px] text-ink-500 leading-relaxed mb-3 line-clamp-2">{post.content}</p>
       )}
@@ -323,7 +323,7 @@ export default function HomePage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40" onClick={() => setQuotePost(null)}>
           <div className="bg-white rounded-2xl p-5 w-full max-w-md mx-4" onClick={e => e.stopPropagation()}>
             <div className="flex items-center justify-between mb-4">
-              <p className="text-[15px] font-medium text-ink-900">Alıntıla</p>
+              <p className="text-[15px] font-medium text-[#0a0a0a]">Alıntıla</p>
               <button onClick={() => setQuotePost(null)} className="text-ink-400 hover:text-ink-700">✕</button>
             </div>
             <textarea
@@ -336,7 +336,7 @@ export default function HomePage() {
             />
             <div className="border border-ink-100 rounded-xl p-3 mb-4 bg-ink-50">
               <div className="flex items-center gap-2 mb-2">
-                <div className="w-5 h-5 rounded bg-ink-900 flex items-center justify-center shrink-0">
+                <div className="w-5 h-5 rounded bg-[#0000FF] flex items-center justify-center shrink-0">
                   <span className="text-white text-[8px] font-bold">OTR</span>
                 </div>
                 <span className="text-[12px] font-medium text-ink-700">{quotePost.author_name ?? 'Anonim'}</span>
@@ -345,10 +345,10 @@ export default function HomePage() {
               <p className="text-[12px] text-ink-600 line-clamp-2">{quotePost.title}</p>
             </div>
             <div className="flex items-center justify-between">
-              <button onClick={() => setQuoteAnon(v => !v)} className={`text-[12px] px-2.5 py-1 rounded-full border transition-colors ${quoteAnon ? 'bg-ink-100 text-ink-600 border-ink-200' : 'bg-ink-900 text-white border-ink-900'}`}>
+              <button onClick={() => setQuoteAnon(v => !v)} className={`text-[12px] px-2.5 py-1 rounded-full border transition-colors ${quoteAnon ? 'bg-ink-100 text-ink-600 border-ink-200' : 'bg-[#0000FF] text-white border-[#0000FF]'}`}>
                 {quoteAnon ? 'Anonim' : 'Adımla'}
               </button>
-              <button onClick={handleQuoteSubmit} disabled={quoteLoading || !quoteText.trim()} className="text-[12px] font-medium text-white px-4 py-1.5 rounded-lg bg-ink-900 hover:bg-ink-700 disabled:opacity-50 transition-colors">
+              <button onClick={handleQuoteSubmit} disabled={quoteLoading || !quoteText.trim()} className="text-[12px] font-medium text-white px-4 py-1.5 rounded-lg bg-[#0000FF] hover:bg-[#0000cc] disabled:opacity-50 transition-colors">
                 {quoteLoading ? 'Paylaşılıyor...' : 'Paylaş'}
               </button>
             </div>
@@ -357,24 +357,24 @@ export default function HomePage() {
       )}
       <TopBanner label="Sponsorlu" headline="Kariyer koçluğu — ücretsiz ilk seans" sub="Beyaz yaka profesyonelleri için 1:1 mentorluk" cta="Başvur" variant="brand" />
       <Navbar onFilterChange={(f) => { setActiveFilter(f); setActiveSector(null); setActiveHashtag(null) }} />
-      <section style={{background: "#1a1a1a"}} className="text-center py-16 px-8 w-full">
-        <span style={{border: "0.5px solid rgba(255,255,255,0.25)", color: "rgba(255,255,255,0.6)", fontSize: "11px", fontWeight: 500, letterSpacing: "0.08em", padding: "4px 14px", borderRadius: "20px", display: "inline-block", marginBottom: "1.5rem"}}>BETA</span>
-        <h1 style={{fontSize: "2.4rem", fontWeight: 700, color: "#ffffff", lineHeight: 1.25, margin: "0 0 1rem"}}>
-          Türkiye'nin <span style={{fontStyle: "italic"}}>anonim</span> <span style={{fontSize: "1rem", fontStyle: "italic", fontWeight: 400, color: "rgba(255,255,255,0.35)"}}>"(opsiyonel)"</span><br/>beyaz yaka deneyim platformu
+      <section style={{background: "#ffffff"}} className="text-center py-16 px-8 w-full">
+        <span style={{border: "0.5px solid rgba(0,0,0,0.15)", color: "rgba(0,0,0,0.5)", fontSize: "11px", fontWeight: 500, letterSpacing: "0.08em", padding: "4px 14px", borderRadius: "20px", display: "inline-block", marginBottom: "1.5rem"}}>BETA</span>
+        <h1 style={{fontSize: "2.4rem", fontWeight: 700, color: "#000000", lineHeight: 1.25, margin: "0 0 1rem"}}>
+          Türkiye'nin <span style={{fontStyle: "italic"}}>anonim</span> <span style={{fontSize: "1rem", fontStyle: "italic", fontWeight: 400, color: "rgba(0,0,0,0.3)"}}>"(opsiyonel)"</span><br/>beyaz yaka deneyim platformu
         </h1>
-        <p style={{fontSize: "1rem", color: "rgba(255,255,255,0.55)", margin: "0 auto 2rem", maxWidth: "440px", lineHeight: 1.6}}>Özgeçmişte yazmadığın her şey için. Maaş, kültür, gerçek deneyim — anonim, kimse görmez.</p>
+        <p style={{fontSize: "1rem", color: "rgba(0,0,0,0.5)", margin: "0 auto 2rem", maxWidth: "440px", lineHeight: 1.6}}>Özgeçmişte yazmadığın her şey için. Maaş, kültür, gerçek deneyim — anonim, kimse görmez.</p>
         <div style={{display: "flex", gap: "12px", justifyContent: "center", marginBottom: "2.5rem", flexWrap: "wrap"}}>
-          <button onClick={() => setShowAuthModal(true)} style={{background: "#ffffff", color: "#1a1a1a", border: "none", padding: "10px 22px", borderRadius: "8px", fontSize: "14px", fontWeight: 500, cursor: "pointer"}}>Üye ol — ücretsiz</button>
-          <a href="/hakkinda" style={{background: "transparent", color: "#ffffff", border: "0.5px solid rgba(255,255,255,0.3)", padding: "10px 22px", borderRadius: "8px", fontSize: "14px", cursor: "pointer", textDecoration: "none", display: "inline-block"}}>Nasıl çalışır?</a>
+          <button onClick={() => setShowAuthModal(true)} style={{background: "#0000FF", color: "#ffffff", border: "none", padding: "10px 22px", borderRadius: "8px", fontSize: "14px", fontWeight: 500, cursor: "pointer"}}>Üye ol — ücretsiz</button>
+          <a href="/hakkinda" style={{background: "transparent", color: "#000000", border: "0.5px solid rgba(0,0,0,0.2)", padding: "10px 22px", borderRadius: "8px", fontSize: "14px", cursor: "pointer", textDecoration: "none", display: "inline-block"}}>Nasıl çalışır?</a>
         </div>
         <div style={{textAlign: "center", marginBottom: "2rem"}}>
-          <div style={{fontSize: "1.1rem", fontWeight: 600, color: "#ffffff", marginBottom: "6px"}}>Yeni başladık.</div>
-          <div style={{fontSize: "13px", color: "rgba(255,255,255,0.5)", lineHeight: 1.6, maxWidth: "420px", margin: "0 auto"}}>İlk 1000 üye arasına katıl. Beta dönemindeki üyelere özel rozet ve erken erişim ayrıcalıkları.</div>
+          <div style={{fontSize: "1.1rem", fontWeight: 600, color: "#000000", marginBottom: "6px"}}>Yeni başladık.</div>
+          <div style={{fontSize: "13px", color: "rgba(0,0,0,0.5)", lineHeight: 1.6, maxWidth: "420px", margin: "0 auto"}}>İlk 1000 üye arasına katıl. Beta dönemindeki üyelere özel rozet ve erken erişim ayrıcalıkları.</div>
         </div>
         <div style={{display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: "10px", maxWidth: "700px", margin: "0 auto"}}>
-          <div style={{background: "#2a2a2a", border: "0.5px solid rgba(255,255,255,0.08)", borderRadius: "12px", padding: "1rem", textAlign: "left"}}><div style={{fontSize: "20px", marginBottom: "0.6rem"}}>🔒</div><p style={{fontSize: "13px", fontWeight: 500, color: "#ffffff", margin: "0 0 4px"}}>%100 Anonim</p><p style={{fontSize: "12px", color: "rgba(255,255,255,0.45)", margin: 0, lineHeight: 1.5}}>Kimliğini gizleyerek paylaş, gerçek deneyimleri oku.</p></div>
-          <div style={{background: "#2a2a2a", border: "0.5px solid rgba(255,255,255,0.08)", borderRadius: "12px", padding: "1rem", textAlign: "left"}}><div style={{fontSize: "20px", marginBottom: "0.6rem"}}>💰</div><p style={{fontSize: "13px", fontWeight: 500, color: "#ffffff", margin: "0 0 4px"}}>Maaş Şeffaflığı</p><p style={{fontSize: "12px", color: "rgba(255,255,255,0.45)", margin: 0, lineHeight: 1.5}}>Çalışanların paylaştığı gerçek maaş aralıklarını gör.</p></div>
-          <div style={{background: "#2a2a2a", border: "0.5px solid rgba(255,255,255,0.08)", borderRadius: "12px", padding: "1rem", textAlign: "left"}}><div style={{fontSize: "20px", marginBottom: "0.6rem"}}>🏢</div><p style={{fontSize: "13px", fontWeight: 500, color: "#ffffff", margin: "0 0 4px"}}>Şirket Kültürü</p><p style={{fontSize: "12px", color: "rgba(255,255,255,0.45)", margin: 0, lineHeight: 1.5}}>Çalışanların paylaştığı şirket içi gerçek deneyimler.</p></div>
+          <div style={{background: "#f5f5f5", border: "0.5px solid rgba(0,0,0,0.06)", borderRadius: "12px", padding: "1rem", textAlign: "left"}}><div style={{fontSize: "20px", marginBottom: "0.6rem"}}>🔒</div><p style={{fontSize: "13px", fontWeight: 500, color: "#000000", margin: "0 0 4px"}}>%100 Anonim</p><p style={{fontSize: "12px", color: "rgba(0,0,0,0.45)", margin: 0, lineHeight: 1.5}}>Kimliğini gizleyerek paylaş, gerçek deneyimleri oku.</p></div>
+          <div style={{background: "#f5f5f5", border: "0.5px solid rgba(0,0,0,0.06)", borderRadius: "12px", padding: "1rem", textAlign: "left"}}><div style={{fontSize: "20px", marginBottom: "0.6rem"}}>💰</div><p style={{fontSize: "13px", fontWeight: 500, color: "#000000", margin: "0 0 4px"}}>Maaş Şeffaflığı</p><p style={{fontSize: "12px", color: "rgba(0,0,0,0.45)", margin: 0, lineHeight: 1.5}}>Çalışanların paylaştığı gerçek maaş aralıklarını gör.</p></div>
+          <div style={{background: "#f5f5f5", border: "0.5px solid rgba(0,0,0,0.06)", borderRadius: "12px", padding: "1rem", textAlign: "left"}}><div style={{fontSize: "20px", marginBottom: "0.6rem"}}>🏢</div><p style={{fontSize: "13px", fontWeight: 500, color: "#000000", margin: "0 0 4px"}}>Şirket Kültürü</p><p style={{fontSize: "12px", color: "rgba(0,0,0,0.45)", margin: 0, lineHeight: 1.5}}>Çalışanların paylaştığı şirket içi gerçek deneyimler.</p></div>
         </div>
       </section>
       <div className="max-w-6xl mx-auto px-4 py-6">
@@ -385,7 +385,7 @@ export default function HomePage() {
               {NAV_ITEMS.map((item) => (
                 <button key={item.label}
                   onClick={() => { setActiveFilter(item.filter); setActiveSector(null); setActiveHashtag(null) }}
-                  className={`w-full text-left flex items-center gap-2.5 px-3 py-2 rounded-lg text-[13px] transition-colors ${activeFilter === item.filter && !activeSector && !activeHashtag ? 'bg-ink-900 text-white font-medium' : 'text-ink-600 hover:bg-ink-100'}`}>
+                  className={`w-full text-left flex items-center gap-2.5 px-3 py-2 rounded-lg text-[13px] transition-colors ${activeFilter === item.filter && !activeSector && !activeHashtag ? 'bg-[#0000FF] text-white font-medium' : 'text-ink-600 hover:bg-ink-100'}`}>
                   {item.label}
                 </button>
               ))}
@@ -396,7 +396,7 @@ export default function HomePage() {
                 {['Teknoloji', 'Finans', 'Pazarlama', 'Danışmanlık', 'İnsan kaynakları'].map(s => (
                   <button key={s}
                     onClick={() => { setActiveSector(activeSector === s ? null : s); setActiveFilter('Tümü'); setActiveHashtag(null) }}
-                    className={`w-full text-left px-3 py-1.5 rounded-lg text-[12px] transition-colors ${activeSector === s ? 'bg-ink-900 text-white font-medium' : 'text-ink-500 hover:bg-ink-100'}`}>
+                    className={`w-full text-left px-3 py-1.5 rounded-lg text-[12px] transition-colors ${activeSector === s ? 'bg-[#0000FF] text-white font-medium' : 'text-ink-500 hover:bg-ink-100'}`}>
                     {s}
                   </button>
                 ))}
@@ -408,12 +408,12 @@ export default function HomePage() {
             <div className="flex gap-1.5 p-1 bg-ink-100 rounded-xl mb-4">
               <button
                 onClick={() => setActiveTab('kesffet')}
-                className={`flex-1 py-2 text-[13px] font-medium rounded-lg transition-colors ${activeTab === 'kesffet' ? 'bg-white text-ink-900 border border-ink-200' : 'text-ink-400 hover:text-ink-600'}`}>
+                className={`flex-1 py-2 text-[13px] font-medium rounded-lg transition-colors ${activeTab === 'kesffet' ? 'bg-white text-[#0a0a0a] border border-ink-200' : 'text-ink-400 hover:text-ink-600'}`}>
                 Keşfet
               </button>
               <button
                 onClick={() => setActiveTab('kategorilerim')}
-                className={`flex-1 py-2 text-[13px] font-medium rounded-lg transition-colors ${activeTab === 'kategorilerim' ? 'bg-white text-ink-900 border border-ink-200' : 'text-ink-400 hover:text-ink-600'}`}>
+                className={`flex-1 py-2 text-[13px] font-medium rounded-lg transition-colors ${activeTab === 'kategorilerim' ? 'bg-white text-[#0a0a0a] border border-ink-200' : 'text-ink-400 hover:text-ink-600'}`}>
                 Kategorilerim
               </button>
             </div>
@@ -429,7 +429,7 @@ export default function HomePage() {
                         localStorage.setItem('kategoriler', JSON.stringify(next))
                         setKategoriler(next)
                       }}
-                      className={`text-[12px] px-3 py-1.5 rounded-full border transition-colors ${kategoriler.includes(k) ? 'bg-ink-900 text-white border-ink-900' : 'border-ink-200 text-ink-500 bg-white hover:border-ink-400'}`}>
+                      className={`text-[12px] px-3 py-1.5 rounded-full border transition-colors ${kategoriler.includes(k) ? 'bg-[#0000FF] text-white border-[#0000FF]' : 'border-ink-200 text-ink-500 bg-white hover:border-ink-400'}`}>
                       {k}
                     </button>
                   ))}
@@ -441,7 +441,7 @@ export default function HomePage() {
               {FILTERS.map((f) => (
                 <button key={f}
                   onClick={() => { setActiveFilter(f); setActiveSector(null); setActiveHashtag(null) }}
-                  className={`shrink-0 text-[12px] px-3 py-1.5 rounded-full border transition-colors ${activeFilter === f && !activeSector && !activeHashtag ? 'bg-ink-900 text-white border-ink-900' : 'border-ink-200 text-ink-500 bg-white hover:border-ink-400'}`}>
+                  className={`shrink-0 text-[12px] px-3 py-1.5 rounded-full border transition-colors ${activeFilter === f && !activeSector && !activeHashtag ? 'bg-[#0000FF] text-white border-[#0000FF]' : 'border-ink-200 text-ink-500 bg-white hover:border-ink-400'}`}>
                   {f}
                 </button>
               ))}

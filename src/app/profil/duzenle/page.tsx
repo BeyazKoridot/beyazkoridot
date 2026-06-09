@@ -69,7 +69,7 @@ export default function ProfilDuzenle() {
       <div className="max-w-md mx-auto px-4 py-8">
         <div className="flex items-center gap-3 mb-6">
           <button onClick={() => window.location.href = '/profil'} className="text-[13px] text-ink-400 hover:text-ink-700">← Geri</button>
-          <h1 className="text-[18px] font-bold text-ink-900">Profili düzenle</h1>
+          <h1 className="text-[18px] font-bold text-[#0a0a0a]">Profili düzenle</h1>
         </div>
 
         <div className="bg-white rounded-xl border border-ink-100 p-6 space-y-5">
@@ -138,7 +138,7 @@ export default function ProfilDuzenle() {
           <button
             onClick={handleSave}
             disabled={saving || !sektor}
-            className="w-full py-3 bg-ink-900 text-white rounded-xl text-[14px] font-semibold hover:bg-ink-700 transition-colors disabled:opacity-50"
+            className="w-full py-3 bg-[#0000FF] text-white rounded-xl text-[14px] font-semibold hover:bg-[#0000cc] transition-colors disabled:opacity-50"
           >
             {saving ? 'Kaydediliyor...' : 'Kaydet'}
           </button>

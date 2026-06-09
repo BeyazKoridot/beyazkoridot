@@ -30,7 +30,7 @@ export default function SirketlerPage() {
       <Navbar />
       <div className="max-w-4xl mx-auto px-4 py-8 pb-24 md:pb-8">
         <div className="mb-8">
-          <h1 className="text-[22px] font-semibold text-ink-900 mb-1">Şirket Deneyimleri</h1>
+          <h1 className="text-[22px] font-semibold text-[#0a0a0a] mb-1">Şirket Deneyimleri</h1>
           <p className="text-[13px] text-ink-400">Türkiye şirketlerinde çalışan deneyimleri</p>
         </div>
         <div className="mb-6">
@@ -50,7 +50,7 @@ export default function SirketlerPage() {
               <a key={c.id} href={'/sirketler/' + c.slug} className="bg-white rounded-xl border border-ink-100 p-4 hover:border-ink-300 transition-colors">
                 <div className="flex items-center justify-between mb-2">
                   <div>
-                    <h2 className="text-[15px] font-medium text-ink-900">{c.name}</h2>
+                    <h2 className="text-[15px] font-medium text-[#0a0a0a]">{c.name}</h2>
                     {c.sector && <span className="text-[11px] text-ink-400">{c.sector}</span>}
                   </div>
                   {c.is_verified && <span className="text-[10px] px-2 py-0.5 rounded-full bg-blue-50 text-blue-600 border border-blue-100">✓</span>}

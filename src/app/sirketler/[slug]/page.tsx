@@ -78,7 +78,7 @@ export default async function SirketPage({ params }: { params: { slug: string } 
         <div className="bg-white rounded-xl border border-ink-100 p-6 mb-4">
           <div className="flex items-start justify-between mb-3">
             <div>
-              <h1 className="text-[22px] font-semibold text-ink-900">{company.name}</h1>
+              <h1 className="text-[22px] font-semibold text-[#0a0a0a]">{company.name}</h1>
               {company.sector && <p className="text-[13px] text-ink-400 mt-0.5">{company.sector}</p>}
             </div>
             {company.is_verified && (
@@ -100,15 +100,15 @@ export default async function SirketPage({ params }: { params: { slug: string } 
 
           <div className="grid grid-cols-3 gap-3">
             <div className="bg-ink-50 rounded-lg p-3 text-center">
-              <p className="text-[20px] font-semibold text-ink-900">{posts.length}</p>
+              <p className="text-[20px] font-semibold text-[#0a0a0a]">{posts.length}</p>
               <p className="text-[11px] text-ink-400 mt-0.5">Paylaşım</p>
             </div>
             <div className="bg-ink-50 rounded-lg p-3 text-center">
-              <p className="text-[20px] font-semibold text-ink-900">{posts.filter((p: any) => p.tag === 'Maaş').length}</p>
+              <p className="text-[20px] font-semibold text-[#0a0a0a]">{posts.filter((p: any) => p.tag === 'Maaş').length}</p>
               <p className="text-[11px] text-ink-400 mt-0.5">Maaş verisi</p>
             </div>
             <div className="bg-ink-50 rounded-lg p-3 text-center">
-              <p className="text-[20px] font-semibold text-ink-900">{Object.keys(tagCounts).length}</p>
+              <p className="text-[20px] font-semibold text-[#0a0a0a]">{Object.keys(tagCounts).length}</p>
               <p className="text-[11px] text-ink-400 mt-0.5">Konu</p>
             </div>
           </div>
@@ -141,7 +141,7 @@ export default async function SirketPage({ params }: { params: { slug: string } 
                   <span className="text-[11px] px-2 py-0.5 rounded-full bg-ink-100 text-ink-600">{p.tag}</span>
                   <span className="text-[11px] text-ink-300">{new Date(p.created_at).toLocaleDateString('tr-TR')}</span>
                 </div>
-                <h3 className="text-[14px] font-medium text-ink-900 leading-snug">{p.title}</h3>
+                <h3 className="text-[14px] font-medium text-[#0a0a0a] leading-snug">{p.title}</h3>
                 {p.content && <p className="text-[12px] text-ink-500 mt-1 line-clamp-2">{p.content}</p>}
               </a>
             ))}

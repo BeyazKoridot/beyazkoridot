@@ -15,7 +15,7 @@ export default function HakkindaPage() {
         </div>
 
         <div className="mb-12">
-          <h1 className="text-[32px] font-bold text-ink-900 leading-tight mb-4">
+          <h1 className="text-[32px] font-bold text-[#0a0a0a] leading-tight mb-4">
             LinkedIn'de söyleyemediklerini burada söyle.
           </h1>
           <p className="text-[16px] text-ink-600 leading-relaxed">
@@ -28,7 +28,7 @@ export default function HakkindaPage() {
         <div className="space-y-10">
 
           <section>
-            <h2 className="text-[18px] font-semibold text-ink-900 mb-3">Ne yapabilirsin?</h2>
+            <h2 className="text-[18px] font-semibold text-[#0a0a0a] mb-3">Ne yapabilirsin?</h2>
             <div className="grid grid-cols-1 gap-3">
               {[
                 { icon: '💬', title: 'Deneyimlerini paylaş', desc: 'Çalışma kültürü, yönetim tarzı, ofis ortamı — anonim veya adınla.' },
@@ -39,7 +39,7 @@ export default function HakkindaPage() {
                 <div key={item.title} className="flex items-start gap-4 p-4 bg-white rounded-xl border border-ink-100">
                   <span className="text-2xl">{item.icon}</span>
                   <div>
-                    <p className="text-[14px] font-medium text-ink-900 mb-1">{item.title}</p>
+                    <p className="text-[14px] font-medium text-[#0a0a0a] mb-1">{item.title}</p>
                     <p className="text-[13px] text-ink-500">{item.desc}</p>
                   </div>
                 </div>
@@ -48,7 +48,7 @@ export default function HakkindaPage() {
           </section>
 
           <section>
-            <h2 className="text-[18px] font-semibold text-ink-900 mb-3">Anonim paylaşım nasıl çalışır?</h2>
+            <h2 className="text-[18px] font-semibold text-[#0a0a0a] mb-3">Anonim paylaşım nasıl çalışır?</h2>
             <p className="text-[14px] text-ink-600 leading-relaxed mb-3">
               Her gönderi ve yorumda "anonim" seçeneğini işaretleyebilirsin. 
               Anonim paylaşımlarda diğer kullanıcılar sadece sektörünü ve unvan seviyeni görür — 
@@ -61,17 +61,17 @@ export default function HakkindaPage() {
           </section>
 
           <section>
-            <h2 className="text-[18px] font-semibold text-ink-900 mb-3">Kimler için?</h2>
+            <h2 className="text-[18px] font-semibold text-[#0a0a0a] mb-3">Kimler için?</h2>
             <p className="text-[14px] text-ink-600 leading-relaxed">
               Türkiye'deki tüm beyaz yaka çalışanlar için. Yazılımcıdan finans profesyoneline, 
               pazarlama uzmanından danışmana — ofiste, hibrid veya remote çalışan herkes.
             </p>
           </section>
 
-          <section className="bg-ink-900 rounded-2xl p-8 text-center">
+          <section className="bg-[#0000FF] rounded-2xl p-8 text-center">
             <h2 className="text-[20px] font-bold text-white mb-3">Topluluğa katıl</h2>
             <p className="text-[14px] text-ink-300 mb-6">Ücretsiz, anonim, güvenli.</p>
-            <a href="/" className="inline-block px-8 py-3 bg-white text-ink-900 rounded-xl text-[14px] font-semibold hover:bg-ink-100 transition-colors">
+            <a href="/" className="inline-block px-8 py-3 bg-white text-[#0a0a0a] rounded-xl text-[14px] font-semibold hover:bg-ink-100 transition-colors">
               Platforma git →
             </a>
           </section>

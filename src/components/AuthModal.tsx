@@ -66,12 +66,10 @@ export default function AuthModal({ onClose, defaultMode = 'login', isForced = f
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-md" onClick={isForced ? undefined : onClose}>
         <div className="bg-white rounded-2xl w-full max-w-sm mx-4 overflow-hidden" onClick={e => e.stopPropagation()}>
-          <div className="bg-ink-900 px-6 py-4 flex items-center justify-between">
+          <div className="bg-[#0000FF] px-6 py-4 flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <div className="w-6 h-6 bg-white rounded-md flex items-center justify-center">
-                <span className="text-[8px] font-bold text-ink-900">OTR</span>
-              </div>
-              <span className="text-[13px] font-medium text-white">Off The Record <span className="text-white/35 font-normal">Social</span></span>
+              <img src="/logo-dark.png" alt="off the record" style={{height:"20px", width:"auto"}} />
+              
             </div>
             <div className="flex gap-1">
               <div className="w-5 h-[3px] bg-white rounded-full"></div>
@@ -80,14 +78,14 @@ export default function AuthModal({ onClose, defaultMode = 'login', isForced = f
           </div>
           <div className="p-6 flex flex-col gap-4">
             <div>
-              <p className="text-[17px] font-medium text-ink-900 mb-1">Seni biraz tanıyalım.</p>
+              <p className="text-[17px] font-medium text-[#0a0a0a] mb-1">Seni biraz tanıyalım.</p>
               <p className="text-[13px] text-ink-400 leading-relaxed">Feed'ini kişiselleştirmek için sektörünü ve seviyeni seç. İstediğin zaman değiştirebilirsin.</p>
             </div>
             <div>
               <p className="text-[12px] font-medium text-ink-600 mb-2">Sektörün</p>
               <div className="flex flex-wrap gap-1.5">
                 {SEKTORLER.map(s => (
-                  <button key={s} onClick={() => setSektor(s)} className={`text-[12px] px-3 py-1.5 rounded-full border transition-colors ${sektor === s ? 'bg-ink-900 text-white border-ink-900' : 'border-ink-200 text-ink-500 hover:border-ink-400'}`}>{s}</button>
+                  <button key={s} onClick={() => setSektor(s)} className={`text-[12px] px-3 py-1.5 rounded-full border transition-colors ${sektor === s ? 'bg-[#0000FF] text-white border-[#0000FF]' : 'border-ink-200 text-ink-500 hover:border-ink-400'}`}>{s}</button>
                 ))}
               </div>
             </div>
@@ -95,13 +93,13 @@ export default function AuthModal({ onClose, defaultMode = 'login', isForced = f
               <p className="text-[12px] font-medium text-ink-600 mb-2">Seviyeni</p>
               <div className="flex flex-wrap gap-1.5">
                 {UNVANLAR.map(u => (
-                  <button key={u} onClick={() => setUnvan(u)} className={`text-[12px] px-3 py-1.5 rounded-full border transition-colors ${unvan === u ? 'bg-ink-900 text-white border-ink-900' : 'border-ink-200 text-ink-500 hover:border-ink-400'}`}>{u}</button>
+                  <button key={u} onClick={() => setUnvan(u)} className={`text-[12px] px-3 py-1.5 rounded-full border transition-colors ${unvan === u ? 'bg-[#0000FF] text-white border-[#0000FF]' : 'border-ink-200 text-ink-500 hover:border-ink-400'}`}>{u}</button>
                 ))}
               </div>
             </div>
             <div className="flex gap-2 mt-2">
               <button onClick={onClose} className="flex-1 py-2.5 text-[13px] text-ink-400 border border-ink-200 rounded-xl hover:bg-ink-50 transition-colors">Şimdi değil</button>
-              <button onClick={handleProfileSave} className="flex-[2] py-2.5 text-[13px] font-medium text-white bg-ink-900 rounded-xl hover:bg-ink-700 transition-colors">Devam et →</button>
+              <button onClick={handleProfileSave} className="flex-[2] py-2.5 text-[13px] font-medium text-white bg-[#0000FF] rounded-xl hover:bg-[#0000cc] transition-colors">Devam et →</button>
             </div>
           </div>
         </div>
@@ -112,20 +110,18 @@ export default function AuthModal({ onClose, defaultMode = 'login', isForced = f
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50" onClick={onClose}>
       <div className="bg-white rounded-2xl w-full max-w-sm mx-4 overflow-hidden" onClick={e => e.stopPropagation()}>
-        <div className="bg-ink-900 px-6 py-5">
+        <div className="bg-[#0000FF] px-6 py-4">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
-              <div className="w-6 h-6 bg-white rounded-md flex items-center justify-center">
-                <span className="text-[8px] font-bold text-ink-900">OTR</span>
-              </div>
-              <span className="text-[13px] font-medium text-white">Off The Record <span className="text-white/35 font-normal">Social</span></span>
+              <img src="/logo-dark.png" alt="off the record" style={{height:"20px", width:"auto"}} />
+              
             </div>
             {!isForced && <button onClick={onClose} className="text-white/30 hover:text-white/60 text-lg">✕</button>}
           </div>
           {mode === 'register' && (
             <>
-              <p className="text-[14px] text-white/80 leading-relaxed mb-2">Maaşını sormak ayıp sayıldı. Şirket kültürünü sorgulamak imkânsızdı. Kariyer krizini paylaşmak zayıflık görüldü. OTR Social bunu değiştirmek için burada.</p>
-              <p className="text-[12px] text-white/30 italic">Kayıt dışı ama etki içinde.</p>
+              <p className="text-[13px] text-white/70 leading-relaxed mb-1">Maaşını sormak ayıp sayıldı. OTR Social bunu değiştirmek için burada.</p>
+              <p className="text-[11px] text-white/40 italic">Kayıt dışı ama etki içinde.</p>
             </>
           )}
           {mode === 'login' && (
@@ -144,10 +140,10 @@ export default function AuthModal({ onClose, defaultMode = 'login', isForced = f
             <div className="flex-1 h-px bg-ink-100"></div>
           </div>
           {mode === 'register' && (
-            <input type="text" placeholder="Kullanıcı adı *" value={displayName} onChange={e => setDisplayName(e.target.value)} className="w-full text-[13px] px-3 py-2.5 border border-ink-200 rounded-xl bg-ink-50 text-ink-900 outline-none focus:border-ink-400 transition-colors" />
+            <input type="text" placeholder="Kullanıcı adı *" value={displayName} onChange={e => setDisplayName(e.target.value)} className="w-full text-[13px] px-3 py-2.5 border border-ink-200 rounded-xl bg-ink-50 text-[#0a0a0a] outline-none focus:border-ink-400 transition-colors" />
           )}
-          <input type="email" placeholder="E-posta *" value={email} onChange={e => setEmail(e.target.value)} className="w-full text-[13px] px-3 py-2.5 border border-ink-200 rounded-xl bg-ink-50 text-ink-900 outline-none focus:border-ink-400 transition-colors" />
-          <input type="password" placeholder="Şifre *" value={password} onChange={e => setPassword(e.target.value)} className="w-full text-[13px] px-3 py-2.5 border border-ink-200 rounded-xl bg-ink-50 text-ink-900 outline-none focus:border-ink-400 transition-colors" />
+          <input type="email" placeholder="E-posta *" value={email} onChange={e => setEmail(e.target.value)} className="w-full text-[13px] px-3 py-2.5 border border-ink-200 rounded-xl bg-ink-50 text-[#0a0a0a] outline-none focus:border-ink-400 transition-colors" />
+          <input type="password" placeholder="Şifre *" value={password} onChange={e => setPassword(e.target.value)} className="w-full text-[13px] px-3 py-2.5 border border-ink-200 rounded-xl bg-ink-50 text-[#0a0a0a] outline-none focus:border-ink-400 transition-colors" />
           {mode === 'register' && (
             <div className="flex flex-col gap-2">
               <label className="flex items-start gap-2 cursor-pointer">
@@ -161,12 +157,12 @@ export default function AuthModal({ onClose, defaultMode = 'login', isForced = f
             </div>
           )}
           {error && <p className="text-[11px] text-red-500">{error}</p>}
-          <button onClick={handleAuth} disabled={loading} className="w-full py-2.5 text-[13px] font-medium text-white bg-ink-900 rounded-xl hover:bg-ink-700 disabled:opacity-50 transition-colors">
+          <button onClick={handleAuth} disabled={loading} className="w-full py-2.5 text-[13px] font-medium text-white bg-[#0000FF] rounded-xl hover:bg-[#0000cc] disabled:opacity-50 transition-colors">
             {loading ? 'Yükleniyor...' : mode === 'register' ? 'Üye ol — ücretsiz' : 'Giriş yap'}
           </button>
           <p className="text-center text-[11px] text-ink-400">
             {mode === 'register' ? 'Zaten üye misin?' : 'Hesabın yok mu?'}{' '}
-            <button onClick={() => { setMode(mode === 'register' ? 'login' : 'register'); setError('') }} className="text-ink-900 font-medium underline">
+            <button onClick={() => { setMode(mode === 'register' ? 'login' : 'register'); setError('') }} className="text-[#0a0a0a] font-medium underline">
               {mode === 'register' ? 'Giriş yap' : 'Üye ol'}
             </button>
           </p>

@@ -28,7 +28,7 @@ export default function TopBanner({
       className={`w-full border-b ${
         isBrand
           ? 'bg-brand-600 border-brand-800 text-white'
-          : 'bg-white border-ink-100 text-ink-900'
+          : 'bg-white border-ink-100 text-[#0a0a0a]'
       }`}
     >
       <div className="max-w-6xl mx-auto px-4 py-2.5 flex items-center gap-4">
@@ -43,7 +43,7 @@ export default function TopBanner({
 
         {/* Content */}
         <div className="flex-1 flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 min-w-0">
-          <p className={`text-[13px] font-medium truncate ${isBrand ? 'text-white' : 'text-ink-900'}`}>
+          <p className={`text-[13px] font-medium truncate ${isBrand ? 'text-white' : 'text-[#0a0a0a]'}`}>
             {headline}
           </p>
           <p className={`text-[12px] truncate hidden sm:block ${isBrand ? 'text-brand-100' : 'text-ink-400'}`}>

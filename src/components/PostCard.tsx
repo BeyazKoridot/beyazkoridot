@@ -53,7 +53,7 @@ export default function PostCard({ post }: { post: Post }) {
       </div>
 
       {/* Title */}
-      <h2 className="text-[14px] font-medium text-ink-900 leading-snug mb-2 cursor-pointer hover:text-brand-600 transition-colors">
+      <h2 className="text-[14px] font-medium text-[#0a0a0a] leading-snug mb-2 cursor-pointer hover:text-brand-600 transition-colors">
         {post.title}
       </h2>
 

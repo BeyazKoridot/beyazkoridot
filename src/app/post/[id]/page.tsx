@@ -111,7 +111,7 @@ function CommentThread({ comment, allComments, depth, postId, userId, onReplyAdd
               <span className="text-[10px] px-1.5 py-0.5 rounded bg-ink-100 text-ink-500">gizli</span>
             )}
             {comment.display_sector && (
-              <span className="text-[10px] px-2 py-0.5 rounded-full bg-ink-900 text-white font-medium">{comment.display_sector}</span>
+              <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#0000FF] text-white font-medium">{comment.display_sector}</span>
             )}
             {comment.display_level && (
               <span className="text-[11px] text-ink-400">{comment.display_level}</span>
@@ -168,7 +168,7 @@ function CommentThread({ comment, allComments, depth, postId, userId, onReplyAdd
                 <button
                   onClick={handleReply}
                   disabled={submitting || !replyText.trim()}
-                  className="text-[11px] font-medium text-white px-3 py-1 rounded-md bg-ink-900 hover:bg-ink-700 disabled:opacity-50"
+                  className="text-[11px] font-medium text-white px-3 py-1 rounded-md bg-[#0000FF] hover:bg-[#0000cc] disabled:opacity-50"
                 >
                   {submitting ? '...' : 'Gönder'}
                 </button>
@@ -303,13 +303,13 @@ export default function PostPage() {
               <span className="text-[13px] font-medium text-ink-800">{post.is_anon ? 'Anonim' : 'Üye'}</span>
               {post.is_anon && <span className="ml-1.5 text-[10px] px-1.5 py-0.5 rounded bg-ink-100 text-ink-500">gizli</span>}
               {post.sector && post.sector !== 'Genel' && (
-                <span className="ml-1.5 text-[10px] px-2 py-0.5 rounded-full bg-ink-900 text-white font-medium">{post.sector}</span>
+                <span className="ml-1.5 text-[10px] px-2 py-0.5 rounded-full bg-[#0000FF] text-white font-medium">{post.sector}</span>
               )}
               <p className="text-[11px] text-ink-400">{new Date(post.created_at).toLocaleDateString('tr-TR')}</p>
             </div>
           </div>
 
-          <h1 className="text-[20px] font-semibold text-ink-900 leading-snug mb-3">{post.title}</h1>
+          <h1 className="text-[20px] font-semibold text-[#0a0a0a] leading-snug mb-3">{post.title}</h1>
           {post.content && <p className="text-[14px] text-ink-600 leading-relaxed mb-4">{post.content}</p>}
 
           <div className="flex items-center gap-2 pt-4 border-t border-ink-50 flex-wrap">
@@ -364,7 +364,7 @@ export default function PostPage() {
             <button
               onClick={handleComment}
               disabled={submitting || !comment.trim()}
-              className="text-[12px] font-medium text-white px-4 py-1.5 rounded-md bg-ink-900 hover:bg-ink-700 transition-colors disabled:opacity-50"
+              className="text-[12px] font-medium text-white px-4 py-1.5 rounded-md bg-[#0000FF] hover:bg-[#0000cc] transition-colors disabled:opacity-50"
             >
               {submitting ? 'Gönderiliyor...' : 'Yorum yap'}
             </button>

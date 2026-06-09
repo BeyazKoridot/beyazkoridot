@@ -121,7 +121,7 @@ export default async function UnvanMaasPage({ params }: { params: { unvan: strin
           <span className="text-ink-700">{unvanLabel}</span>
         </div>
 
-        <h1 className="text-[24px] font-semibold text-ink-900 mb-1">{unvanLabel} Maaşları</h1>
+        <h1 className="text-[24px] font-semibold text-[#0a0a0a] mb-1">{unvanLabel} Maaşları</h1>
         <p className="text-[13px] text-ink-400 mb-6">
           Türkiye genelinde {unvanLabel} pozisyonundaki çalışanların anonim maaş verileri · {data.length} kayıt
         </p>
@@ -137,7 +137,7 @@ export default async function UnvanMaasPage({ params }: { params: { unvan: strin
             ].map(m => (
               <div key={m.label} className="bg-white rounded-xl border border-ink-100 p-4 text-center">
                 <p className="text-[11px] text-ink-400 mb-1">{m.label}</p>
-                <p className="text-[16px] font-semibold text-ink-900">{m.value}</p>
+                <p className="text-[16px] font-semibold text-[#0a0a0a]">{m.value}</p>
               </div>
             ))}
           </div>
@@ -158,7 +158,7 @@ export default async function UnvanMaasPage({ params }: { params: { unvan: strin
                   <div key={s.sektor}>
                     <div className="flex items-center justify-between mb-1">
                       <span className="text-[12px] text-ink-700">{s.label}</span>
-                      <span className="text-[12px] font-medium text-ink-900">{fmt(s.avg)}
+                      <span className="text-[12px] font-medium text-[#0a0a0a]">{fmt(s.avg)}
                         <span className="text-ink-400 font-normal ml-1">({s.count} veri)</span>
                       </span>
                     </div>
@@ -178,7 +178,7 @@ export default async function UnvanMaasPage({ params }: { params: { unvan: strin
           <div className="flex flex-wrap gap-2">
             {digerUnvanlar.map(([slug, label]) => (
               <a key={slug} href={`/maas/${slug}`}
-                className="text-[12px] px-3 py-1.5 rounded-full border border-ink-200 text-ink-600 hover:border-ink-800 hover:text-ink-900 transition-colors">
+                className="text-[12px] px-3 py-1.5 rounded-full border border-ink-200 text-ink-600 hover:border-ink-800 hover:text-[#0a0a0a] transition-colors">
                 {label}
               </a>
             ))}

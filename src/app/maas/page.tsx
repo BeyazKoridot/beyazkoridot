@@ -175,11 +175,11 @@ export default function MaasPage() {
     <>
       <Navbar />
       <div className="max-w-2xl mx-auto px-4 py-24 text-center">
-        <h1 className="text-[20px] font-semibold text-ink-900 mb-3">Maaş Rehberi</h1>
+        <h1 className="text-[20px] font-semibold text-[#0a0a0a] mb-3">Maaş Rehberi</h1>
         <p className="text-[14px] text-ink-400 mb-6">Bu sayfayı görmek için üye olman gerekiyor.</p>
         <button
           onClick={() => setShowAuth(true)}
-          className="text-[13px] font-medium text-white px-6 py-2.5 rounded-lg bg-ink-900 hover:bg-ink-700 transition-colors"
+          className="text-[13px] font-medium text-white px-6 py-2.5 rounded-lg bg-[#0000FF] hover:bg-[#0000cc] transition-colors"
         >
           Üye ol / Giriş yap
         </button>
@@ -195,10 +195,10 @@ export default function MaasPage() {
       <div className="max-w-4xl mx-auto px-4 py-8 pb-24 md:pb-8">
         <div className="flex items-center justify-between mb-2">
           <div>
-            <h1 className="text-[22px] font-semibold text-ink-900">Maaş Rehberi</h1>
+            <h1 className="text-[22px] font-semibold text-[#0a0a0a]">Maaş Rehberi</h1>
             <p className="text-[13px] text-ink-400 mt-0.5">Çalışanların gönüllü olarak paylaştığı maaş verileri</p>
           </div>
-          <button onClick={() => setShowForm(v => !v)} className="text-[13px] font-medium text-white px-4 py-2 rounded-lg bg-ink-900 hover:bg-ink-700 transition-colors">+ Maaşımı ekle</button>
+          <button onClick={() => setShowForm(v => !v)} className="text-[13px] font-medium text-white px-4 py-2 rounded-lg bg-[#0000FF] hover:bg-[#0000cc] transition-colors">+ Maaşımı ekle</button>
         </div>
 
         {/* Unvan linkleri — SEO + navigasyon */}
@@ -214,7 +214,7 @@ export default function MaasPage() {
               { slug: 'director', label: 'Director' },
             ].map(u => (
               <a key={u.slug} href={`/maas/${u.slug}`}
-                className="text-[12px] px-3 py-1.5 rounded-full border border-ink-200 text-ink-600 hover:border-ink-800 hover:text-ink-900 transition-colors bg-white">
+                className="text-[12px] px-3 py-1.5 rounded-full border border-ink-200 text-ink-600 hover:border-ink-800 hover:text-[#0a0a0a] transition-colors bg-white">
                 {u.label} →
               </a>
             ))}
@@ -231,7 +231,7 @@ export default function MaasPage() {
 
         {showForm && (
           <div className="bg-white rounded-xl border border-ink-200 p-5 mb-6">
-            <h2 className="text-[15px] font-medium text-ink-900 mb-4">Maaş bilgisi ekle</h2>
+            <h2 className="text-[15px] font-medium text-[#0a0a0a] mb-4">Maaş bilgisi ekle</h2>
             <div className="grid grid-cols-2 gap-3 mb-3">
               <select value={sektor} onChange={e => setSektor(e.target.value)} className="text-[12px] border border-ink-200 rounded-lg px-2.5 py-2 outline-none">
                 <option value="">Sektör *</option>
@@ -256,7 +256,7 @@ export default function MaasPage() {
             {error && <p className="text-[11px] text-red-500 mb-2">{error}</p>}
             <div className="flex justify-end gap-2">
               <button onClick={() => setShowForm(false)} className="text-[12px] text-ink-400 px-3 py-1.5">İptal</button>
-              <button onClick={handleSubmit} disabled={submitting} className="text-[12px] font-medium text-white px-4 py-1.5 rounded-lg bg-ink-900 hover:bg-ink-700 disabled:opacity-50">
+              <button onClick={handleSubmit} disabled={submitting} className="text-[12px] font-medium text-white px-4 py-1.5 rounded-lg bg-[#0000FF] hover:bg-[#0000cc] disabled:opacity-50">
                 {submitting ? 'Ekleniyor...' : 'Ekle'}
               </button>
             </div>
@@ -275,7 +275,7 @@ export default function MaasPage() {
           <div className="flex gap-1.5 flex-wrap">
             {['', ...UNVANLAR].map(u => (
               <button key={u} onClick={() => setFilterUnvan(u)}
-                className={`text-[11px] px-3 py-1.5 rounded-full border transition-colors ${filterUnvan === u ? 'bg-ink-900 text-white border-ink-900' : 'bg-white text-ink-500 border-ink-200 hover:border-ink-400'}`}>
+                className={`text-[11px] px-3 py-1.5 rounded-full border transition-colors ${filterUnvan === u ? 'bg-[#0000FF] text-white border-[#0000FF]' : 'bg-white text-ink-500 border-ink-200 hover:border-ink-400'}`}>
                 {u || 'Tümü'}
               </button>
             ))}
@@ -291,7 +291,7 @@ export default function MaasPage() {
           ].map(m => (
             <div key={m.label} className="bg-ink-50 rounded-lg p-3">
               <p className="text-[11px] text-ink-400 mb-1">{m.label}</p>
-              <p className="text-[16px] font-semibold text-ink-900">{m.value}</p>
+              <p className="text-[16px] font-semibold text-[#0a0a0a]">{m.value}</p>
             </div>
           ))}
         </div>

@@ -1,22 +1,19 @@
 import type { Metadata } from 'next'
-import { DM_Sans, Playfair_Display } from 'next/font/google'
+import { DM_Sans } from 'next/font/google'
 import './globals.css'
 import BottomNav from '@/components/BottomNav'
 
 const dmSans = DM_Sans({
   subsets: ['latin'],
   variable: '--font-body',
-  weight: ['400', '500'],
-})
-
-const playfair = Playfair_Display({
-  subsets: ['latin'],
-  variable: '--font-display',
-  weight: ['600', '700'],
-  style: ['normal', 'italic'],
+  weight: ['400', '500', '700', '900'],
 })
 
 export const metadata: Metadata = {
+  icons: {
+    icon: '/favicon.png',
+    apple: '/favicon.png',
+  },
   verification: {
     google: 'XRB54ocIwzAl9Xhlj2yqtQBFJX3V_spiymPH0yZpMSI',
   },
@@ -63,7 +60,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-0Y0L4TTQG6"></script>
         <script dangerouslySetInnerHTML={{__html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-0Y0L4TTQG6');`}} />
       </head>
-      <body className={`${dmSans.variable} ${playfair.variable} font-sans bg-ink-50 text-ink-900 pb-16 md:pb-0`}>
+      <body className={`${dmSans.variable} font-sans bg-ink-50 text-[#0a0a0a] pb-16 md:pb-0`}>
         {children}
         <BottomNav />
       </body>

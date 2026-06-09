@@ -5,18 +5,18 @@ export default function KVKKPage() {
     <>
       <Navbar />
       <div className="max-w-2xl mx-auto px-4 py-12">
-        <h1 className="text-[28px] font-semibold text-ink-900 mb-2">Gizlilik Politikası ve KVKK Aydınlatma Metni</h1>
+        <h1 className="text-[28px] font-semibold text-[#0a0a0a] mb-2">Gizlilik Politikası ve KVKK Aydınlatma Metni</h1>
         <p className="text-[13px] text-ink-400 mb-8">Son güncelleme: {new Date().toLocaleDateString('tr-TR')}</p>
 
         <div className="space-y-8 text-[14px] text-ink-700 leading-relaxed">
 
           <section>
-            <h2 className="text-[16px] font-semibold text-ink-900 mb-3">1. Veri Sorumlusu</h2>
+            <h2 className="text-[16px] font-semibold text-[#0a0a0a] mb-3">1. Veri Sorumlusu</h2>
             <p>Bu platform ("Platform"), 6698 sayılı Kişisel Verilerin Korunması Kanunu ("KVKK") kapsamında veri sorumlusu sıfatıyla hareket etmektedir. Platformun işletmecisi, kullanıcıların kişisel verilerini bu metin kapsamında işlemektedir.</p>
           </section>
 
           <section>
-            <h2 className="text-[16px] font-semibold text-ink-900 mb-3">2. Toplanan Veriler</h2>
+            <h2 className="text-[16px] font-semibold text-[#0a0a0a] mb-3">2. Toplanan Veriler</h2>
             <p className="mb-2">Platform üzerinden aşağıdaki veriler toplanabilmektedir:</p>
             <ul className="list-disc pl-5 space-y-1">
               <li>E-posta adresi (kayıt olunması halinde)</li>
@@ -28,12 +28,12 @@ export default function KVKKPage() {
           </section>
 
           <section>
-            <h2 className="text-[16px] font-semibold text-ink-900 mb-3">3. Anonim Paylaşım</h2>
+            <h2 className="text-[16px] font-semibold text-[#0a0a0a] mb-3">3. Anonim Paylaşım</h2>
             <p>Kullanıcılar içeriklerini anonim olarak paylaşmayı tercih ettiğinde, paylaşım diğer kullanıcılara anonim görünür. Anonim paylaşımlar teknik altyapı düzeyinde de kullanıcı kimliğiyle ilişkilendirilemez; bu bağ kriptografik olarak koparılmıştır. Aşırı kullanımı önlemek amacıyla günlük post sayısı sınırlandırılmış olup bu denetim kullanıcı kimliğini açığa çıkarmayan tek yönlü şifreleme yöntemiyle yapılmaktadır.</p>
           </section>
 
           <section>
-            <h2 className="text-[16px] font-semibold text-ink-900 mb-3">4. Verilerin Kullanım Amacı</h2>
+            <h2 className="text-[16px] font-semibold text-[#0a0a0a] mb-3">4. Verilerin Kullanım Amacı</h2>
             <ul className="list-disc pl-5 space-y-1">
               <li>Platform hizmetlerinin sunulması ve geliştirilmesi</li>
               <li>Kullanıcı deneyiminin iyileştirilmesi</li>
@@ -44,7 +44,7 @@ export default function KVKKPage() {
           </section>
 
           <section>
-            <h2 className="text-[16px] font-semibold text-ink-900 mb-3">5. Verilerin Paylaşımı</h2>
+            <h2 className="text-[16px] font-semibold text-[#0a0a0a] mb-3">5. Verilerin Paylaşımı</h2>
             <p>Kişisel verileriniz;</p>
             <ul className="list-disc pl-5 space-y-1 mt-2">
               <li>Yasal zorunluluk olmaksızın üçüncü şahıslarla paylaşılmaz</li>
@@ -54,7 +54,7 @@ export default function KVKKPage() {
           </section>
 
           <section>
-            <h2 className="text-[16px] font-semibold text-ink-900 mb-3">6. Haklarınız</h2>
+            <h2 className="text-[16px] font-semibold text-[#0a0a0a] mb-3">6. Haklarınız</h2>
             <p className="mb-2">KVKK'nın 11. maddesi uyarınca aşağıdaki haklara sahipsiniz:</p>
             <ul className="list-disc pl-5 space-y-1">
               <li>Kişisel verilerinizin işlenip işlenmediğini öğrenme</li>
@@ -71,7 +71,7 @@ export default function KVKKPage() {
           </section>
 
           <section>
-            <h2 className="text-[16px] font-semibold text-ink-900 mb-3">8. İletişim</h2>
+            <h2 className="text-[16px] font-semibold text-[#0a0a0a] mb-3">8. İletişim</h2>
             <p>KVKK kapsamındaki talepleriniz için platformun iletişim kanallarını kullanabilirsiniz. Talepler 30 gün içinde yanıtlanır.</p>
           </section>
 

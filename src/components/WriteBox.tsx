@@ -226,7 +226,7 @@ export default function WriteBox({ onPost }: { onPost?: () => void }) {
             {imageUrl ? (
               <div className="relative inline-block">
                 <img src={imageUrl} alt="preview" className="max-h-48 rounded-lg border border-ink-200 object-cover" />
-                <button onClick={() => setImageUrl('')} className="absolute top-1 right-1 w-5 h-5 bg-ink-900 text-white rounded-full text-[10px] flex items-center justify-center">✕</button>
+                <button onClick={() => setImageUrl('')} className="absolute top-1 right-1 w-5 h-5 bg-[#0000FF] text-white rounded-full text-[10px] flex items-center justify-center">✕</button>
               </div>
             ) : (
               <label className="flex items-center gap-1.5 text-[12px] text-ink-400 cursor-pointer hover:text-ink-600 w-fit">
@@ -240,7 +240,7 @@ export default function WriteBox({ onPost }: { onPost?: () => void }) {
 
           <div className="mt-3 pt-3 border-t border-ink-50 flex items-center justify-between flex-wrap gap-2">
             <button onClick={() => setIsAnon(v => !v)}
-              className={`flex items-center gap-1.5 text-[12px] px-2.5 py-1 rounded-full border transition-colors ${isAnon ? 'bg-ink-100 text-ink-600 border-ink-200' : 'bg-ink-900 text-white border-ink-900'}`}>
+              className={`flex items-center gap-1.5 text-[12px] px-2.5 py-1 rounded-full border transition-colors ${isAnon ? 'bg-ink-100 text-ink-600 border-ink-200' : 'bg-[#0000FF] text-white border-[#0000FF]'}`}>
               {isAnon ? 'Anonim' : 'Adımla paylaş'}
             </button>
             <div className="flex items-center gap-2">
@@ -249,7 +249,7 @@ export default function WriteBox({ onPost }: { onPost?: () => void }) {
                 İptal
               </button>
               <button onClick={handleSubmit} disabled={loading || !title.trim()}
-                className="text-[12px] font-medium text-white px-4 py-1.5 rounded-md bg-ink-900 hover:bg-ink-700 transition-colors disabled:opacity-50">
+                className="text-[12px] font-medium text-white px-4 py-1.5 rounded-md bg-[#0000FF] hover:bg-[#0000cc] transition-colors disabled:opacity-50">
                 {moderating ? 'Kontrol ediliyor...' : loading ? 'Yükleniyor...' : 'Paylaş'}
               </button>
             </div>

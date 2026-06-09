@@ -11,18 +11,18 @@ export default function ToplulukKurallariPage() {
     <>
       <Navbar />
       <div className="max-w-2xl mx-auto px-4 py-12">
-        <h1 className="text-[28px] font-semibold text-ink-900 mb-2">Topluluk Kuralları</h1>
+        <h1 className="text-[28px] font-semibold text-[#0a0a0a] mb-2">Topluluk Kuralları</h1>
         <p className="text-[13px] text-ink-400 mb-8">Son güncelleme: Mayıs 2026</p>
 
         <div className="space-y-8 text-[14px] text-ink-700 leading-relaxed">
 
           <section>
-            <h2 className="text-[16px] font-semibold text-ink-900 mb-3">Neden Bu Kurallar?</h2>
+            <h2 className="text-[16px] font-semibold text-[#0a0a0a] mb-3">Neden Bu Kurallar?</h2>
             <p>OTR Social, Türkiye'nin beyaz yaka çalışanlarının dürüst iş deneyimlerini paylaşabileceği bir platform. Dürüstlük değerimizi korumak için bazı sınırlar koyuyoruz. Amacımız sansür değil, güvenli bir alan yaratmak.</p>
           </section>
 
           <section>
-            <h2 className="text-[16px] font-semibold text-ink-900 mb-3">✅ İzin Verilen İçerikler</h2>
+            <h2 className="text-[16px] font-semibold text-[#0a0a0a] mb-3">✅ İzin Verilen İçerikler</h2>
             <ul className="list-disc pl-5 space-y-1.5">
               <li>İş deneyimi ve mülakat deneyimi paylaşımı (şirket ismi dahil)</li>
               <li>Maaş ve yan haklar bilgisi</li>
@@ -35,7 +35,7 @@ export default function ToplulukKurallariPage() {
           </section>
 
           <section>
-            <h2 className="text-[16px] font-semibold text-ink-900 mb-3">🚫 Yasaklı İçerikler</h2>
+            <h2 className="text-[16px] font-semibold text-[#0a0a0a] mb-3">🚫 Yasaklı İçerikler</h2>
             <ul className="list-disc pl-5 space-y-1.5">
               <li><strong>İftira:</strong> Gerçek kişiye yönelik isimli ve asılsız suçlama</li>
               <li><strong>Tehdit:</strong> Kişiye veya kuruma yönelik açık tehdit ifadeleri</li>
@@ -48,7 +48,7 @@ export default function ToplulukKurallariPage() {
           </section>
 
           <section>
-            <h2 className="text-[16px] font-semibold text-ink-900 mb-3">🤖 Otomatik Moderasyon</h2>
+            <h2 className="text-[16px] font-semibold text-[#0a0a0a] mb-3">🤖 Otomatik Moderasyon</h2>
             <p className="mb-3">Her gönderi yayınlanmadan önce otomatik olarak incelenir:</p>
             <ol className="list-decimal pl-5 space-y-1.5">
               <li>Yasaklı kelime filtresi anlık çalışır</li>
@@ -59,10 +59,10 @@ export default function ToplulukKurallariPage() {
           </section>
 
           <section>
-            <h2 className="text-[16px] font-semibold text-ink-900 mb-3">📩 İçerik Kaldırma Talebi</h2>
+            <h2 className="text-[16px] font-semibold text-[#0a0a0a] mb-3">📩 İçerik Kaldırma Talebi</h2>
             <p className="mb-3">Platformda sana ait veya seni ilgilendiren hatalı bir içerik görürsen kaldırılmasını talep edebilirsin.</p>
             <div className="bg-ink-50 rounded-xl p-4 space-y-2">
-              <p className="font-medium text-ink-900">Nasıl talep edilir?</p>
+              <p className="font-medium text-[#0a0a0a]">Nasıl talep edilir?</p>
               <ol className="list-decimal pl-5 space-y-1.5 text-[13px]">
                 <li><strong>iletisim@otrsocial.com</strong> adresine e-posta gönder</li>
                 <li>Konu: <code className="bg-white px-1.5 py-0.5 rounded text-[12px]">İçerik Kaldırma Talebi</code></li>
@@ -74,7 +74,7 @@ export default function ToplulukKurallariPage() {
           </section>
 
           <section>
-            <h2 className="text-[16px] font-semibold text-ink-900 mb-3">⚖️ Yaptırımlar</h2>
+            <h2 className="text-[16px] font-semibold text-[#0a0a0a] mb-3">⚖️ Yaptırımlar</h2>
             <ul className="list-disc pl-5 space-y-1.5">
               <li>İlk ihlal: içerik kaldırılır, uyarı gönderilir</li>
               <li>Tekrarlı ihlal: hesap askıya alınır</li>
@@ -83,8 +83,8 @@ export default function ToplulukKurallariPage() {
           </section>
 
           <section>
-            <h2 className="text-[16px] font-semibold text-ink-900 mb-3">📬 İletişim</h2>
-            <p>Sorular ve talepler için: <a href="mailto:iletisim@otrsocial.com" className="text-ink-900 underline underline-offset-2">iletisim@otrsocial.com</a></p>
+            <h2 className="text-[16px] font-semibold text-[#0a0a0a] mb-3">📬 İletişim</h2>
+            <p>Sorular ve talepler için: <a href="mailto:iletisim@otrsocial.com" className="text-[#0a0a0a] underline underline-offset-2">iletisim@otrsocial.com</a></p>
           </section>
 
         </div>

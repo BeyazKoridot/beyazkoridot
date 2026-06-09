@@ -20,7 +20,7 @@ export default function SideAd({
       <div className="h-1 w-full bg-brand-400" />
       <div className="p-4">
         <span className="text-[10px] font-medium text-ink-400 uppercase tracking-wider">{label}</span>
-        <p className="mt-1.5 text-[13px] font-medium text-ink-900 leading-snug">{headline}</p>
+        <p className="mt-1.5 text-[13px] font-medium text-[#0a0a0a] leading-snug">{headline}</p>
         <p className="mt-1 text-[12px] text-ink-500 leading-relaxed">{sub}</p>
         <a
           href={ctaHref}
