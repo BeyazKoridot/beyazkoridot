@@ -66,7 +66,7 @@ export default function AraPage() {
               <div
                 key={post.id}
                 onClick={() => window.location.href = `/post/${post.id}`}
-                className="bg-white rounded-xl border border-ink-100 p-4 hover:border-ink-300 transition-colors cursor-pointer"
+                className="bg-white rounded-xl border border-[#e0e8f5] p-4 hover:border-ink-300 transition-colors cursor-pointer"
               >
                 <div className="flex items-center gap-2 mb-2">
                   {post.sector && post.sector !== 'Genel' && (

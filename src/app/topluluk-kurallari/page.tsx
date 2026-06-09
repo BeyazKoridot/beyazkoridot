@@ -61,7 +61,7 @@ export default function ToplulukKurallariPage() {
           <section>
             <h2 className="text-[16px] font-semibold text-[#0a0a0a] mb-3">📩 İçerik Kaldırma Talebi</h2>
             <p className="mb-3">Platformda sana ait veya seni ilgilendiren hatalı bir içerik görürsen kaldırılmasını talep edebilirsin.</p>
-            <div className="bg-ink-50 rounded-xl p-4 space-y-2">
+            <div className="bg-[#f0f6ff] rounded-xl p-4 space-y-2">
               <p className="font-medium text-[#0a0a0a]">Nasıl talep edilir?</p>
               <ol className="list-decimal pl-5 space-y-1.5 text-[13px]">
                 <li><strong>iletisim@otrsocial.com</strong> adresine e-posta gönder</li>

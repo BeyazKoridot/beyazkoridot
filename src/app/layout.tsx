@@ -60,7 +60,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-0Y0L4TTQG6"></script>
         <script dangerouslySetInnerHTML={{__html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-0Y0L4TTQG6');`}} />
       </head>
-      <body className={`${dmSans.variable} font-sans bg-ink-50 text-[#0a0a0a] pb-16 md:pb-0`}>
+      <body className={`${dmSans.variable} font-sans bg-[#f0f6ff] text-[#0a0a0a] pb-16 md:pb-0`}>
         {children}
         <BottomNav />
       </body>

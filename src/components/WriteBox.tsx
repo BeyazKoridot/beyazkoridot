@@ -146,7 +146,7 @@ export default function WriteBox({ onPost }: { onPost?: () => void }) {
   }
 
   return (
-    <div className={`bg-white rounded-xl border mb-4 ${expanded ? 'border-ink-400' : 'border-ink-100'} p-3.5 transition-colors`}>
+    <div className={`bg-white rounded-xl border mb-4 ${expanded ? 'border-ink-400' : 'border-[#e0e8f5]'} p-3.5 transition-colors`}>
       {success && (
         <div className="mb-3 px-3 py-2 bg-green-50 text-green-700 text-[12px] rounded-lg">
           Gönderin yayınlandı!
@@ -238,7 +238,7 @@ export default function WriteBox({ onPost }: { onPost?: () => void }) {
           </div>
           {error && <p className="text-[11px] text-red-500 mt-1.5">{error}</p>}
 
-          <div className="mt-3 pt-3 border-t border-ink-50 flex items-center justify-between flex-wrap gap-2">
+          <div className="mt-3 pt-3 border-t border-[#f0f6ff] flex items-center justify-between flex-wrap gap-2">
             <button onClick={() => setIsAnon(v => !v)}
               className={`flex items-center gap-1.5 text-[12px] px-2.5 py-1 rounded-full border transition-colors ${isAnon ? 'bg-ink-100 text-ink-600 border-ink-200' : 'bg-[#0000FF] text-white border-[#0000FF]'}`}>
               {isAnon ? 'Anonim' : 'Adımla paylaş'}

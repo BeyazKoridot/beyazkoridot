@@ -135,7 +135,7 @@ export default async function UnvanMaasPage({ params }: { params: { unvan: strin
               { label: 'En düşük', value: fmt(min) },
               { label: 'En yüksek', value: fmt(max) },
             ].map(m => (
-              <div key={m.label} className="bg-white rounded-xl border border-ink-100 p-4 text-center">
+              <div key={m.label} className="bg-white rounded-xl border border-[#e0e8f5] p-4 text-center">
                 <p className="text-[11px] text-ink-400 mb-1">{m.label}</p>
                 <p className="text-[16px] font-semibold text-[#0a0a0a]">{m.value}</p>
               </div>
@@ -149,7 +149,7 @@ export default async function UnvanMaasPage({ params }: { params: { unvan: strin
 
         {/* Sektör kırılımı */}
         {sektorStats.length > 0 && (
-          <div className="bg-white rounded-xl border border-ink-100 p-5 mb-6">
+          <div className="bg-white rounded-xl border border-[#e0e8f5] p-5 mb-6">
             <h2 className="text-[14px] font-medium text-ink-700 mb-4">Sektör bazlı ortalama maaş</h2>
             <div className="space-y-3">
               {sektorStats.map(s => {
@@ -173,7 +173,7 @@ export default async function UnvanMaasPage({ params }: { params: { unvan: strin
         )}
 
         {/* Diğer unvanlar */}
-        <div className="bg-white rounded-xl border border-ink-100 p-5 mb-6">
+        <div className="bg-white rounded-xl border border-[#e0e8f5] p-5 mb-6">
           <h2 className="text-[14px] font-medium text-ink-700 mb-3">Diğer unvan maaşları</h2>
           <div className="flex flex-wrap gap-2">
             {digerUnvanlar.map(([slug, label]) => (
@@ -186,7 +186,7 @@ export default async function UnvanMaasPage({ params }: { params: { unvan: strin
         </div>
 
         {/* Yasal uyarı */}
-        <div className="px-4 py-3 bg-ink-50 rounded-lg border border-ink-100">
+        <div className="px-4 py-3 bg-[#f0f6ff] rounded-lg border border-[#e0e8f5]">
           <p className="text-[11px] text-ink-400 leading-relaxed">
             Veriler kullanıcılar tarafından anonim olarak paylaşılmıştır. OTR Social doğruluğu garanti etmez.
             Maaş eklemek için <a href="/maas" className="underline">Maaş Rehberi</a> sayfasını ziyaret et.

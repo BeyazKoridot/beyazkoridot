@@ -34,7 +34,7 @@ function PostCard({ post, onLike, onHashtagClick, currentUserId, likedPostIds, o
     <div className="bg-white rounded-xl p-4 mb-3 relative" style={{border: '1.5px solid #0000FF'}}>
       <div className="absolute -top-px right-3 text-white text-[10px] font-medium px-2 py-0.5 rounded-b-md" style={{background: '#0000FF'}}>SPONSORLU</div>
       <div className="flex items-center gap-2.5 mt-1.5 mb-3">
-        <div className="w-10 h-10 rounded-lg bg-blue-50 border border-ink-100 flex items-center justify-center shrink-0">
+        <div className="w-10 h-10 rounded-lg bg-blue-50 border border-[#e0e8f5] flex items-center justify-center shrink-0">
           <span className="text-[15px] font-medium text-blue-700">{post.sponsor_name?.[0] ?? 'S'}</span>
         </div>
         <div>
@@ -44,7 +44,7 @@ function PostCard({ post, onLike, onHashtagClick, currentUserId, likedPostIds, o
       </div>
       <h3 className="text-[14px] font-medium text-[#0a0a0a] mb-1.5 leading-snug">{post.title}</h3>
       {post.content && <p className="text-[12px] text-ink-500 mb-3 line-clamp-2">{post.content}</p>}
-      <div className="flex items-center justify-between pt-2.5 border-t border-ink-50">
+      <div className="flex items-center justify-between pt-2.5 border-t border-[#f0f6ff]">
         <span className="text-[11px] text-ink-400">{post.sponsor_url}</span>
         {post.sponsor_url && <a href={post.sponsor_url} target="_blank" className="text-[12px] font-medium text-white px-3 py-1.5 rounded-lg" style={{background: '#0000FF'}}>Devamını gör</a>}
       </div>
@@ -87,7 +87,7 @@ function PostCard({ post, onLike, onHashtagClick, currentUserId, likedPostIds, o
 
   return (
     <div onClick={() => window.location.href = `/post/${post.id}`}
-      className="bg-white rounded-xl border border-ink-100 p-5 hover:border-ink-300 transition-colors cursor-pointer">
+      className="bg-white rounded-xl border border-[#e0e8f5] p-5 hover:border-ink-300 transition-colors cursor-pointer">
       <div className="flex items-center gap-3 mb-3">
         <div className="shrink-0">
           {post.is_anon ? (
@@ -128,27 +128,27 @@ function PostCard({ post, onLike, onHashtagClick, currentUserId, likedPostIds, o
           {post.hashtags.map((tag: string) => (
             <button key={tag}
               onClick={(e) => { e.stopPropagation(); onHashtagClick(tag) }}
-              className="text-[11px] px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-100 hover:bg-blue-100 transition-colors">
+              className="text-[11px] px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-100 hover:bg-[#9ec4f0] transition-colors">
               {tag}
             </button>
           ))}
         </div>
       )}
 
-      <div className="flex items-center gap-2 pt-3 border-t border-ink-50">
+      <div className="flex items-center gap-2 pt-3 border-t border-[#f0f6ff]">
         <span className={`text-[11px] px-2 py-0.5 rounded-full border ${TAG_COLORS[post.tag] ?? 'bg-ink-100 text-ink-600 border-ink-200'}`}>
           {post.tag}
         </span>
         <div className="flex-1" />
         <button onClick={handleLike}
-          className={`flex items-center gap-1 text-[12px] px-2.5 py-1 rounded-full border transition-colors ${liked ? 'bg-red-50 text-red-600 border-red-200' : 'text-ink-400 border-ink-100 hover:bg-ink-50'}`}>
+          className={`flex items-center gap-1 text-[12px] px-2.5 py-1 rounded-full border transition-colors ${liked ? 'bg-red-50 text-red-600 border-red-200' : 'text-ink-400 border-[#e0e8f5] hover:bg-[#f0f6ff]'}`}>
           <svg width="13" height="13" viewBox="0 0 13 13" fill={liked ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="1.2">
             <path d="M6.5 11S1 7.5 1 4a2.5 2.5 0 015 0 2.5 2.5 0 015 0c0 3.5-5.5 7-5.5 7z"/>
           </svg>
           {post.vote_count ?? 0}
         </button>
         <button onClick={(e) => { e.stopPropagation(); window.location.href = `/post/${post.id}` }}
-          className="flex items-center gap-1 text-[12px] text-ink-400 px-2.5 py-1 rounded-full border border-ink-100 hover:bg-ink-50 transition-colors">
+          className="flex items-center gap-1 text-[12px] text-ink-400 px-2.5 py-1 rounded-full border border-[#e0e8f5] hover:bg-[#f0f6ff] transition-colors">
           <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" strokeWidth="1.2">
             <path d="M11.5 1h-10a1 1 0 00-1 1v6a1 1 0 001 1h3l2 2 2-2h3a1 1 0 001-1V2a1 1 0 00-1-1z"/>
           </svg>
@@ -162,12 +162,12 @@ function PostCard({ post, onLike, onHashtagClick, currentUserId, likedPostIds, o
           {post.view_count ?? 0}
         </span>
         <button onClick={(e) => { e.stopPropagation(); onQuote?.(post) }}
-          className="flex items-center gap-1 text-[12px] text-ink-400 px-2.5 py-1 rounded-full border border-ink-100 hover:bg-ink-50 transition-colors">
+          className="flex items-center gap-1 text-[12px] text-ink-400 px-2.5 py-1 rounded-full border border-[#e0e8f5] hover:bg-[#f0f6ff] transition-colors">
           <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.3"><path d="M1 4h7a3 3 0 010 6H5"/><path d="M3 2L1 4l2 2"/></svg>
           {post.quote_count > 0 ? post.quote_count : ''}
         </button>
         <button onClick={handleShare}
-          className="flex items-center text-[12px] text-ink-400 px-2.5 py-1 rounded-full border border-ink-100 hover:bg-ink-50 transition-colors">
+          className="flex items-center text-[12px] text-ink-400 px-2.5 py-1 rounded-full border border-[#e0e8f5] hover:bg-[#f0f6ff] transition-colors">
           <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" strokeWidth="1.2">
             <circle cx="10.5" cy="2.5" r="1.5"/><circle cx="10.5" cy="10.5" r="1.5"/><circle cx="2.5" cy="6.5" r="1.5"/>
             <path d="M4 6.5l5.5-4M4 6.5l5.5 4" strokeLinecap="round"/>
@@ -334,7 +334,7 @@ export default function HomePage() {
               autoFocus
               className="w-full text-[13px] text-ink-800 placeholder-ink-300 outline-none resize-none mb-3"
             />
-            <div className="border border-ink-100 rounded-xl p-3 mb-4 bg-ink-50">
+            <div className="border border-[#e0e8f5] rounded-xl p-3 mb-4 bg-[#f0f6ff]">
               <div className="flex items-center gap-2 mb-2">
                 <div className="w-5 h-5 rounded bg-[#0000FF] flex items-center justify-center shrink-0">
                   <span className="text-white text-[8px] font-bold">OTR</span>
@@ -358,11 +358,11 @@ export default function HomePage() {
       <TopBanner label="Sponsorlu" headline="Kariyer koçluğu — ücretsiz ilk seans" sub="Beyaz yaka profesyonelleri için 1:1 mentorluk" cta="Başvur" variant="brand" />
       <Navbar onFilterChange={(f) => { setActiveFilter(f); setActiveSector(null); setActiveHashtag(null) }} />
       <section style={{background: "#ffffff"}} className="text-center py-16 px-8 w-full">
-        <span style={{border: "0.5px solid rgba(0,0,0,0.15)", color: "rgba(0,0,0,0.5)", fontSize: "11px", fontWeight: 500, letterSpacing: "0.08em", padding: "4px 14px", borderRadius: "20px", display: "inline-block", marginBottom: "1.5rem"}}>BETA</span>
-        <h1 style={{fontSize: "2.4rem", fontWeight: 700, color: "#000000", lineHeight: 1.25, margin: "0 0 1rem"}}>
-          Türkiye'nin <span style={{fontStyle: "italic"}}>anonim</span> <span style={{fontSize: "1rem", fontStyle: "italic", fontWeight: 400, color: "rgba(0,0,0,0.3)"}}>"(opsiyonel)"</span><br/>beyaz yaka deneyim platformu
+        <span style={{background: "#b8d3f2", color: "#0000cc", fontSize: "11px", fontWeight: 700, letterSpacing: "0.08em", padding: "4px 14px", borderRadius: "20px", display: "inline-block", marginBottom: "1.5rem"}}>BETA</span>
+        <h1 style={{fontSize: "3rem", fontWeight: 900, color: "#000000", lineHeight: 1.1, margin: "0 0 1rem", letterSpacing: "-0.02em"}}>
+          Türkiye'nin <span style={{color: "#0000FF"}}>anonim</span><br/>beyaz yaka platformu
         </h1>
-        <p style={{fontSize: "1rem", color: "rgba(0,0,0,0.5)", margin: "0 auto 2rem", maxWidth: "440px", lineHeight: 1.6}}>Özgeçmişte yazmadığın her şey için. Maaş, kültür, gerçek deneyim — anonim, kimse görmez.</p>
+        <p style={{fontSize: "1.1rem", color: "rgba(0,0,0,0.5)", margin: "0 auto 2rem", maxWidth: "440px", lineHeight: 1.6}}>Maaş, kültür, kariyer — özgeçmişte yazmadığın her şey için.</p>
         <div style={{display: "flex", gap: "12px", justifyContent: "center", marginBottom: "2.5rem", flexWrap: "wrap"}}>
           <button onClick={() => setShowAuthModal(true)} style={{background: "#0000FF", color: "#ffffff", border: "none", padding: "10px 22px", borderRadius: "8px", fontSize: "14px", fontWeight: 500, cursor: "pointer"}}>Üye ol — ücretsiz</button>
           <a href="/hakkinda" style={{background: "transparent", color: "#000000", border: "0.5px solid rgba(0,0,0,0.2)", padding: "10px 22px", borderRadius: "8px", fontSize: "14px", cursor: "pointer", textDecoration: "none", display: "inline-block"}}>Nasıl çalışır?</a>
@@ -372,9 +372,9 @@ export default function HomePage() {
           <div style={{fontSize: "13px", color: "rgba(0,0,0,0.5)", lineHeight: 1.6, maxWidth: "420px", margin: "0 auto"}}>İlk 1000 üye arasına katıl. Beta dönemindeki üyelere özel rozet ve erken erişim ayrıcalıkları.</div>
         </div>
         <div style={{display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: "10px", maxWidth: "700px", margin: "0 auto"}}>
-          <div style={{background: "#f5f5f5", border: "0.5px solid rgba(0,0,0,0.06)", borderRadius: "12px", padding: "1rem", textAlign: "left"}}><div style={{fontSize: "20px", marginBottom: "0.6rem"}}>🔒</div><p style={{fontSize: "13px", fontWeight: 500, color: "#000000", margin: "0 0 4px"}}>%100 Anonim</p><p style={{fontSize: "12px", color: "rgba(0,0,0,0.45)", margin: 0, lineHeight: 1.5}}>Kimliğini gizleyerek paylaş, gerçek deneyimleri oku.</p></div>
-          <div style={{background: "#f5f5f5", border: "0.5px solid rgba(0,0,0,0.06)", borderRadius: "12px", padding: "1rem", textAlign: "left"}}><div style={{fontSize: "20px", marginBottom: "0.6rem"}}>💰</div><p style={{fontSize: "13px", fontWeight: 500, color: "#000000", margin: "0 0 4px"}}>Maaş Şeffaflığı</p><p style={{fontSize: "12px", color: "rgba(0,0,0,0.45)", margin: 0, lineHeight: 1.5}}>Çalışanların paylaştığı gerçek maaş aralıklarını gör.</p></div>
-          <div style={{background: "#f5f5f5", border: "0.5px solid rgba(0,0,0,0.06)", borderRadius: "12px", padding: "1rem", textAlign: "left"}}><div style={{fontSize: "20px", marginBottom: "0.6rem"}}>🏢</div><p style={{fontSize: "13px", fontWeight: 500, color: "#000000", margin: "0 0 4px"}}>Şirket Kültürü</p><p style={{fontSize: "12px", color: "rgba(0,0,0,0.45)", margin: 0, lineHeight: 1.5}}>Çalışanların paylaştığı şirket içi gerçek deneyimler.</p></div>
+          <div style={{background: "#f0f6ff", border: "0.5px solid rgba(0,0,0,0.06)", borderRadius: "12px", padding: "1rem", textAlign: "left"}}><div style={{fontSize: "20px", marginBottom: "0.6rem"}}>🔒</div><p style={{fontSize: "13px", fontWeight: 500, color: "#000000", margin: "0 0 4px"}}>%100 Anonim</p><p style={{fontSize: "12px", color: "rgba(0,0,0,0.45)", margin: 0, lineHeight: 1.5}}>Kimliğini gizleyerek paylaş, gerçek deneyimleri oku.</p></div>
+          <div style={{background: "#f0f6ff", border: "0.5px solid rgba(0,0,0,0.06)", borderRadius: "12px", padding: "1rem", textAlign: "left"}}><div style={{fontSize: "20px", marginBottom: "0.6rem"}}>💰</div><p style={{fontSize: "13px", fontWeight: 500, color: "#000000", margin: "0 0 4px"}}>Maaş Şeffaflığı</p><p style={{fontSize: "12px", color: "rgba(0,0,0,0.45)", margin: 0, lineHeight: 1.5}}>Çalışanların paylaştığı gerçek maaş aralıklarını gör.</p></div>
+          <div style={{background: "#f0f6ff", border: "0.5px solid rgba(0,0,0,0.06)", borderRadius: "12px", padding: "1rem", textAlign: "left"}}><div style={{fontSize: "20px", marginBottom: "0.6rem"}}>🏢</div><p style={{fontSize: "13px", fontWeight: 500, color: "#000000", margin: "0 0 4px"}}>Şirket Kültürü</p><p style={{fontSize: "12px", color: "rgba(0,0,0,0.45)", margin: 0, lineHeight: 1.5}}>Çalışanların paylaştığı şirket içi gerçek deneyimler.</p></div>
         </div>
       </section>
       <div className="max-w-6xl mx-auto px-4 py-6">
@@ -390,7 +390,7 @@ export default function HomePage() {
                 </button>
               ))}
             </nav>
-            <div className="mt-5 pt-4 border-t border-ink-100">
+            <div className="mt-5 pt-4 border-t border-[#e0e8f5]">
               <p className="text-[11px] font-medium text-ink-400 uppercase tracking-wider px-3 mb-2">Sektörler</p>
               <nav className="space-y-0.5">
                 {['Teknoloji', 'Finans', 'Pazarlama', 'Danışmanlık', 'İnsan kaynakları'].map(s => (
@@ -418,7 +418,7 @@ export default function HomePage() {
               </button>
             </div>
             {activeTab === 'kategorilerim' && (
-              <div className="bg-white rounded-xl border border-ink-100 p-4 mb-4">
+              <div className="bg-white rounded-xl border border-[#e0e8f5] p-4 mb-4">
                 <p className="text-[13px] font-medium text-ink-700 mb-3">Hangi konuları görmek istiyorsun?</p>
                 <div className="flex flex-wrap gap-2">
                   {['Maaş', 'Burnout', 'Kariyer', 'Gündem', 'Anket'].map(k => (
@@ -470,10 +470,10 @@ export default function HomePage() {
           </main>
 
           <aside className="hidden md:block space-y-4">
-            <div className="bg-white rounded-xl border border-ink-100 p-4">
+            <div className="bg-white rounded-xl border border-[#e0e8f5] p-4">
               <h3 className="text-[12px] font-medium text-ink-800 mb-3">Günün trendleri</h3>
               {TRENDING.map((item, i) => (
-                <div key={item.tag} className={`flex items-center justify-between py-2 ${i < TRENDING.length - 1 ? 'border-b border-ink-50' : ''}`}>
+                <div key={item.tag} className={`flex items-center justify-between py-2 ${i < TRENDING.length - 1 ? 'border-b border-[#f0f6ff]' : ''}`}>
                   <button onClick={() => handleHashtagClick(item.tag)} className="text-[12px] text-blue-600 hover:text-blue-800">{item.tag}</button>
                   <span className="text-[11px] text-ink-400">{item.count}</span>
                 </div>

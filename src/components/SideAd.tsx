@@ -15,7 +15,7 @@ export default function SideAd({
   ctaHref = '#',
 }: SideAdProps) {
   return (
-    <div className="rounded-xl border border-ink-100 bg-white overflow-hidden">
+    <div className="rounded-xl border border-[#e0e8f5] bg-white overflow-hidden">
       {/* Colored top bar */}
       <div className="h-1 w-full bg-brand-400" />
       <div className="p-4">

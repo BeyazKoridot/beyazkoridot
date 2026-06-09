@@ -289,7 +289,7 @@ export default function MaasPage() {
             { label: 'Medyan', value: yeterliVeri ? medyanMaas.toLocaleString('tr-TR') + ' TL' : '—' },
             { label: 'Veri sayısı', value: filtered.length.toString() },
           ].map(m => (
-            <div key={m.label} className="bg-ink-50 rounded-lg p-3">
+            <div key={m.label} className="bg-[#f0f6ff] rounded-lg p-3">
               <p className="text-[11px] text-ink-400 mb-1">{m.label}</p>
               <p className="text-[16px] font-semibold text-[#0a0a0a]">{m.value}</p>
             </div>
@@ -297,19 +297,19 @@ export default function MaasPage() {
         </div>
 
         {!yeterliVeri ? (
-          <div className="text-center py-16 bg-white rounded-xl border border-ink-100">
+          <div className="text-center py-16 bg-white rounded-xl border border-[#e0e8f5]">
             <p className="text-[14px] font-medium text-ink-700 mb-1">Grafik için yeterli veri yok</p>
             <p className="text-[12px] text-ink-400">En az 3 maaş verisi paylaşıldığında grafikler görünür hale gelir.</p>
           </div>
         ) : (
           <>
-            <div className="bg-white rounded-xl border border-ink-100 p-5 mb-4">
+            <div className="bg-white rounded-xl border border-[#e0e8f5] p-5 mb-4">
               <p className="text-[12px] font-medium text-ink-500 mb-4">Seniority bazlı ortalama maaş</p>
               <div style={{ position: 'relative', height: '240px' }}>
                 <canvas ref={barRef} role="img" aria-label="Seniority bazlı ortalama maaş grafiği"></canvas>
               </div>
             </div>
-            <div className="bg-white rounded-xl border border-ink-100 p-5 mb-6">
+            <div className="bg-white rounded-xl border border-[#e0e8f5] p-5 mb-6">
               <p className="text-[12px] font-medium text-ink-500 mb-4">Sektör karşılaştırması</p>
               <div style={{ position: 'relative', height: `${Math.max(sektorLabels.length * 44 + 40, 160)}px` }}>
                 <canvas ref={hbarRef} role="img" aria-label="Sektör bazlı ortalama maaş karşılaştırması"></canvas>
@@ -318,7 +318,7 @@ export default function MaasPage() {
           </>
         )}
 
-        <div className="px-4 py-3 bg-ink-50 rounded-lg border border-ink-100">
+        <div className="px-4 py-3 bg-[#f0f6ff] rounded-lg border border-[#e0e8f5]">
           <p className="text-[11px] text-ink-400 leading-relaxed">
             <span className="font-medium text-ink-500">Yasal uyarı:</span> Bu sayfadaki maaş verileri, kullanıcıların gönüllü ve anonim olarak paylaştığı bilgilerden oluşmaktadır. OTR Social, söz konusu verilerin doğruluğunu, güncelliğini veya eksiksizliğini taahhüt etmez; yalnızca bilgilendirme amacıyla sunar. Veriler herhangi bir işveren veya çalışan hakkında bağlayıcı bir beyan niteliği taşımaz. Kullanım Koşulları ve Gizlilik Politikamız kapsamında değerlendirilir.
           </p>

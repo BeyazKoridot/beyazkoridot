@@ -22,7 +22,7 @@ export default function FiyatlandirmaPage() {
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-12">
-          <div className="bg-white rounded-xl border border-ink-100 p-6">
+          <div className="bg-white rounded-xl border border-[#e0e8f5] p-6">
             <h2 className="text-[16px] font-semibold text-[#0a0a0a] mb-1">Temel</h2>
             <p className="text-[32px] font-semibold text-[#0a0a0a] mb-1">Ücretsiz</p>
             <p className="text-[13px] text-ink-400 mb-6">Doğrulama sonrası</p>
@@ -33,7 +33,7 @@ export default function FiyatlandirmaPage() {
               <div className="flex gap-2 text-ink-400"><span>✗</span>Sponsored içerik</div>
               <div className="flex gap-2 text-ink-400"><span>✗</span>İş ilanı</div>
             </div>
-            <a href="mailto:info@otrsocial.com" className="block text-center text-[13px] font-medium text-[#0a0a0a] border border-ink-200 py-2.5 rounded-xl hover:bg-ink-50 transition-colors">Başvur</a>
+            <a href="mailto:info@otrsocial.com" className="block text-center text-[13px] font-medium text-[#0a0a0a] border border-ink-200 py-2.5 rounded-xl hover:bg-[#f0f6ff] transition-colors">Başvur</a>
           </div>
           <div className="bg-white rounded-xl p-6 relative" style={{border:'2px solid #1a1a1a'}}>
             <div className="absolute -top-px left-1/2 -translate-x-1/2 bg-[#0000FF] text-white text-[11px] font-medium px-4 py-1 rounded-b-lg whitespace-nowrap">En popüler</div>
@@ -49,7 +49,7 @@ export default function FiyatlandirmaPage() {
             </div>
             <a href="mailto:info@otrsocial.com?subject=Marka Paketi" className="block text-center text-[13px] font-medium text-white bg-[#0000FF] py-2.5 rounded-xl hover:bg-[#0000cc] transition-colors">Başla</a>
           </div>
-          <div className="bg-white rounded-xl border border-ink-100 p-6">
+          <div className="bg-white rounded-xl border border-[#e0e8f5] p-6">
             <h2 className="text-[16px] font-semibold text-[#0a0a0a] mb-1">Premium</h2>
             <p className="text-[32px] font-semibold text-[#0a0a0a]">{prices.premium.toLocaleString('tr-TR')} ₺</p>
             <p className="text-[13px] text-ink-400 mb-6">/ay</p>
@@ -60,18 +60,18 @@ export default function FiyatlandirmaPage() {
               <div className="flex gap-2 text-ink-700"><span className="text-green-600">✓</span>5 sponsored post/ay</div>
               <div className="flex gap-2 text-ink-700"><span className="text-green-600">✓</span>3 sponsored ilan/ay</div>
             </div>
-            <a href="mailto:info@otrsocial.com?subject=Premium Paket" className="block text-center text-[13px] font-medium text-[#0a0a0a] border border-ink-200 py-2.5 rounded-xl hover:bg-ink-50 transition-colors">Başla</a>
+            <a href="mailto:info@otrsocial.com?subject=Premium Paket" className="block text-center text-[13px] font-medium text-[#0a0a0a] border border-ink-200 py-2.5 rounded-xl hover:bg-[#f0f6ff] transition-colors">Başla</a>
           </div>
         </div>
         <div className="mb-12">
           <h2 className="text-[18px] font-semibold text-[#0a0a0a] mb-6 text-center">İş ilanı paketleri</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="bg-white rounded-xl border border-ink-100 p-6">
+            <div className="bg-white rounded-xl border border-[#e0e8f5] p-6">
               <div className="flex items-start justify-between mb-4">
                 <div><h3 className="text-[15px] font-semibold text-[#0a0a0a]">Standart ilan</h3><p className="text-[13px] text-ink-400 mt-0.5">30 gün · şirket profilinde</p></div>
                 <p className="text-[20px] font-semibold text-[#0a0a0a]">1.990 ₺</p>
               </div>
-              <a href="mailto:info@otrsocial.com?subject=Standart İlan" className="block text-center text-[13px] font-medium text-[#0a0a0a] border border-ink-200 py-2 rounded-xl hover:bg-ink-50 transition-colors">İlan ver</a>
+              <a href="mailto:info@otrsocial.com?subject=Standart İlan" className="block text-center text-[13px] font-medium text-[#0a0a0a] border border-ink-200 py-2 rounded-xl hover:bg-[#f0f6ff] transition-colors">İlan ver</a>
             </div>
             <div className="bg-white rounded-xl p-6" style={{border:'2px solid #1a1a1a'}}>
               <div className="flex items-start justify-between mb-4">
@@ -80,19 +80,19 @@ export default function FiyatlandirmaPage() {
               </div>
               <a href="mailto:info@otrsocial.com?subject=Sponsored İlan" className="block text-center text-[13px] font-medium text-white bg-[#0000FF] py-2 rounded-xl hover:bg-[#0000cc] transition-colors">İlan ver</a>
             </div>
-            <div className="bg-white rounded-xl border border-ink-100 p-6">
+            <div className="bg-white rounded-xl border border-[#e0e8f5] p-6">
               <div className="flex items-start justify-between mb-4">
                 <div><h3 className="text-[15px] font-semibold text-[#0a0a0a]">5'li standart paket</h3><p className="text-[13px] text-ink-400 mt-0.5">5 ilan · 30 gün · %21 tasarruf</p></div>
                 <p className="text-[20px] font-semibold text-[#0a0a0a]">7.900 ₺</p>
               </div>
-              <a href="mailto:info@otrsocial.com?subject=5li Standart" className="block text-center text-[13px] font-medium text-[#0a0a0a] border border-ink-200 py-2 rounded-xl hover:bg-ink-50 transition-colors">Paketi al</a>
+              <a href="mailto:info@otrsocial.com?subject=5li Standart" className="block text-center text-[13px] font-medium text-[#0a0a0a] border border-ink-200 py-2 rounded-xl hover:bg-[#f0f6ff] transition-colors">Paketi al</a>
             </div>
-            <div className="bg-white rounded-xl border border-ink-100 p-6">
+            <div className="bg-white rounded-xl border border-[#e0e8f5] p-6">
               <div className="flex items-start justify-between mb-4">
                 <div><h3 className="text-[15px] font-semibold text-[#0a0a0a]">5'li sponsored paket</h3><p className="text-[13px] text-ink-400 mt-0.5">5 ilan · 30 gün · feed · %27 tasarruf</p></div>
                 <p className="text-[20px] font-semibold text-[#0a0a0a]">17.900 ₺</p>
               </div>
-              <a href="mailto:info@otrsocial.com?subject=5li Sponsored" className="block text-center text-[13px] font-medium text-[#0a0a0a] border border-ink-200 py-2 rounded-xl hover:bg-ink-50 transition-colors">Paketi al</a>
+              <a href="mailto:info@otrsocial.com?subject=5li Sponsored" className="block text-center text-[13px] font-medium text-[#0a0a0a] border border-ink-200 py-2 rounded-xl hover:bg-[#f0f6ff] transition-colors">Paketi al</a>
             </div>
           </div>
         </div>

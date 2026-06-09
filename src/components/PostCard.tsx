@@ -14,7 +14,7 @@ export default function PostCard({ post }: { post: Post }) {
   }
 
   return (
-    <article className="post-card bg-white rounded-xl border border-ink-100 p-4">
+    <article className="post-card bg-white rounded-xl border border-[#e0e8f5] p-4">
       {/* Poll accent */}
       {post.type === 'poll' && (
         <div className="flex items-center gap-1.5 mb-3">
@@ -83,7 +83,7 @@ export default function PostCard({ post }: { post: Post }) {
       )}
 
       {/* Footer */}
-      <div className="flex items-center gap-2 mt-3 pt-3 border-t border-ink-50">
+      <div className="flex items-center gap-2 mt-3 pt-3 border-t border-[#f0f6ff]">
         {/* Tag */}
         <span
           className="tag-chip text-[11px] px-2 py-0.5 rounded-full border"
@@ -100,7 +100,7 @@ export default function PostCard({ post }: { post: Post }) {
           <button
             onClick={handleVote}
             className={`vote-btn flex items-center gap-1 text-[12px] px-2.5 py-1 rounded-md border ${
-              voted ? 'border-brand-200 bg-brand-50 text-brand-600' : 'border-ink-100 text-ink-500'
+              voted ? 'border-brand-200 bg-brand-50 text-brand-600' : 'border-[#e0e8f5] text-ink-500'
             }`}
           >
             <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
@@ -111,7 +111,7 @@ export default function PostCard({ post }: { post: Post }) {
         )}
 
         {/* Comments */}
-        <button className="flex items-center gap-1 text-[12px] text-ink-400 hover:text-ink-700 px-2 py-1 rounded-md hover:bg-ink-50 transition-colors">
+        <button className="flex items-center gap-1 text-[12px] text-ink-400 hover:text-ink-700 px-2 py-1 rounded-md hover:bg-[#f0f6ff] transition-colors">
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
             <path d="M10 1H2a1 1 0 00-1 1v6a1 1 0 001 1h3l2 2 2-2h1a1 1 0 001-1V2a1 1 0 00-1-1z" stroke="currentColor" strokeWidth="1.1"/>
           </svg>
@@ -119,7 +119,7 @@ export default function PostCard({ post }: { post: Post }) {
         </button>
 
         {/* Share */}
-        <button className="text-[12px] text-ink-400 hover:text-ink-700 px-2 py-1 rounded-md hover:bg-ink-50 transition-colors">
+        <button className="text-[12px] text-ink-400 hover:text-ink-700 px-2 py-1 rounded-md hover:bg-[#f0f6ff] transition-colors">
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
             <circle cx="9.5" cy="2.5" r="1.5" stroke="currentColor" strokeWidth="1.1"/>
             <circle cx="9.5" cy="9.5" r="1.5" stroke="currentColor" strokeWidth="1.1"/>

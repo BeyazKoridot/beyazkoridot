@@ -72,7 +72,7 @@ export default function ProfilDuzenle() {
           <h1 className="text-[18px] font-bold text-[#0a0a0a]">Profili düzenle</h1>
         </div>
 
-        <div className="bg-white rounded-xl border border-ink-100 p-6 space-y-5">
+        <div className="bg-white rounded-xl border border-[#e0e8f5] p-6 space-y-5">
 
           <div className="flex flex-col items-center gap-3">
             <div

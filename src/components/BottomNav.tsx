@@ -41,7 +41,7 @@ export default function BottomNav() {
 
   return (
     <>
-      <nav className="fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-ink-100 flex items-center justify-around h-16 px-2 md:hidden">
+      <nav className="fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-[#e0e8f5] flex items-center justify-around h-16 px-2 md:hidden">
         <a href="/" className={`flex flex-col items-center gap-0.5 px-4 py-2 ${pathname === '/' ? 'text-[#0a0a0a]' : 'text-ink-400'}`}>
           <svg width="22" height="22" viewBox="0 0 22 22" fill={pathname === '/' ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="1.6"><path d="M11 2L3 8v12h5v-6h6v6h5V8L11 2z" strokeLinejoin="round"/></svg>
           <span className="text-[10px] font-medium">Ana sayfa</span>
@@ -69,8 +69,8 @@ export default function BottomNav() {
             <span className="text-[10px] font-medium">Bildirim</span>
           </button>
           {showNotifications && (
-            <div className="absolute bottom-16 right-0 w-80 bg-white rounded-xl border border-ink-100 shadow-lg z-50">
-              <div className="p-3 border-b border-ink-50">
+            <div className="absolute bottom-16 right-0 w-80 bg-white rounded-xl border border-[#e0e8f5] shadow-lg z-50">
+              <div className="p-3 border-b border-[#f0f6ff]">
                 <span className="text-[13px] font-medium text-ink-800">Bildirimler</span>
               </div>
               <div className="max-h-80 overflow-y-auto">
@@ -80,7 +80,7 @@ export default function BottomNav() {
                   <a
                     key={n.id}
                     href={n.related_post_id ? `/post/${n.related_post_id}` : '#'}
-                    className={`flex items-start gap-3 px-4 py-3 hover:bg-ink-50 transition-colors border-b border-ink-50 ${!n.is_read ? 'bg-blue-50' : ''}`}
+                    className={`flex items-start gap-3 px-4 py-3 hover:bg-[#f0f6ff] transition-colors border-b border-[#f0f6ff] ${!n.is_read ? 'bg-blue-50' : ''}`}
                   >
                     <p className="text-[12px] text-ink-700">{n.message}</p>
                   </a>

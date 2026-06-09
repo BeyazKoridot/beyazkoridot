@@ -68,7 +68,7 @@ export default function AuthModal({ onClose, defaultMode = 'login', isForced = f
         <div className="bg-white rounded-2xl w-full max-w-sm mx-4 overflow-hidden" onClick={e => e.stopPropagation()}>
           <div className="bg-[#0000FF] px-6 py-4 flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <img src="/logo-dark.png" alt="off the record" style={{height:"20px", width:"auto"}} />
+              <img src="/logo-color.png" alt="off the record" style={{height:"20px", width:"auto"}} />
               
             </div>
             <div className="flex gap-1">
@@ -98,7 +98,7 @@ export default function AuthModal({ onClose, defaultMode = 'login', isForced = f
               </div>
             </div>
             <div className="flex gap-2 mt-2">
-              <button onClick={onClose} className="flex-1 py-2.5 text-[13px] text-ink-400 border border-ink-200 rounded-xl hover:bg-ink-50 transition-colors">Şimdi değil</button>
+              <button onClick={onClose} className="flex-1 py-2.5 text-[13px] text-ink-400 border border-ink-200 rounded-xl hover:bg-[#f0f6ff] transition-colors">Şimdi değil</button>
               <button onClick={handleProfileSave} className="flex-[2] py-2.5 text-[13px] font-medium text-white bg-[#0000FF] rounded-xl hover:bg-[#0000cc] transition-colors">Devam et →</button>
             </div>
           </div>
@@ -110,27 +110,27 @@ export default function AuthModal({ onClose, defaultMode = 'login', isForced = f
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50" onClick={onClose}>
       <div className="bg-white rounded-2xl w-full max-w-sm mx-4 overflow-hidden" onClick={e => e.stopPropagation()}>
-        <div className="bg-[#0000FF] px-6 py-4">
+        <div className="bg-white px-6 py-4" style={{borderBottom:"0.5px solid #e0e8f5"}}>
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
-              <img src="/logo-dark.png" alt="off the record" style={{height:"20px", width:"auto"}} />
+              <img src="/logo-color.png" alt="off the record" style={{height:"20px", width:"auto"}} />
               
             </div>
-            {!isForced && <button onClick={onClose} className="text-white/30 hover:text-white/60 text-lg">✕</button>}
+            {!isForced && <button onClick={onClose} className="text-[#aaa] hover:text-[#555] text-lg">✕</button>}
           </div>
           {mode === 'register' && (
             <>
-              <p className="text-[13px] text-white/70 leading-relaxed mb-1">Maaşını sormak ayıp sayıldı. OTR Social bunu değiştirmek için burada.</p>
-              <p className="text-[11px] text-white/40 italic">Kayıt dışı ama etki içinde.</p>
+              <p className="text-[13px] text-[#444] leading-relaxed mb-1">Maaşını sormak ayıp sayıldı. OTR Social bunu değiştirmek için burada.</p>
+              <p className="text-[11px] text-[#aaa] italic">Kayıt dışı ama etki içinde.</p>
             </>
           )}
           {mode === 'login' && (
-            <p className="text-[15px] font-medium text-white">Tekrar hoş geldin.</p>
+            <p className="text-[15px] font-medium text-[#000]">Tekrar hoş geldin.</p>
           )}
         </div>
 
         <div className="p-6 flex flex-col gap-3">
-          <button onClick={handleGoogle} className="w-full flex items-center justify-center gap-2.5 py-2.5 border border-ink-200 rounded-xl text-[13px] font-medium hover:bg-ink-50 transition-colors">
+          <button onClick={handleGoogle} className="w-full flex items-center justify-center gap-2.5 py-2.5 border border-ink-200 rounded-xl text-[13px] font-medium hover:bg-[#f0f6ff] transition-colors">
             <svg width="16" height="16" viewBox="0 0 18 18"><path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z" fill="#4285F4"/><path d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 009 18z" fill="#34A853"/><path d="M3.964 10.71A5.41 5.41 0 013.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 000 9c0 1.452.348 2.827.957 4.042l3.007-2.332z" fill="#FBBC05"/><path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 00.957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z" fill="#EA4335"/></svg>
             Google ile devam et
           </button>
@@ -140,10 +140,10 @@ export default function AuthModal({ onClose, defaultMode = 'login', isForced = f
             <div className="flex-1 h-px bg-ink-100"></div>
           </div>
           {mode === 'register' && (
-            <input type="text" placeholder="Kullanıcı adı *" value={displayName} onChange={e => setDisplayName(e.target.value)} className="w-full text-[13px] px-3 py-2.5 border border-ink-200 rounded-xl bg-ink-50 text-[#0a0a0a] outline-none focus:border-ink-400 transition-colors" />
+            <input type="text" placeholder="Kullanıcı adı *" value={displayName} onChange={e => setDisplayName(e.target.value)} className="w-full text-[13px] px-3 py-2.5 border border-ink-200 rounded-xl bg-[#f0f6ff] text-[#0a0a0a] outline-none focus:border-ink-400 transition-colors" />
           )}
-          <input type="email" placeholder="E-posta *" value={email} onChange={e => setEmail(e.target.value)} className="w-full text-[13px] px-3 py-2.5 border border-ink-200 rounded-xl bg-ink-50 text-[#0a0a0a] outline-none focus:border-ink-400 transition-colors" />
-          <input type="password" placeholder="Şifre *" value={password} onChange={e => setPassword(e.target.value)} className="w-full text-[13px] px-3 py-2.5 border border-ink-200 rounded-xl bg-ink-50 text-[#0a0a0a] outline-none focus:border-ink-400 transition-colors" />
+          <input type="email" placeholder="E-posta *" value={email} onChange={e => setEmail(e.target.value)} className="w-full text-[13px] px-3 py-2.5 border border-ink-200 rounded-xl bg-[#f0f6ff] text-[#0a0a0a] outline-none focus:border-ink-400 transition-colors" />
+          <input type="password" placeholder="Şifre *" value={password} onChange={e => setPassword(e.target.value)} className="w-full text-[13px] px-3 py-2.5 border border-ink-200 rounded-xl bg-[#f0f6ff] text-[#0a0a0a] outline-none focus:border-ink-400 transition-colors" />
           {mode === 'register' && (
             <div className="flex flex-col gap-2">
               <label className="flex items-start gap-2 cursor-pointer">

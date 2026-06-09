@@ -28,7 +28,7 @@ export default function TopBanner({
       className={`w-full border-b ${
         isBrand
           ? 'bg-brand-600 border-brand-800 text-white'
-          : 'bg-white border-ink-100 text-[#0a0a0a]'
+          : 'bg-white border-[#e0e8f5] text-[#0a0a0a]'
       }`}
     >
       <div className="max-w-6xl mx-auto px-4 py-2.5 flex items-center gap-4">

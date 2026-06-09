@@ -94,8 +94,8 @@ function CommentThread({ comment, allComments, depth, postId, userId, onReplyAdd
   }
 
   return (
-    <div className={depth > 0 ? 'ml-6 border-l-2 border-ink-100 pl-4' : ''}>
-      <div className="bg-white rounded-xl border border-ink-100 p-4 mb-2">
+    <div className={depth > 0 ? 'ml-6 border-l-2 border-[#e0e8f5] pl-4' : ''}>
+      <div className="bg-white rounded-xl border border-[#e0e8f5] p-4 mb-2">
         <div className="flex items-center gap-2 mb-2">
           <div className="w-6 h-6 rounded-full bg-ink-100 flex items-center justify-center shrink-0">
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
@@ -142,14 +142,14 @@ function CommentThread({ comment, allComments, depth, postId, userId, onReplyAdd
         </div>
 
         {showReply && (
-          <div className="mt-3 pt-3 border-t border-ink-50">
+          <div className="mt-3 pt-3 border-t border-[#f0f6ff]">
             {error && <p className="text-[11px] text-red-500 mb-2">{error}</p>}
             <textarea
               value={replyText}
               onChange={e => setReplyText(e.target.value)}
               placeholder="Yanıtını yaz..."
               rows={2}
-              className="w-full text-[12px] text-ink-700 placeholder-ink-300 outline-none resize-none mb-2 border border-ink-100 rounded-lg p-2"
+              className="w-full text-[12px] text-ink-700 placeholder-ink-300 outline-none resize-none mb-2 border border-[#e0e8f5] rounded-lg p-2"
             />
             <div className="flex items-center justify-between">
               <button
@@ -161,7 +161,7 @@ function CommentThread({ comment, allComments, depth, postId, userId, onReplyAdd
               <div className="flex gap-2">
                 <button
                   onClick={() => setShowReply(false)}
-                  className="text-[11px] text-ink-400 px-3 py-1 rounded-md hover:bg-ink-50"
+                  className="text-[11px] text-ink-400 px-3 py-1 rounded-md hover:bg-[#f0f6ff]"
                 >
                   İptal
                 </button>
@@ -291,7 +291,7 @@ export default function PostPage() {
           ← Geri dön
         </button>
 
-        <div className="bg-white rounded-xl border border-ink-100 p-6 mb-4">
+        <div className="bg-white rounded-xl border border-[#e0e8f5] p-6 mb-4">
           <div className="flex items-center gap-2 mb-4">
             <div className="w-8 h-8 rounded-full bg-ink-100 flex items-center justify-center shrink-0">
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -312,12 +312,12 @@ export default function PostPage() {
           <h1 className="text-[20px] font-semibold text-[#0a0a0a] leading-snug mb-3">{post.title}</h1>
           {post.content && <p className="text-[14px] text-ink-600 leading-relaxed mb-4">{post.content}</p>}
 
-          <div className="flex items-center gap-2 pt-4 border-t border-ink-50 flex-wrap">
+          <div className="flex items-center gap-2 pt-4 border-t border-[#f0f6ff] flex-wrap">
             <span className="text-[11px] px-2.5 py-1 rounded-full bg-ink-100 text-ink-600 border border-ink-200">{post.tag}</span>
             <div className="flex-1" />
-            <button onClick={() => handleShare('whatsapp')} className="flex items-center gap-1.5 text-[12px] text-ink-500 px-3 py-1.5 rounded-full border border-ink-100 hover:bg-ink-50 transition-colors">WhatsApp</button>
-            <button onClick={() => handleShare('twitter')} className="flex items-center gap-1.5 text-[12px] text-ink-500 px-3 py-1.5 rounded-full border border-ink-100 hover:bg-ink-50 transition-colors">X</button>
-            <button onClick={() => handleShare('copy')} className="flex items-center gap-1.5 text-[12px] text-ink-500 px-3 py-1.5 rounded-full border border-ink-100 hover:bg-ink-50 transition-colors">
+            <button onClick={() => handleShare('whatsapp')} className="flex items-center gap-1.5 text-[12px] text-ink-500 px-3 py-1.5 rounded-full border border-[#e0e8f5] hover:bg-[#f0f6ff] transition-colors">WhatsApp</button>
+            <button onClick={() => handleShare('twitter')} className="flex items-center gap-1.5 text-[12px] text-ink-500 px-3 py-1.5 rounded-full border border-[#e0e8f5] hover:bg-[#f0f6ff] transition-colors">X</button>
+            <button onClick={() => handleShare('copy')} className="flex items-center gap-1.5 text-[12px] text-ink-500 px-3 py-1.5 rounded-full border border-[#e0e8f5] hover:bg-[#f0f6ff] transition-colors">
               {copied ? '✓ Kopyalandı' : 'Linki kopyala'}
             </button>
             <button onClick={() => window.location.href='mailto:info@otrsocial.com?subject=İçerik Şikayeti&body=Post ID: '+post.id} className='flex items-center gap-1.5 text-[12px] text-red-400 px-3 py-1.5 rounded-full border border-red-100 hover:bg-red-50 transition-colors'>Şikayet et</button>
@@ -345,7 +345,7 @@ export default function PostPage() {
           </div>
         </div>
 
-        <div className="bg-white rounded-xl border border-ink-100 p-4">
+        <div className="bg-white rounded-xl border border-[#e0e8f5] p-4">
           {commentError && <p className="text-[11px] text-red-500 mb-2">{commentError}</p>}
           <textarea
             value={comment}

@@ -47,7 +47,7 @@ export default function SirketlerPage() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {filtered.map(c => (
-              <a key={c.id} href={'/sirketler/' + c.slug} className="bg-white rounded-xl border border-ink-100 p-4 hover:border-ink-300 transition-colors">
+              <a key={c.id} href={'/sirketler/' + c.slug} className="bg-white rounded-xl border border-[#e0e8f5] p-4 hover:border-ink-300 transition-colors">
                 <div className="flex items-center justify-between mb-2">
                   <div>
                     <h2 className="text-[15px] font-medium text-[#0a0a0a]">{c.name}</h2>

@@ -36,7 +36,7 @@ export default function HakkindaPage() {
                 { icon: '🔥', title: 'Burnout\'unu anlat', desc: 'Baskı, mesai, haksız uygulamalar. Yargılanmadan, güvenle.' },
                 { icon: '📊', title: 'Anketlere katıl', desc: 'Remote politikaları, maaş beklentileri, sektör nabzı.' },
               ].map(item => (
-                <div key={item.title} className="flex items-start gap-4 p-4 bg-white rounded-xl border border-ink-100">
+                <div key={item.title} className="flex items-start gap-4 p-4 bg-white rounded-xl border border-[#e0e8f5]">
                   <span className="text-2xl">{item.icon}</span>
                   <div>
                     <p className="text-[14px] font-medium text-[#0a0a0a] mb-1">{item.title}</p>
