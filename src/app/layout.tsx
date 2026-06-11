@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { DM_Sans } from 'next/font/google'
 import './globals.css'
 import BottomNav from '@/components/BottomNav'
+import Script from 'next/script'
 
 const dmSans = DM_Sans({
   subsets: ['latin'],
@@ -57,8 +58,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="google-site-verification" content="XRB54ocIwzAl9Xhlj2yqtQBFJX3V_spiymPH0yZpMSI" />
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-0Y0L4TTQG6"></script>
-        <script dangerouslySetInnerHTML={{__html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-0Y0L4TTQG6');`}} />
+        <Script src="https://www.googletagmanager.com/gtag/js?id=G-0Y0L4TTQG6" strategy="afterInteractive" />
+        <Script id="gtag-init" strategy="afterInteractive">{`
+          window.dataLayer=window.dataLayer||[];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js',new Date());
+          gtag('config','G-0Y0L4TTQG6');
+        `}</Script>
       </head>
       <body className={`${dmSans.variable} font-sans bg-[#f0f6ff] text-[#0a0a0a] pb-16 md:pb-0`}>
         {children}
