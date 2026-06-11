@@ -37,6 +37,15 @@ export default function ProfilDuzenle() {
   const handleAvatarUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file || !user) return
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp']
+    if (!allowedTypes.includes(file.type)) {
+      alert('Sadece JPG, PNG veya WebP yükleyebilirsiniz.')
+      return
+    }
+    if (file.size > 2 * 1024 * 1024) {
+      alert('Dosya boyutu 2MB'dan küçük olmalıdır.')
+      return
+    }
     setUploading(true)
     const ext = file.name.split('.').pop()
     const path = `${user.id}.${ext}`
